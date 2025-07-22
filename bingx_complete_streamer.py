@@ -33,6 +33,7 @@ from typing import Dict, List, Optional, Tuple, Deque, Callable, Set
 import csv
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from memory_profiler import profile
 
 import websockets
 from websockets.exceptions import WebSocketException
@@ -1393,6 +1394,7 @@ def print_banner(config: Config = Config()) -> None:
 
 # ═══════════════════════════════════════════ Main Entry Point ═══════════════════════════════════════
 
+@profile
 async def main():
     """Main application entry point"""
     # Print banner

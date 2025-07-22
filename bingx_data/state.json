@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-07-22T19:00:18.765036+00:00",
+  "last_candle_timestamp": 1753210799999,
+  "stats": {
+    "messages_received": 551,
+    "candles_processed": 2,
+    "historical_candles_loaded": 0,
+    "buckets_completed": 0,
+    "gaps_filled": 0,
+    "errors_count": 0,
+    "reconnect_count": 0
+  },
+  "incomplete_buckets": {
+    "2025-07-22_bucket_54": [
+      {
+        "open_ts": 1753210440000,
+        "close_ts": 1753210619999,
+        "open": 119876.2,
+        "high": 120300.0,
+        "low": 119876.2,
+        "close": 120241.5,
+        "volume": 132.497,
+        "trades": 0,
+        "timestamp_utc": "2025-07-22T18:54:00+00:00",
+        "duration_minutes": 2.9999833333333332
+      },
+      {
+        "open_ts": 1753210620000,
+        "close_ts": 1753210799999,
+        "open": 120241.5,
+        "high": 120265.8,
+        "low": 119776.3,
+        "close": 119810.8,
+        "volume": 58.6711,
+        "trades": 0,
+        "timestamp_utc": "2025-07-22T18:57:00+00:00",
+        "duration_minutes": 2.9999833333333332
+      }
+    ]
+  },
+  "completed_buckets_count": 0
+}
