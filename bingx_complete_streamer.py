@@ -77,7 +77,7 @@ class Config:
     
     # Data persistence
     OUTPUT_DIR = Path("bingx_data")
-    MAX_MEMORY_CANDLES = 10000
+    MAX_MEMORY_CANDLES = 1000  # Reduced from 10000
     SAVE_INTERVAL_SECONDS = 300
     
     # Logging
@@ -143,7 +143,7 @@ class ConnectionState(Enum):
     RECONNECTING = "reconnecting"
     BACKFILLING = "backfilling"
 
-@dataclass
+@dataclass(slots=True)
 class Candle:
     """Individual kline/candle data"""
     open_ts: int      # Open time in milliseconds
@@ -180,7 +180,7 @@ class Candle:
                 f"L: {self.low:.2f} | C: {self.close:.2f} | "
                 f"V: {self.volume:.2f}")
 
-@dataclass
+@dataclass(slots=True)
 class StreamStats:
     """Performance and connection statistics"""
     connected_at: Optional[datetime] = None
@@ -207,7 +207,7 @@ class StreamStats:
                 f"Buckets: {self.buckets_completed} | Gaps: {self.gaps_filled} | "
                 f"Errors: {self.errors_count} | Reconnects: {self.reconnect_count}")
 
-@dataclass
+@dataclass(slots=True)
 class ATRData:
     """ATR calculation result"""
     tr: float           # True Range
@@ -237,68 +237,78 @@ class HistoryBackfiller:
         wait=wait_exponential(multiplier=1, min=2, max=30),
         retry=retry_if_exception_type(NetworkError),
     )
-    def fetch_history(
+    def fetch_history_chunk(
         self,
         start_time: datetime,
         end_time: datetime,
         symbol: Optional[str] = None
     ) -> List[Dict]:
-        """Fetch historical candles from REST API"""
+        """Fetch a single chunk of historical candles"""
         symbol = symbol or self.config.SYMBOL
-        all_candles = []
+        params = {
+            "symbol": symbol,
+            "interval": self.config.INTERVAL,
+            "startTime": int(start_time.timestamp() * 1000),
+            "endTime": int(end_time.timestamp() * 1000),
+            "limit": self.config.MAX_CANDLES_PER_REQUEST,
+        }
+
+        try:
+            self.log.debug(
+                f"Fetching {symbol} from {start_time:%Y-%m-%d %H:%M} "
+                f"to {end_time:%Y-%m-%d %H:%M}"
+            )
+
+            response = self.session.get(self.rest_url, params=params, timeout=30)
+            response.raise_for_status()
+
+            data = response.json()
+            if data.get("code") != 0:
+                raise ValueError(f"API error: {data.get('msg', 'Unknown error')}")
+
+            candles = data.get("data", [])
+            self.log.info(
+                f"Fetched {len(candles)} candles for {symbol} "
+                f"({start_time:%H:%M} - {end_time:%H:%M})"
+            )
+            return sorted(candles, key=lambda x: int(x["time"]))
+
+        except requests.exceptions.RequestException as e:
+            raise NetworkError(f"Network error: {e}") from e
+
+    def stream_history(
+        self,
+        start_time: datetime,
+        end_time: datetime,
+        symbol: Optional[str] = None,
+        process_chunk: Callable[[List[Dict]], None] = None
+    ):
+        """Stream historical candles chunk by chunk and process them"""
+        symbol = symbol or self.config.SYMBOL
         current_start = start_time
+        total_fetched = 0
         
         while current_start < end_time:
-            # Calculate chunk size (max 1000 candles = 50 hours for 3m interval)
             chunk_end = min(
                 current_start + timedelta(hours=50),
                 end_time
             )
             
-            params = {
-                "symbol": symbol,
-                "interval": self.config.INTERVAL,
-                "startTime": int(current_start.timestamp() * 1000),
-                "endTime": int(chunk_end.timestamp() * 1000),
-                "limit": self.config.MAX_CANDLES_PER_REQUEST,
-            }
+            candles = self.fetch_history_chunk(current_start, chunk_end, symbol)
             
-            try:
-                self.log.debug(
-                    f"Fetching {symbol} from {current_start:%Y-%m-%d %H:%M} "
-                    f"to {chunk_end:%Y-%m-%d %H:%M}"
-                )
-                
-                response = self.session.get(self.rest_url, params=params, timeout=30)
-                response.raise_for_status()
-                
-                data = response.json()
-                if data.get("code") != 0:
-                    raise ValueError(f"API error: {data.get('msg', 'Unknown error')}")
-                
-                candles = data.get("data", [])
-                all_candles.extend(candles)
-                
-                self.log.info(
-                    f"Fetched {len(candles)} candles for {symbol} "
-                    f"({current_start:%H:%M} - {chunk_end:%H:%M})"
-                )
-                
-                # Move to next chunk
-                current_start = chunk_end
-                
-                # Small delay to avoid rate limits
-                if current_start < end_time:
-                    time.sleep(0.5)
-                    
-            except requests.exceptions.RequestException as e:
-                raise NetworkError(f"Network error: {e}") from e
+            if candles:
+                total_fetched += len(candles)
+                if process_chunk:
+                    process_chunk(candles)
+
+            # Move to next chunk
+            current_start = chunk_end
+
+            # Small delay to avoid rate limits
+            if current_start < end_time:
+                time.sleep(0.5)
         
-        # Sort by timestamp
-        all_candles.sort(key=lambda x: int(x["time"]))
-        
-        self.log.info(f"Total fetched: {len(all_candles)} candles for {symbol}")
-        return all_candles
+        self.log.info(f"Total fetched: {total_fetched} candles for {symbol}")
     
     def convert_to_websocket_format(self, api_candle: Dict) -> Dict:
         """Convert REST API candle format to WebSocket format"""
@@ -315,8 +325,12 @@ class HistoryBackfiller:
             "x": True,  # Mark as closed
         }
     
-    def backfill(self, days: Optional[int] = None) -> List[Dict]:
-        """Perform initial backfill"""
+    def backfill(
+        self,
+        days: Optional[int] = None,
+        process_chunk: Callable[[List[Dict]], None] = None
+    ) -> None:
+        """Perform initial backfill by streaming chunks"""
         days = days or self.config.HISTORY_DAYS
         end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(days=days)
@@ -324,19 +338,17 @@ class HistoryBackfiller:
         self.log.info(f"Starting backfill for {days} days of {self.config.SYMBOL}")
         
         try:
-            candles = self.fetch_history(start_time, end_time)
-            # Convert to WebSocket format
-            return [self.convert_to_websocket_format(c) for c in candles]
+            self.stream_history(start_time, end_time, process_chunk=process_chunk)
         except Exception as e:
             self.log.error(f"Backfill failed: {e}")
-            return []
-    
+
     def fill_gap(
         self,
         last_timestamp: int,
-        symbol: Optional[str] = None
-    ) -> List[Dict]:
-        """Fill gap between last known timestamp and current time"""
+        symbol: Optional[str] = None,
+        process_chunk: Callable[[List[Dict]], None] = None
+    ) -> None:
+        """Fill gap by streaming chunks"""
         symbol = symbol or self.config.SYMBOL
         start_time = datetime.fromtimestamp(last_timestamp / 1000, tz=timezone.utc)
         end_time = datetime.now(timezone.utc)
@@ -344,7 +356,7 @@ class HistoryBackfiller:
         gap_minutes = (end_time - start_time).total_seconds() / 60
         
         if gap_minutes < 3:  # Less than one candle
-            return []
+            return
         
         self.log.info(
             f"Filling gap for {symbol}: {gap_minutes:.1f} minutes "
@@ -352,11 +364,9 @@ class HistoryBackfiller:
         )
         
         try:
-            candles = self.fetch_history(start_time, end_time, symbol)
-            return [self.convert_to_websocket_format(c) for c in candles]
+            self.stream_history(start_time, end_time, symbol, process_chunk)
         except Exception as e:
             self.log.error(f"Gap fill failed: {e}")
-            return []
 
 # ═══════════════════════════════════════════ Technical Indicators ═══════════════════════════════════════
 
@@ -555,7 +565,7 @@ class CandleAggregator:
                  atr_period: int = Config.ATR_PERIOD):
         self.buckets: Dict[Tuple[str, int], List[Candle]] = {}
         self.on_bucket_complete = on_bucket_complete
-        self.completed_buckets: Deque[dict] = deque(maxlen=1000)
+        self.completed_buckets: Deque[dict] = deque(maxlen=200)  # Reduced from 1000
         self.skip_partial_buckets = skip_partial_buckets
         self.partial_bucket_warned: Set[Tuple[str, int]] = set()
         
@@ -931,33 +941,31 @@ class BingXCompleteClient:
         """Perform initial historical data backfill"""
         self.state = ConnectionState.BACKFILLING
         log.info(f"Starting historical backfill for {self.backfill_days} days")
-        
+
+        def process_chunk(candles: List[Dict]):
+            log.info(f"Processing chunk of {len(candles)} historical candles")
+            converted = [self.backfiller.convert_to_websocket_format(c) for c in candles]
+            for candle_data in converted:
+                self._process_historical_candle(candle_data)
+            self.stats.historical_candles_loaded += len(candles)
+
         try:
             # Run backfill in thread pool
             loop = asyncio.get_event_loop()
-            # Create a new backfiller with the correct config
             backfiller = HistoryBackfiller()
-            backfiller.config.SYMBOL = self.symbol  # Ensure correct symbol
-            historical_candles = await loop.run_in_executor(
+            backfiller.config.SYMBOL = self.symbol
+
+            await loop.run_in_executor(
                 self._executor,
                 backfiller.backfill,
-                self.backfill_days  # Pass the days parameter
+                self.backfill_days,
+                process_chunk
             )
             
-            if historical_candles:
-                log.info(f"Processing {len(historical_candles)} historical candles")
-                
-                # Process historical candles through the same pipeline
-                for candle_data in historical_candles:
-                    self._process_historical_candle(candle_data)
-                
-                self.stats.historical_candles_loaded = len(historical_candles)
-                log.info(
-                    f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
-                    f"{self.stats.buckets_completed} buckets"
-                )
-            else:
-                log.warning("No historical data received")
+            log.info(
+                f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
+                f"{self.stats.buckets_completed} buckets"
+            )
                 
         except Exception as e:
             log.error(f"Historical backfill failed: {e}", exc_info=True)
@@ -1050,25 +1058,32 @@ class BingXCompleteClient:
         """Fill gaps between last processed candle and current time"""
         if not self.last_processed_ts:
             return
-            
+
+        gaps_found = False
+        def process_chunk(candles: List[Dict]):
+            nonlocal gaps_found
+            if not candles:
+                return
+            gaps_found = True
+            log.info(f"Filling gap with chunk of {len(candles)} candles")
+            converted = [self.backfiller.convert_to_websocket_format(c) for c in candles]
+            for candle_data in converted:
+                self._process_historical_candle(candle_data)
+
         try:
             log.info("Checking for gaps in data...")
             
             # Run gap fill in thread pool
             loop = asyncio.get_event_loop()
-            gap_candles = await loop.run_in_executor(
+            await loop.run_in_executor(
                 self._executor,
                 self.backfiller.fill_gap,
                 self.last_processed_ts,
-                self.symbol
+                self.symbol,
+                process_chunk
             )
             
-            if gap_candles:
-                log.info(f"Filling gap with {len(gap_candles)} candles")
-                
-                for candle_data in gap_candles:
-                    self._process_historical_candle(candle_data)
-                
+            if gaps_found:
                 self.stats.gaps_filled += 1
                 log.info(f"Gap filled successfully")
             else:
