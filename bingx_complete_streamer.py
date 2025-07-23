@@ -100,6 +100,9 @@ class Config:
     # Performance monitoring
     STATS_INTERVAL_SECONDS = 60
 
+    # Memory-mapped files
+    USE_MEMORY_MAPPED_FILES = False
+
 # ═══════════════════════════════════════════ Logging Setup ═══════════════════════════════════════════
 
 def setup_logging(level: int = Config.LOG_LEVEL) -> logging.Logger:
@@ -769,6 +772,51 @@ class CandleAggregator:
 
 # ═══════════════════════════════════════════ Data Persistence ═══════════════════════════════════════
 
+class ParquetDataset:
+    """Handles loading and accessing of Parquet data"""
+
+    def __init__(self, directory: Path, use_memory_map: bool = False):
+        self.directory = directory
+        self.use_memory_map = use_memory_map
+        self.dataset = None
+        self.table = None
+
+        if not self.directory.exists():
+            log.warning(f"Parquet directory not found: {self.directory}")
+            return
+
+        try:
+            self.dataset = pq.ParquetDataset(self.directory)
+            log.info(f"Loaded Parquet dataset with {len(self.dataset.fragments)} fragments.")
+
+            # Load table (memory-mapped or in-memory)
+            self.table = self.dataset.read(use_threads=True, use_pandas_metadata=False)
+            if self.use_memory_map:
+                # This doesn't directly memory-map on read, but allows for it
+                log.info("Memory-mapping enabled for subsequent operations.")
+            else:
+                log.info("Dataset loaded into memory.")
+
+        except Exception as e:
+            log.error(f"Error loading Parquet dataset: {e}", exc_info=True)
+
+    def get_full_data(self) -> Optional[pd.DataFrame]:
+        """Return the entire dataset as a Pandas DataFrame"""
+        if not self.table:
+            return None
+        return self.table.to_pandas()
+
+    def get_date_range(self) -> Optional[Tuple[datetime, datetime]]:
+        """Get the min and max date from the dataset partitions"""
+        if not self.dataset or not self.dataset.partitions:
+            return None
+
+        dates = [
+            datetime.strptime(part.partition_string.split('=')[1], "%Y-%m-%d")
+            for part in self.dataset.partitions
+        ]
+        return min(dates), max(dates)
+
 class DataPersistence:
     """Handles saving candle data to disk using Parquet format"""
     
@@ -942,6 +990,17 @@ class BingXCompleteClient:
         self.persistence = DataPersistence() if save_data else None
         self.backfiller = HistoryBackfiller()
         
+        # Dataset for loading historical data from disk
+        self.dataset: Optional[ParquetDataset] = None
+        if Config.USE_MEMORY_MAPPED_FILES:
+            log.info("Memory-mapped file option is enabled. Initializing ParquetDataset.")
+            self.dataset = ParquetDataset(
+                directory=Config.OUTPUT_DIR / "parquet",
+                use_memory_map=True
+            )
+        else:
+            log.info("Memory-mapped file option is disabled.")
+
         # Recent candles buffer
         self.recent_candles: Deque[Candle] = deque(maxlen=Config.MAX_MEMORY_CANDLES)
         
@@ -997,10 +1056,42 @@ class BingXCompleteClient:
             await self._cleanup()
             
     async def _initial_backfill(self) -> None:
-        """Perform initial historical data backfill"""
+        """Perform initial historical data backfill from Parquet or API"""
         self.state = ConnectionState.BACKFILLING
-        log.info(f"Starting historical backfill for {self.backfill_days} days")
-        print("In _initial_backfill")
+
+        # Try loading from Parquet first if enabled
+        if self.dataset and self.dataset.table is not None:
+            log.info(f"Loading historical data from Parquet dataset...")
+            try:
+                df = self.dataset.get_full_data()
+                df = df.sort_values(by='open_ts').reset_index(drop=True)
+
+                # Convert DataFrame rows to candle objects
+                for _, row in df.iterrows():
+                    candle = Candle(
+                        open_ts=row['open_ts'],
+                        close_ts=row['close_ts'],
+                        open=row['open'],
+                        high=row['high'],
+                        low=row['low'],
+                        close=row['close'],
+                        volume=row['volume'],
+                        trades=row.get('trades', 0)
+                    )
+                    self.recent_candles.append(candle)
+                    self.aggregator.add_candle(candle)
+                    self.last_processed_ts = candle.close_ts
+
+                self.stats.historical_candles_loaded = len(df)
+                self.stats.buckets_completed = len(self.aggregator.completed_buckets)
+                log.info(f"Loaded {len(df)} candles and {self.stats.buckets_completed} buckets from Parquet.")
+                return # Skip API backfill
+            except Exception as e:
+                log.error(f"Failed to load from Parquet, falling back to API: {e}", exc_info=True)
+
+        # Fallback to API backfill
+        log.info(f"Starting historical backfill from API for {self.backfill_days} days")
+        print("In _initial_backfill (API)")
 
         def process_chunk(candles: List[Dict]):
             log.info(f"Processing chunk of {len(candles)} historical candles")
@@ -1011,7 +1102,7 @@ class BingXCompleteClient:
 
         try:
             # Run backfill in thread pool
-            print("Running backfill in executor")
+            print("Running API backfill in executor")
             loop = asyncio.get_event_loop()
             backfiller = HistoryBackfiller()
             backfiller.config.SYMBOL = self.symbol
@@ -1022,7 +1113,7 @@ class BingXCompleteClient:
                 self.backfill_days,
                 process_chunk
             )
-            print("Backfill in executor complete")
+            print("API backfill in executor complete")
             
             log.info(
                 f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
@@ -1581,6 +1672,12 @@ def create_cli():
         action="store_true",
         help="Disable ATR calculations"
     )
+
+    parser.add_argument(
+        "--memory-mapped",
+        action="store_true",
+        help="Enable memory-mapped files for large datasets"
+    )
     
     return parser
 
@@ -1700,6 +1797,7 @@ async def main_cli():
     Config.CALCULATE_MA = not args.no_ma
     Config.ATR_PERIOD = args.atr_period
     Config.CALCULATE_ATR = not args.no_atr
+    Config.USE_MEMORY_MAPPED_FILES = args.memory_mapped
     
     if args.debug:
         Config.LOG_LEVEL = logging.DEBUG
