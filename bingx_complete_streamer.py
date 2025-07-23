@@ -33,6 +33,10 @@ from typing import Dict, List, Optional, Tuple, Deque, Callable, Set
 import csv
 import threading
 from concurrent.futures import ThreadPoolExecutor
+
+import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 from memory_profiler import profile
 
 import websockets
@@ -259,8 +263,9 @@ class HistoryBackfiller:
                 f"Fetching {symbol} from {start_time:%Y-%m-%d %H:%M} "
                 f"to {end_time:%Y-%m-%d %H:%M}"
             )
-
+            print("Making request to REST API")
             response = self.session.get(self.rest_url, params=params, timeout=30)
+            print("Request complete")
             response.raise_for_status()
 
             data = response.json()
@@ -288,15 +293,15 @@ class HistoryBackfiller:
         symbol = symbol or self.config.SYMBOL
         current_start = start_time
         total_fetched = 0
-        
+        print("In stream_history")
         while current_start < end_time:
             chunk_end = min(
                 current_start + timedelta(hours=50),
                 end_time
             )
-            
+            print(f"Fetching chunk from {current_start} to {chunk_end}")
             candles = self.fetch_history_chunk(current_start, chunk_end, symbol)
-            
+            print(f"Fetched {len(candles)} candles")
             if candles:
                 total_fetched += len(candles)
                 if process_chunk:
@@ -337,9 +342,11 @@ class HistoryBackfiller:
         start_time = end_time - timedelta(days=days)
         
         self.log.info(f"Starting backfill for {days} days of {self.config.SYMBOL}")
-        
+        print("In backfill method")
         try:
+            print("Calling stream_history")
             self.stream_history(start_time, end_time, process_chunk=process_chunk)
+            print("stream_history finished")
         except Exception as e:
             self.log.error(f"Backfill failed: {e}")
 
@@ -763,54 +770,87 @@ class CandleAggregator:
 # ═══════════════════════════════════════════ Data Persistence ═══════════════════════════════════════
 
 class DataPersistence:
-    """Handles saving candle data to disk"""
+    """Handles saving candle data to disk using Parquet format"""
     
-    def __init__(self, output_dir: Path = Config.OUTPUT_DIR):
+    def __init__(self, output_dir: Path = Config.OUTPUT_DIR, buffer_size: int = 100):
+        log.info("Initializing DataPersistence")
         self.output_dir = output_dir
         self.output_dir.mkdir(exist_ok=True)
         
-        self.json_dir = self.output_dir / "json"
-        self.csv_dir = self.output_dir / "csv"
-        self.json_dir.mkdir(exist_ok=True)
-        self.csv_dir.mkdir(exist_ok=True)
+        self.parquet_dir = self.output_dir / "parquet"
+        self.parquet_dir.mkdir(exist_ok=True)
+        log.info(f"Parquet directory: {self.parquet_dir}")
+        
+        self.buffer: List[dict] = []
+        self.buffer_size = buffer_size
         
     def save_aggregated_candle(self, candle: dict) -> None:
-        """Save a single aggregated candle to daily files"""
-        date_str = candle["bucket_info"]["date"]
-        
-        json_file = self.json_dir / f"aggregated_{date_str}.json"
-        self._append_json(json_file, candle)
-        
-        csv_file = self.csv_dir / f"aggregated_{date_str}.csv"
-        self._append_csv(csv_file, candle)
-        
-    def _append_json(self, file_path: Path, data: dict) -> None:
-        """Append data to JSON file (one object per line)"""
-        with open(file_path, "a") as f:
-            f.write(json.dumps(data) + "\n")
+        """Add aggregated candle to buffer and flush if full"""
+        self.buffer.append(candle)
+        if len(self.buffer) >= self.buffer_size:
+            self.flush_buffer()
             
-    def _append_csv(self, file_path: Path, candle: dict) -> None:
-        """Append candle data to CSV file"""
-        file_exists = file_path.exists()
-        
-        with open(file_path, "a", newline="") as f:
-            fieldnames = [
-                "timestamp_utc", "open_ts", "close_ts",
-                "open", "high", "low", "close", "volume", "trades",
-                "candle_count", "bucket_index", 
-                "ma_short", "ma_long", "trend", "ma_cross",
-                "tr", "atr", "atr_percent"  # ATR fields
-            ]
-            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+    def flush_buffer(self) -> None:
+        """Write buffered candles to Parquet files"""
+        log.info(f"Flushing buffer with {len(self.buffer)} items.")
+        if not self.buffer:
+            return
             
-            if not file_exists:
-                writer.writeheader()
-                
-            row = {k: candle.get(k, '') for k in fieldnames}  # Use empty string for None values
-            row["bucket_index"] = candle["bucket_info"]["index"]
-            # Ensure ma_cross is explicitly set
-            row["ma_cross"] = candle.get("ma_cross", "") or ""  # Convert None to empty string
-            writer.writerow(row)
+        try:
+            df = pd.DataFrame(self.buffer)
+            self.buffer.clear()
+
+            # Extract bucket info and prepare for partitioning
+            df['date'] = df['bucket_info'].apply(lambda x: x['date'])
+            df['bucket_index'] = df['bucket_info'].apply(lambda x: x['index'])
+
+            # Define Parquet schema for type consistency
+            schema = pa.schema([
+                pa.field("open_ts", pa.int64()),
+                pa.field("close_ts", pa.int64()),
+                pa.field("open", pa.float64()),
+                pa.field("high", pa.float64()),
+                pa.field("low", pa.float64()),
+                pa.field("close", pa.float64()),
+                pa.field("volume", pa.float64()),
+                pa.field("trades", pa.int64()),
+                pa.field("candle_count", pa.int32()),
+                pa.field("timestamp_utc", pa.string()),
+                pa.field("first_candle_time", pa.string()),
+                pa.field("last_candle_time", pa.string()),
+                pa.field("bucket_info", pa.struct([
+                    pa.field("date", pa.string()),
+                    pa.field("index", pa.int32()),
+                    pa.field("candle_count", pa.int32())
+                ])),
+                pa.field("ma_short", pa.float64()),
+                pa.field("ma_long", pa.float64()),
+                pa.field("ma_cross", pa.string()),
+                pa.field("trend", pa.string()),
+                pa.field("tr", pa.float64()),
+                pa.field("atr", pa.float64()),
+                pa.field("atr_percent", pa.float64()),
+                pa.field("date", pa.string()),
+                pa.field("bucket_index", pa.int32())
+            ])
+
+            # Convert to Arrow Table
+            table = pa.Table.from_pandas(df, schema=schema, preserve_index=False)
+
+            # Write to partitioned Parquet file
+            pq.write_to_dataset(
+                table,
+                root_path=self.parquet_dir,
+                partition_cols=['date'],
+                existing_data_behavior='overwrite_or_ignore'
+            )
+
+            log.info(f"Flushed {len(df)} records to Parquet dataset")
+
+        except Exception as e:
+            log.error(f"Failed to flush buffer to Parquet: {e}", exc_info=True)
+            # Restore buffer if write failed
+            self.buffer.extend(df.to_dict('records'))
             
     def save_state(self, aggregator: CandleAggregator, stats: StreamStats,
                    last_candle_ts: Optional[int] = None) -> None:
@@ -829,11 +869,18 @@ class DataPersistence:
             },
             "incomplete_buckets": aggregator.get_incomplete_buckets(),
             "completed_buckets_count": len(aggregator.completed_buckets),
+            "persistence_buffer": self.buffer,
         }
         
         state_file = self.output_dir / "state.json"
-        with open(state_file, "w") as f:
-            json.dump(state, f, indent=2)
+        try:
+            with open(state_file, "w") as f:
+                json.dump(state, f, indent=2)
+        except (TypeError, OverflowError) as e:
+            log.error(f"Error serializing state to JSON: {e}")
+            # Fallback for non-serializable data
+            with open(state_file.with_suffix(".log"), "w") as f:
+                f.write(str(state))
             
         log.info(f"State saved to {state_file}")
     
@@ -912,24 +959,35 @@ class BingXCompleteClient:
     async def run(self) -> None:
         """Main entry point - run the client with all features"""
         log.info(f"Starting BingX Complete Client for {self.symbol} {self.interval}")
-        
+        print("Running client.run()")
         # Load previous state if available
         if self.persistence:
+            print("Loading state")
             state = self.persistence.load_state()
             if state:
                 self.last_processed_ts = state.get("last_candle_timestamp")
                 log.info(f"Loaded state: last candle at {self.last_processed_ts}")
+
+                # Restore persistence buffer
+                if 'persistence_buffer' in state:
+                    self.persistence.buffer = state['persistence_buffer']
+                    log.info(f"Restored {len(self.persistence.buffer)} items to persistence buffer")
+            print("State loaded")
         
         # Perform initial backfill
         if Config.BACKFILL_ON_START:
+            print("Performing initial backfill")
             await self._initial_backfill()
+            print("Initial backfill complete")
         
         # Start background tasks
+        print("Starting background tasks")
         self._tasks = [
             asyncio.create_task(self._connection_loop()),
             asyncio.create_task(self._stats_reporter()),
             asyncio.create_task(self._auto_save_loop()),
         ]
+        print("Background tasks started")
         
         try:
             await asyncio.gather(*self._tasks)
@@ -942,6 +1000,7 @@ class BingXCompleteClient:
         """Perform initial historical data backfill"""
         self.state = ConnectionState.BACKFILLING
         log.info(f"Starting historical backfill for {self.backfill_days} days")
+        print("In _initial_backfill")
 
         def process_chunk(candles: List[Dict]):
             log.info(f"Processing chunk of {len(candles)} historical candles")
@@ -952,6 +1011,7 @@ class BingXCompleteClient:
 
         try:
             # Run backfill in thread pool
+            print("Running backfill in executor")
             loop = asyncio.get_event_loop()
             backfiller = HistoryBackfiller()
             backfiller.config.SYMBOL = self.symbol
@@ -962,6 +1022,7 @@ class BingXCompleteClient:
                 self.backfill_days,
                 process_chunk
             )
+            print("Backfill in executor complete")
             
             log.info(
                 f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
@@ -1306,6 +1367,11 @@ class BingXCompleteClient:
             if not task.done():
                 task.cancel()
                 
+        # Flush any remaining items in the buffer
+        if self.persistence and self.persistence.buffer:
+            log.info(f"Flushing remaining {len(self.persistence.buffer)} items from buffer...")
+            self.persistence.flush_buffer()
+
         # Save final state
         if self.persistence:
             try:
@@ -1394,12 +1460,11 @@ def print_banner(config: Config = Config()) -> None:
 
 # ═══════════════════════════════════════════ Main Entry Point ═══════════════════════════════════════
 
-@profile
 async def main():
     """Main application entry point"""
     # Print banner
     print_banner()
-    
+    print("Creating client")
     # Create and configure client - use Config values
     client = BingXCompleteClient(
         symbol=Config.SYMBOL,
@@ -1407,19 +1472,23 @@ async def main():
         save_data=True,
         backfill_days=Config.HISTORY_DAYS
     )
+    print("Client created")
     
     # Setup signal handlers
+    print("Setting up signal handlers")
     loop = asyncio.get_running_loop()
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, client.stop)
         
     # Run client
+    print("Running client")
     try:
         await client.run()
     except KeyboardInterrupt:
         log.info("Interrupted by user")
     except Exception as e:
         log.error(f"Unexpected error: {e}", exc_info=True)
+    print("Client finished")
         
     log.info("Application terminated")
 
