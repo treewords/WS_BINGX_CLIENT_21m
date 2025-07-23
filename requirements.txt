@@ -2,3 +2,5 @@ websockets
 requests
 tenacity
 memory-profiler
+pyarrow
+pandas
