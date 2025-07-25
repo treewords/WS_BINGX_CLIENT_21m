@@ -29,7 +29,7 @@ from dataclasses import dataclass, asdict, field
 from datetime import datetime, timezone, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Deque, Callable, Set
+from typing import Any, Dict, List, Optional, Tuple, Deque, Callable, Set
 import csv
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -54,79 +54,80 @@ from tenacity import (
 class Config:
     """Centralized configuration management"""
     # WebSocket settings
-    WS_URL = "wss://open-api-swap.bingx.com/swap-market"
-    SYMBOL = "BTC-USDT"
-    INTERVAL = "3m"
+    WS_URL: str = "wss://open-api-swap.bingx.com/swap-market"
+    SYMBOL: str = "BTC-USDT"
+    INTERVAL: str = "3m"
     
     # REST API settings
-    REST_BASE_URL = "https://open-api.bingx.com"
-    REST_ENDPOINT = "/openApi/swap/v2/quote/klines"
+    REST_BASE_URL: str = "https://open-api.bingx.com"
+    REST_ENDPOINT: str = "/openApi/swap/v2/quote/klines"
     
     # Backfill settings
-    HISTORY_DAYS = 7
-    BACKFILL_ON_START = True
-    FILL_GAPS_ON_RECONNECT = True
-    MAX_CANDLES_PER_REQUEST = 1000
+    HISTORY_DAYS: int = 7
+    BACKFILL_ON_START: bool = True
+    FILL_GAPS_ON_RECONNECT: bool = True
+    MAX_CANDLES_PER_REQUEST: int = 1000
     
     # Reconnection settings
-    INITIAL_RECONNECT_DELAY = 1.0
-    MAX_RECONNECT_DELAY = 60.0
-    RECONNECT_MULTIPLIER = 1.5
+    INITIAL_RECONNECT_DELAY: float = 1.0
+    MAX_RECONNECT_DELAY: float = 60.0
+    RECONNECT_MULTIPLIER: float = 1.5
     
     # Aggregation settings
-    STANDARD_BUCKET_MINUTES = 21  # 7 × 3m candles
-    FINAL_BUCKET_MINUTES = 12     # 4 × 3m candles
-    FINAL_BUCKET_START_HOUR = 23
-    FINAL_BUCKET_START_MINUTE = 48
-    SKIP_PARTIAL_BUCKETS = False
+    STANDARD_BUCKET_MINUTES: int = 21  # 7 × 3m candles
+    FINAL_BUCKET_MINUTES: int = 12     # 4 × 3m candles
+    FINAL_BUCKET_START_HOUR: int = 23
+    FINAL_BUCKET_START_MINUTE: int = 48
+    SKIP_PARTIAL_BUCKETS: bool = False
     
     # Data persistence
-    OUTPUT_DIR = Path("bingx_data")
-    MAX_MEMORY_CANDLES = 1000  # Reduced from 10000
-    SAVE_INTERVAL_SECONDS = 300
+    OUTPUT_DIR: Path = Path("bingx_data")
+    MAX_MEMORY_CANDLES: int = 1000  # Reduced from 10000
+    SAVE_INTERVAL_SECONDS: int = 300
     
     # Logging
-    LOG_LEVEL = logging.INFO
-    LOG_FORMAT = "%(asctime)s | %(name)-12s | %(levelname)-8s | %(message)s"
-    LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+    LOG_LEVEL: int = logging.INFO
+    LOG_FORMAT: str = "%(asctime)s | %(name)-12s | %(levelname)-8s | %(message)s"
+    LOG_DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
     
     # Technical indicators - DEFAULT VALUES THAT CAN BE OVERRIDDEN
-    MA_SHORT_PERIOD = 55  # Changed from 9 to 3 for faster testing
-    MA_LONG_PERIOD = 123   # Changed from 21 to 7 for faster testing
-    CALCULATE_MA = True
-    ATR_PERIOD = 14        # ATR period (TradingView default)
-    CALCULATE_ATR = True   # Enable ATR calculation
+    MA_SHORT_PERIOD: int = 55  # Changed from 9 to 3 for faster testing
+    MA_LONG_PERIOD: int = 123   # Changed from 21 to 7 for faster testing
+    CALCULATE_MA: bool = True
+    ATR_PERIOD: int = 14        # ATR period (TradingView default)
+    CALCULATE_ATR: bool = True   # Enable ATR calculation
     
     # Performance monitoring
-    STATS_INTERVAL_SECONDS = 60
+    STATS_INTERVAL_SECONDS: int = 60
 
     # Memory-mapped files
-    USE_MEMORY_MAPPED_FILES = False
+    USE_MEMORY_MAPPED_FILES: bool = False
 
 # ═══════════════════════════════════════════ Logging Setup ═══════════════════════════════════════════
 
 def setup_logging(level: int = Config.LOG_LEVEL) -> logging.Logger:
     """Configure structured logging with multiple handlers"""
-    log_dir = Path("logs")
+    log_dir: Path = Path("logs")
     log_dir.mkdir(exist_ok=True)
     
     # Get the logger
-    logger = logging.getLogger("bingx")
+    logger: logging.Logger = logging.getLogger("bingx")
     logger.setLevel(level)
     logger.propagate = False  # Prevent duplicate logs
     
     # Clear any existing handlers
-    logger.handlers.clear()
+    if logger.hasHandlers():
+        logger.handlers.clear()
     
     # Console handler
-    console_handler = logging.StreamHandler()
+    console_handler: logging.StreamHandler = logging.StreamHandler()
     console_handler.setFormatter(
         logging.Formatter(Config.LOG_FORMAT, Config.LOG_DATE_FORMAT)
     )
     logger.addHandler(console_handler)
     
     # File handler
-    file_handler = logging.FileHandler(
+    file_handler: logging.FileHandler = logging.FileHandler(
         log_dir / f"bingx_{datetime.now():%Y%m%d_%H%M%S}.log",
         encoding='utf-8'  # Ensure UTF-8 encoding
     )
@@ -137,7 +138,7 @@ def setup_logging(level: int = Config.LOG_LEVEL) -> logging.Logger:
     
     return logger
 
-log = setup_logging()
+log: logging.Logger = setup_logging()
 
 # ═══════════════════════════════════════════ Data Models ═══════════════════════════════════════════
 
@@ -154,8 +155,8 @@ class ConnectionState(Enum):
 @dataclass(slots=True)
 class Candle:
     """Individual kline/candle data"""
-    open_ts: int      # Open time in milliseconds
-    close_ts: int     # Close time in milliseconds
+    open_ts: int
+    close_ts: int
     open: float
     high: float
     low: float
@@ -173,7 +174,7 @@ class Candle:
         """Get open timestamp as UTC datetime"""
         return datetime.fromtimestamp(self.open_ts / 1000, tz=timezone.utc)
     
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             **asdict(self),
@@ -182,7 +183,7 @@ class Candle:
         }
     
     def __str__(self) -> str:
-        ts = self.timestamp_utc
+        ts: datetime = self.timestamp_utc
         return (f"{ts:%Y-%m-%d %H:%M:%S} | "
                 f"O: {self.open:.2f} | H: {self.high:.2f} | "
                 f"L: {self.low:.2f} | C: {self.close:.2f} | "
@@ -209,7 +210,7 @@ class StreamStats:
         return (datetime.now(timezone.utc) - self.connected_at).total_seconds()
     
     def __str__(self) -> str:
-        uptime = timedelta(seconds=int(self.uptime_seconds()))
+        uptime: timedelta = timedelta(seconds=int(self.uptime_seconds()))
         return (f"Uptime: {uptime} | Messages: {self.messages_received} | "
                 f"Candles: {self.candles_processed} (Historical: {self.historical_candles_loaded}) | "
                 f"Buckets: {self.buckets_completed} | Gaps: {self.gaps_filled} | "
@@ -218,9 +219,9 @@ class StreamStats:
 @dataclass(slots=True)
 class ATRData:
     """ATR calculation result"""
-    tr: float           # True Range
-    atr: float          # Average True Range
-    atr_percent: float  # ATR as percentage of close price
+    tr: float
+    atr: float
+    atr_percent: float
 
 # ═══════════════════════════════════════════ History Backfiller ═══════════════════════════════════════════
 
@@ -231,10 +232,10 @@ class NetworkError(Exception):
 class HistoryBackfiller:
     """Handles historical data fetching and gap filling"""
     
-    def __init__(self, config: Config = Config()):
-        self.config = config
-        self.log = logging.getLogger("backfiller")
-        self.session = requests.Session()
+    def __init__(self, config: Config = Config()) -> None:
+        self.config: Config = config
+        self.log: logging.Logger = logging.getLogger("backfiller")
+        self.session: requests.Session = requests.Session()
         
     @property
     def rest_url(self) -> str:
@@ -250,10 +251,10 @@ class HistoryBackfiller:
         start_time: datetime,
         end_time: datetime,
         symbol: Optional[str] = None
-    ) -> List[Dict]:
+    ) -> List[Dict[str, Any]]:
         """Fetch a single chunk of historical candles"""
         symbol = symbol or self.config.SYMBOL
-        params = {
+        params: Dict[str, Any] = {
             "symbol": symbol,
             "interval": self.config.INTERVAL,
             "startTime": int(start_time.timestamp() * 1000),
@@ -267,15 +268,15 @@ class HistoryBackfiller:
                 f"to {end_time:%Y-%m-%d %H:%M}"
             )
             print("Making request to REST API")
-            response = self.session.get(self.rest_url, params=params, timeout=30)
+            response: requests.Response = self.session.get(self.rest_url, params=params, timeout=30)
             print("Request complete")
             response.raise_for_status()
 
-            data = response.json()
+            data: Dict[str, Any] = response.json()
             if data.get("code") != 0:
                 raise ValueError(f"API error: {data.get('msg', 'Unknown error')}")
 
-            candles = data.get("data", [])
+            candles: List[Dict[str, Any]] = data.get("data", [])
             self.log.info(
                 f"Fetched {len(candles)} candles for {symbol} "
                 f"({start_time:%H:%M} - {end_time:%H:%M})"
@@ -290,20 +291,20 @@ class HistoryBackfiller:
         start_time: datetime,
         end_time: datetime,
         symbol: Optional[str] = None,
-        process_chunk: Callable[[List[Dict]], None] = None
-    ):
+        process_chunk: Optional[Callable[[List[Dict[str, Any]]], None]] = None
+    ) -> None:
         """Stream historical candles chunk by chunk and process them"""
         symbol = symbol or self.config.SYMBOL
-        current_start = start_time
-        total_fetched = 0
+        current_start: datetime = start_time
+        total_fetched: int = 0
         print("In stream_history")
         while current_start < end_time:
-            chunk_end = min(
+            chunk_end: datetime = min(
                 current_start + timedelta(hours=50),
                 end_time
             )
             print(f"Fetching chunk from {current_start} to {chunk_end}")
-            candles = self.fetch_history_chunk(current_start, chunk_end, symbol)
+            candles: List[Dict[str, Any]] = self.fetch_history_chunk(current_start, chunk_end, symbol)
             print(f"Fetched {len(candles)} candles")
             if candles:
                 total_fetched += len(candles)
@@ -319,9 +320,9 @@ class HistoryBackfiller:
         
         self.log.info(f"Total fetched: {total_fetched} candles for {symbol}")
     
-    def convert_to_websocket_format(self, api_candle: Dict) -> Dict:
+    def convert_to_websocket_format(self, api_candle: Dict[str, Any]) -> Dict[str, Any]:
         """Convert REST API candle format to WebSocket format"""
-        timestamp = int(api_candle["time"])
+        timestamp: int = int(api_candle["time"])
         return {
             "T": timestamp,
             "t": timestamp,
@@ -337,12 +338,12 @@ class HistoryBackfiller:
     def backfill(
         self,
         days: Optional[int] = None,
-        process_chunk: Callable[[List[Dict]], None] = None
+        process_chunk: Optional[Callable[[List[Dict[str, Any]]], None]] = None
     ) -> None:
         """Perform initial backfill by streaming chunks"""
         days = days or self.config.HISTORY_DAYS
-        end_time = datetime.now(timezone.utc)
-        start_time = end_time - timedelta(days=days)
+        end_time: datetime = datetime.now(timezone.utc)
+        start_time: datetime = end_time - timedelta(days=days)
         
         self.log.info(f"Starting backfill for {days} days of {self.config.SYMBOL}")
         print("In backfill method")
@@ -357,14 +358,14 @@ class HistoryBackfiller:
         self,
         last_timestamp: int,
         symbol: Optional[str] = None,
-        process_chunk: Callable[[List[Dict]], None] = None
+        process_chunk: Optional[Callable[[List[Dict[str, Any]]], None]] = None
     ) -> None:
         """Fill gap by streaming chunks"""
         symbol = symbol or self.config.SYMBOL
-        start_time = datetime.fromtimestamp(last_timestamp / 1000, tz=timezone.utc)
-        end_time = datetime.now(timezone.utc)
+        start_time: datetime = datetime.fromtimestamp(last_timestamp / 1000, tz=timezone.utc)
+        end_time: datetime = datetime.now(timezone.utc)
         
-        gap_minutes = (end_time - start_time).total_seconds() / 60
+        gap_minutes: float = (end_time - start_time).total_seconds() / 60
         
         if gap_minutes < 3:  # Less than one candle
             return
@@ -384,33 +385,32 @@ class HistoryBackfiller:
 class MovingAverageCalculator:
     """Calculate moving averages for aggregated candles"""
     
-    def __init__(self, short_period: int = 9, long_period: int = 21):
-        self.short_period = short_period
-        self.long_period = long_period
+    def __init__(self, short_period: int = 9, long_period: int = 21) -> None:
+        self.short_period: int = short_period
+        self.long_period: int = long_period
         self.price_history: Deque[float] = deque(maxlen=max(short_period, long_period) + 1)
-        # Track previous MA values for crossover detection
         self.prev_short_ma: Optional[float] = None
         self.prev_long_ma: Optional[float] = None
         
-    def add_price(self, close_price: float) -> Dict[str, Optional[float]]:
+    def add_price(self, close_price: float) -> Dict[str, Optional[Any]]:
         """Add a new close price and calculate MAs"""
         # Calculate MAs before adding new price (for previous values)
-        prev_short = self.calculate_ma(self.short_period)
-        prev_long = self.calculate_ma(self.long_period)
+        prev_short: Optional[float] = self.calculate_ma(self.short_period)
+        prev_long: Optional[float] = self.calculate_ma(self.long_period)
         
         # Add new price
         self.price_history.append(close_price)
         
         # Calculate new MAs
-        ma_short = self.calculate_ma(self.short_period)
-        ma_long = self.calculate_ma(self.long_period)
+        ma_short: Optional[float] = self.calculate_ma(self.short_period)
+        ma_long: Optional[float] = self.calculate_ma(self.long_period)
         
         # Detect crossover using stored previous values
-        cross_signal = None
+        cross_signal: Optional[str] = None
         if (self.prev_short_ma is not None and self.prev_long_ma is not None and 
             ma_short is not None and ma_long is not None):
             
-            tolerance = 0.01
+            tolerance: float = 0.01
             
             # Previous: short below long, Current: short above long = Golden Cross
             if self.prev_short_ma <= self.prev_long_ma + tolerance and ma_short > ma_long + tolerance:
@@ -431,7 +431,7 @@ class MovingAverageCalculator:
         self.prev_long_ma = ma_long
         
         # Get trend
-        trend = self.get_trend()
+        trend: Optional[str] = self.get_trend()
         
         # Log MA values periodically for debugging
         if ma_short is not None and ma_long is not None and len(self.price_history) % 5 == 0:
@@ -450,19 +450,18 @@ class MovingAverageCalculator:
         if len(self.price_history) < period:
             return None
         
-        relevant_prices = list(self.price_history)[-period:]
+        relevant_prices: List[float] = list(self.price_history)[-period:]
         return sum(relevant_prices) / period
     
     def get_trend(self) -> Optional[str]:
         """Get current trend based on MA positions"""
-        short_ma = self.calculate_ma(self.short_period)
-        long_ma = self.calculate_ma(self.long_period)
+        short_ma: Optional[float] = self.calculate_ma(self.short_period)
+        long_ma: Optional[float] = self.calculate_ma(self.long_period)
         
         if not short_ma or not long_ma:
             return None
             
-        # Use a small tolerance to avoid floating point comparison issues
-        tolerance = 0.01
+        tolerance: float = 0.01
         
         if short_ma > long_ma + tolerance:
             return "BULLISH"
@@ -480,18 +479,18 @@ class ATRCalculator:
     - Subsequent: (Previous RMA × (N-1) + Current Value) / N
     """
     
-    def __init__(self, period: int = 14):
+    def __init__(self, period: int = 14) -> None:
         """
         Initialize ATR calculator.
         
         Args:
             period: Number of periods for ATR calculation (default: 14)
         """
-        self.period = period
+        self.period: int = period
         self.prev_close: Optional[float] = None
-        self.tr_values: deque[float] = deque(maxlen=period)
+        self.tr_values: Deque[float] = deque(maxlen=period)
         self.atr: Optional[float] = None
-        self.candle_count = 0
+        self.candle_count: int = 0
         
     def add_candle(self, high: float, low: float, close: float) -> Optional[ATRData]:
         """
@@ -505,15 +504,10 @@ class ATRCalculator:
         Returns:
             ATRData object if ATR can be calculated, None otherwise
         """
-        # Calculate True Range
+        tr: float
         if self.prev_close is None:
-            # First candle: TR = High - Low
             tr = high - low
         else:
-            # TR = max of:
-            # 1. Current High - Current Low
-            # 2. abs(Current High - Previous Close)
-            # 3. abs(Current Low - Previous Close)
             tr = max(
                 high - low,
                 abs(high - self.prev_close),
@@ -523,27 +517,22 @@ class ATRCalculator:
         self.tr_values.append(tr)
         self.candle_count += 1
         
-        # Calculate ATR
-        if self.candle_count < self.period:
-            # Not enough data yet
-            atr_value = None
-            atr_percent = None
-        elif self.candle_count == self.period:
-            # First ATR: Simple average
+        atr_value: Optional[float] = None
+        atr_percent: Optional[float] = None
+
+        if self.candle_count == self.period:
             atr_value = sum(self.tr_values) / self.period
             self.atr = atr_value
-            atr_percent = (atr_value / close) * 100 if close > 0 else 0
-        else:
-            # Subsequent ATR: RMA formula
-            # ATR = ((Previous ATR × (N-1)) + Current TR) / N
-            atr_value = ((self.atr * (self.period - 1)) + tr) / self.period
-            self.atr = atr_value
-            atr_percent = (atr_value / close) * 100 if close > 0 else 0
+            atr_percent = (atr_value / close) * 100 if close > 0 else 0.0
+        elif self.candle_count > self.period:
+            if self.atr is not None:
+                atr_value = ((self.atr * (self.period - 1)) + tr) / self.period
+                self.atr = atr_value
+                atr_percent = (atr_value / close) * 100 if close > 0 else 0.0
         
-        # Update previous close for next calculation
         self.prev_close = close
         
-        if atr_value is not None:
+        if atr_value is not None and atr_percent is not None:
             return ATRData(
                 tr=tr,
                 atr=atr_value,
@@ -555,7 +544,7 @@ class ATRCalculator:
         """Get current ATR value"""
         return self.atr
     
-    def reset(self):
+    def reset(self) -> None:
         """Reset calculator state"""
         self.prev_close = None
         self.tr_values.clear()
@@ -567,60 +556,56 @@ class ATRCalculator:
 class CandleAggregator:
     """Handles candle bucketing and aggregation logic"""
     
-    def __init__(self, on_bucket_complete: Optional[Callable[[dict], None]] = None,
+    def __init__(self, on_bucket_complete: Optional[Callable[[Dict[str, Any]], None]] = None,
                  skip_partial_buckets: bool = Config.SKIP_PARTIAL_BUCKETS,
                  calculate_ma: bool = Config.CALCULATE_MA,
                  ma_short: int = Config.MA_SHORT_PERIOD,
                  ma_long: int = Config.MA_LONG_PERIOD,
                  calculate_atr: bool = Config.CALCULATE_ATR,
-                 atr_period: int = Config.ATR_PERIOD):
+                 atr_period: int = Config.ATR_PERIOD) -> None:
         self.buckets: Dict[Tuple[str, int], List[Candle]] = {}
-        self.on_bucket_complete = on_bucket_complete
-        self.completed_buckets: Deque[dict] = deque(maxlen=200)  # Reduced from 1000
-        self.skip_partial_buckets = skip_partial_buckets
+        self.on_bucket_complete: Optional[Callable[[Dict[str, Any]], None]] = on_bucket_complete
+        self.completed_buckets: Deque[Dict[str, Any]] = deque(maxlen=200)
+        self.skip_partial_buckets: bool = skip_partial_buckets
         self.partial_bucket_warned: Set[Tuple[str, int]] = set()
         
-        # Moving average calculator
-        self.calculate_ma = calculate_ma
-        self.ma_calculator = MovingAverageCalculator(ma_short, ma_long) if calculate_ma else None
+        self.calculate_ma: bool = calculate_ma
+        self.ma_calculator: Optional[MovingAverageCalculator] = MovingAverageCalculator(ma_short, ma_long) if calculate_ma else None
         
-        # ATR calculator
-        self.calculate_atr = calculate_atr
-        self.atr_calculator = ATRCalculator(atr_period) if calculate_atr else None
+        self.calculate_atr: bool = calculate_atr
+        self.atr_calculator: Optional[ATRCalculator] = ATRCalculator(atr_period) if calculate_atr else None
         
     def get_bucket_info(self, dt: datetime) -> Tuple[int, int]:
         """
         Determine bucket index and expected candle count for a given time.
         Returns: (bucket_index, expected_candle_count)
         """
-        minute_of_day = dt.hour * 60 + dt.minute
-        
-        final_start = Config.FINAL_BUCKET_START_HOUR * 60 + Config.FINAL_BUCKET_START_MINUTE
+        minute_of_day: int = dt.hour * 60 + dt.minute
+        final_start: int = Config.FINAL_BUCKET_START_HOUR * 60 + Config.FINAL_BUCKET_START_MINUTE
         
         if minute_of_day >= final_start:
-            bucket_idx = 68
-            expected_count = Config.FINAL_BUCKET_MINUTES // 3
+            bucket_idx: int = 68
+            expected_count: int = Config.FINAL_BUCKET_MINUTES // 3
         else:
             bucket_idx = minute_of_day // Config.STANDARD_BUCKET_MINUTES
             expected_count = Config.STANDARD_BUCKET_MINUTES // 3
             
         return bucket_idx, expected_count
     
-    def add_candle(self, candle: Candle) -> Optional[dict]:
+    def add_candle(self, candle: Candle) -> Optional[Dict[str, Any]]:
         """
         Add a candle to the appropriate bucket.
         Returns aggregated candle dict if bucket is complete, None otherwise.
         """
-        dt = candle.timestamp_utc
-        date_str = dt.strftime("%Y-%m-%d")
+        dt: datetime = candle.timestamp_utc
+        date_str: str = dt.strftime("%Y-%m-%d")
         bucket_idx, expected_count = self.get_bucket_info(dt)
         
-        key = (date_str, bucket_idx)
-        bucket = self.buckets.setdefault(key, [])
+        key: Tuple[str, int] = (date_str, bucket_idx)
+        bucket: List[Candle] = self.buckets.setdefault(key, [])
         
-        # Check if this is the first candle in a partial bucket
         if len(bucket) == 0 and key not in self.partial_bucket_warned:
-            minute_in_bucket = (dt.hour * 60 + dt.minute) % Config.STANDARD_BUCKET_MINUTES
+            minute_in_bucket: int = (dt.hour * 60 + dt.minute) % Config.STANDARD_BUCKET_MINUTES
             if minute_in_bucket > 0:
                 self.partial_bucket_warned.add(key)
                 log.warning(
@@ -632,7 +617,6 @@ class CandleAggregator:
                     log.info(f"Skipping partial bucket {key} (skip_partial_buckets=True)")
                     return None
         
-        # Check for duplicate timestamps
         for existing in bucket:
             if existing.open_ts == candle.open_ts:
                 log.warning(f"Duplicate candle detected at {candle.timestamp_utc}, skipping")
@@ -646,24 +630,19 @@ class CandleAggregator:
             log.info(f"Bucket progress {key}: {len(bucket)}/{expected_count} candles")
         
         if len(bucket) == expected_count:
-            aggregated = self.aggregate_candles(bucket)
+            aggregated: Dict[str, Any] = self.aggregate_candles(bucket)
             aggregated["bucket_info"] = {
                 "date": date_str,
                 "index": bucket_idx,
                 "candle_count": len(bucket)
             }
             
-            # Calculate moving averages
             if self.calculate_ma and self.ma_calculator:
-                ma_data = self.ma_calculator.add_price(aggregated["close"])
-                aggregated["ma_short"] = ma_data["ma_short"]
-                aggregated["ma_long"] = ma_data["ma_long"]
-                aggregated["ma_cross"] = ma_data["ma_cross"]
-                aggregated["trend"] = ma_data["trend"]
+                ma_data: Dict[str, Optional[Any]] = self.ma_calculator.add_price(aggregated["close"])
+                aggregated.update(ma_data)
                 
-                # Debug log for MA values - Fixed formatting for None values
-                ma_short_str = f"{ma_data['ma_short']:.2f}" if ma_data['ma_short'] is not None else "N/A"
-                ma_long_str = f"{ma_data['ma_long']:.2f}" if ma_data['ma_long'] is not None else "N/A"
+                ma_short_str: str = f"{ma_data['ma_short']:.2f}" if ma_data['ma_short'] is not None else "N/A"
+                ma_long_str: str = f"{ma_data['ma_long']:.2f}" if ma_data['ma_long'] is not None else "N/A"
                 
                 log.debug(
                     f"MA calculation - Close: {aggregated['close']:.2f} | "
@@ -672,9 +651,8 @@ class CandleAggregator:
                     f"Cross: {ma_data['ma_cross'] or 'None'}"
                 )
             
-            # Calculate ATR
             if self.calculate_atr and self.atr_calculator:
-                atr_data = self.atr_calculator.add_candle(
+                atr_data: Optional[ATRData] = self.atr_calculator.add_candle(
                     aggregated["high"], 
                     aggregated["low"], 
                     aggregated["close"]
@@ -685,7 +663,6 @@ class CandleAggregator:
                     aggregated["atr"] = atr_data.atr
                     aggregated["atr_percent"] = atr_data.atr_percent
                     
-                    # Log ATR values
                     log.debug(
                         f"ATR calculation - TR: {atr_data.tr:.2f} | "
                         f"ATR({self.atr_calculator.period}): {atr_data.atr:.2f} | "
@@ -707,27 +684,24 @@ class CandleAggregator:
         return None
     
     @staticmethod
-    def aggregate_candles(candles: List[Candle]) -> dict:
+    def aggregate_candles(candles: List[Candle]) -> Dict[str, Any]:
         """Aggregate multiple candles into a single larger candle"""
         if not candles:
             raise ValueError("Cannot aggregate empty candle list")
         
-        # Sort candles by timestamp to ensure correct order
-        sorted_candles = sorted(candles, key=lambda c: c.open_ts)
+        sorted_candles: List[Candle] = sorted(candles, key=lambda c: c.open_ts)
         
-        # Verify no gaps in the sequence
         for i in range(1, len(sorted_candles)):
-            expected_ts = sorted_candles[i-1].open_ts + (3 * 60 * 1000)  # 3 minutes in ms
+            expected_ts: int = sorted_candles[i-1].open_ts + (3 * 60 * 1000)
             if sorted_candles[i].open_ts != expected_ts:
-                gap_minutes = (sorted_candles[i].open_ts - sorted_candles[i-1].open_ts) / (60 * 1000)
+                gap_minutes: float = (sorted_candles[i].open_ts - sorted_candles[i-1].open_ts) / (60 * 1000)
                 log.warning(
                     f"Gap detected: {gap_minutes:.1f} minutes between candles {i-1} and {i} "
                     f"({sorted_candles[i-1].timestamp_utc:%H:%M:%S} -> {sorted_candles[i].timestamp_utc:%H:%M:%S})"
                 )
         
-        # Log details for debugging
-        first_candle = sorted_candles[0]
-        last_candle = sorted_candles[-1]
+        first_candle: Candle = sorted_candles[0]
+        last_candle: Candle = sorted_candles[-1]
         
         log.debug(f"Aggregating {len(sorted_candles)} candles:")
         log.debug(f"  First: {first_candle.timestamp_utc:%Y-%m-%d %H:%M:%S} - Open: {first_candle.open:.2f}")
@@ -735,7 +709,6 @@ class CandleAggregator:
         log.debug(f"  High:  {max(c.high for c in sorted_candles):.2f}")
         log.debug(f"  Low:   {min(c.low for c in sorted_candles):.2f}")
         
-        # For very detailed debugging, log all candles
         if log.isEnabledFor(logging.DEBUG):
             for i, c in enumerate(sorted_candles):
                 log.debug(f"    {i+1}. {c.timestamp_utc:%H:%M:%S} O:{c.open:.2f} H:{c.high:.2f} L:{c.low:.2f} C:{c.close:.2f} V:{c.volume:.2f}")
@@ -743,24 +716,23 @@ class CandleAggregator:
         return {
             "open_ts": first_candle.open_ts,
             "close_ts": last_candle.close_ts,
-            "open": first_candle.open,  # First candle's open
-            "high": max(c.high for c in sorted_candles),  # Highest high
-            "low": min(c.low for c in sorted_candles),   # Lowest low
-            "close": last_candle.close,  # Last candle's close
+            "open": first_candle.open,
+            "high": max(c.high for c in sorted_candles),
+            "low": min(c.low for c in sorted_candles),
+            "close": last_candle.close,
             "volume": sum(c.volume for c in sorted_candles),
             "trades": sum(c.trades for c in sorted_candles),
             "candle_count": len(sorted_candles),
             "timestamp_utc": first_candle.timestamp_utc.isoformat(),
-            # Add detailed info for verification
             "first_candle_time": first_candle.timestamp_utc.strftime("%H:%M:%S"),
             "last_candle_time": last_candle.timestamp_utc.strftime("%H:%M:%S"),
         }
     
-    def get_incomplete_buckets(self) -> Dict[str, List[dict]]:
+    def get_incomplete_buckets(self) -> Dict[str, List[Dict[str, Any]]]:
         """Get all incomplete buckets for persistence"""
-        result = {}
+        result: Dict[str, List[Dict[str, Any]]] = {}
         for (date_str, bucket_idx), candles in self.buckets.items():
-            key = f"{date_str}_bucket_{bucket_idx}"
+            key: str = f"{date_str}_bucket_{bucket_idx}"
             result[key] = [c.to_dict() for c in candles]
         return result
     
@@ -775,11 +747,11 @@ class CandleAggregator:
 class ParquetDataset:
     """Handles loading and accessing of Parquet data"""
 
-    def __init__(self, directory: Path, use_memory_map: bool = False):
-        self.directory = directory
-        self.use_memory_map = use_memory_map
-        self.dataset = None
-        self.table = None
+    def __init__(self, directory: Path, use_memory_map: bool = False) -> None:
+        self.directory: Path = directory
+        self.use_memory_map: bool = use_memory_map
+        self.dataset: Optional[pq.ParquetDataset] = None
+        self.table: Optional[pa.Table] = None
 
         if not self.directory.exists():
             log.warning(f"Parquet directory not found: {self.directory}")
@@ -788,15 +760,8 @@ class ParquetDataset:
         try:
             self.dataset = pq.ParquetDataset(self.directory)
             log.info(f"Loaded Parquet dataset with {len(self.dataset.fragments)} fragments.")
-
-            # Load table (memory-mapped or in-memory)
             self.table = self.dataset.read(use_threads=True, use_pandas_metadata=False)
-            if self.use_memory_map:
-                # This doesn't directly memory-map on read, but allows for it
-                log.info("Memory-mapping enabled for subsequent operations.")
-            else:
-                log.info("Dataset loaded into memory.")
-
+            log.info("Memory-mapping enabled." if self.use_memory_map else "Dataset loaded into memory.")
         except Exception as e:
             log.error(f"Error loading Parquet dataset: {e}", exc_info=True)
 
@@ -811,7 +776,7 @@ class ParquetDataset:
         if not self.dataset or not self.dataset.partitions:
             return None
 
-        dates = [
+        dates: List[datetime] = [
             datetime.strptime(part.partition_string.split('=')[1], "%Y-%m-%d")
             for part in self.dataset.partitions
         ]
@@ -820,19 +785,19 @@ class ParquetDataset:
 class DataPersistence:
     """Handles saving candle data to disk using Parquet format"""
     
-    def __init__(self, output_dir: Path = Config.OUTPUT_DIR, buffer_size: int = 100):
+    def __init__(self, output_dir: Path = Config.OUTPUT_DIR, buffer_size: int = 100) -> None:
         log.info("Initializing DataPersistence")
-        self.output_dir = output_dir
+        self.output_dir: Path = output_dir
         self.output_dir.mkdir(exist_ok=True)
         
-        self.parquet_dir = self.output_dir / "parquet"
+        self.parquet_dir: Path = self.output_dir / "parquet"
         self.parquet_dir.mkdir(exist_ok=True)
         log.info(f"Parquet directory: {self.parquet_dir}")
         
-        self.buffer: List[dict] = []
-        self.buffer_size = buffer_size
+        self.buffer: List[Dict[str, Any]] = []
+        self.buffer_size: int = buffer_size
         
-    def save_aggregated_candle(self, candle: dict) -> None:
+    def save_aggregated_candle(self, candle: Dict[str, Any]) -> None:
         """Add aggregated candle to buffer and flush if full"""
         self.buffer.append(candle)
         if len(self.buffer) >= self.buffer_size:
@@ -844,104 +809,78 @@ class DataPersistence:
         if not self.buffer:
             return
             
-        try:
-            df = pd.DataFrame(self.buffer)
-            self.buffer.clear()
+        df: pd.DataFrame = pd.DataFrame(self.buffer)
+        self.buffer.clear()
 
-            # Extract bucket info and prepare for partitioning
+        try:
             df['date'] = df['bucket_info'].apply(lambda x: x['date'])
             df['bucket_index'] = df['bucket_info'].apply(lambda x: x['index'])
 
-            # Define Parquet schema for type consistency
-            schema = pa.schema([
-                pa.field("open_ts", pa.int64()),
-                pa.field("close_ts", pa.int64()),
-                pa.field("open", pa.float64()),
-                pa.field("high", pa.float64()),
-                pa.field("low", pa.float64()),
-                pa.field("close", pa.float64()),
-                pa.field("volume", pa.float64()),
-                pa.field("trades", pa.int64()),
-                pa.field("candle_count", pa.int32()),
-                pa.field("timestamp_utc", pa.string()),
-                pa.field("first_candle_time", pa.string()),
-                pa.field("last_candle_time", pa.string()),
+            schema: pa.Schema = pa.schema([
+                pa.field("open_ts", pa.int64()), pa.field("close_ts", pa.int64()),
+                pa.field("open", pa.float64()), pa.field("high", pa.float64()),
+                pa.field("low", pa.float64()), pa.field("close", pa.float64()),
+                pa.field("volume", pa.float64()), pa.field("trades", pa.int64()),
+                pa.field("candle_count", pa.int32()), pa.field("timestamp_utc", pa.string()),
+                pa.field("first_candle_time", pa.string()), pa.field("last_candle_time", pa.string()),
                 pa.field("bucket_info", pa.struct([
-                    pa.field("date", pa.string()),
-                    pa.field("index", pa.int32()),
+                    pa.field("date", pa.string()), pa.field("index", pa.int32()),
                     pa.field("candle_count", pa.int32())
                 ])),
-                pa.field("ma_short", pa.float64()),
-                pa.field("ma_long", pa.float64()),
-                pa.field("ma_cross", pa.string()),
-                pa.field("trend", pa.string()),
-                pa.field("tr", pa.float64()),
-                pa.field("atr", pa.float64()),
+                pa.field("ma_short", pa.float64()), pa.field("ma_long", pa.float64()),
+                pa.field("ma_cross", pa.string()), pa.field("trend", pa.string()),
+                pa.field("tr", pa.float64()), pa.field("atr", pa.float64()),
                 pa.field("atr_percent", pa.float64()),
-                pa.field("date", pa.string()),
-                pa.field("bucket_index", pa.int32())
+                pa.field("date", pa.string()), pa.field("bucket_index", pa.int32())
             ])
 
-            # Convert to Arrow Table
-            table = pa.Table.from_pandas(df, schema=schema, preserve_index=False)
+            table: pa.Table = pa.Table.from_pandas(df, schema=schema, preserve_index=False)
 
-            # Write to partitioned Parquet file
             pq.write_to_dataset(
                 table,
                 root_path=self.parquet_dir,
                 partition_cols=['date'],
                 existing_data_behavior='overwrite_or_ignore'
             )
-
             log.info(f"Flushed {len(df)} records to Parquet dataset")
 
         except Exception as e:
             log.error(f"Failed to flush buffer to Parquet: {e}", exc_info=True)
-            # Restore buffer if write failed
             self.buffer.extend(df.to_dict('records'))
             
-    def save_state(self, aggregator: CandleAggregator, stats: StreamStats,
+    def save_state(self, aggregator: "CandleAggregator", stats: "StreamStats",
                    last_candle_ts: Optional[int] = None) -> None:
         """Save current state for recovery"""
-        state = {
+        state: Dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "last_candle_timestamp": last_candle_ts,
-            "stats": {
-                "messages_received": stats.messages_received,
-                "candles_processed": stats.candles_processed,
-                "historical_candles_loaded": stats.historical_candles_loaded,
-                "buckets_completed": stats.buckets_completed,
-                "gaps_filled": stats.gaps_filled,
-                "errors_count": stats.errors_count,
-                "reconnect_count": stats.reconnect_count,
-            },
+            "stats": asdict(stats),
             "incomplete_buckets": aggregator.get_incomplete_buckets(),
             "completed_buckets_count": len(aggregator.completed_buckets),
             "persistence_buffer": self.buffer,
         }
         
-        state_file = self.output_dir / "state.json"
+        state_file: Path = self.output_dir / "state.json"
         try:
-            with open(state_file, "w") as f:
+            with open(state_file, "w", encoding='utf-8') as f:
                 json.dump(state, f, indent=2)
         except (TypeError, OverflowError) as e:
             log.error(f"Error serializing state to JSON: {e}")
-            # Fallback for non-serializable data
-            with open(state_file.with_suffix(".log"), "w") as f:
+            with open(state_file.with_suffix(".log"), "w", encoding='utf-8') as f:
                 f.write(str(state))
             
         log.info(f"State saved to {state_file}")
     
-    def load_state(self) -> Optional[Dict]:
+    def load_state(self) -> Optional[Dict[str, Any]]:
         """Load saved state"""
-        state_file = self.output_dir / "state.json"
+        state_file: Path = self.output_dir / "state.json"
         if not state_file.exists():
             return None
             
         try:
-            with open(state_file) as f:
+            with open(state_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        except Exception as e:
+        except (json.JSONDecodeError, IOError) as e:
             log.error(f"Failed to load state: {e}")
             return None
 
@@ -956,29 +895,25 @@ class BingXCompleteClient:
         interval: str = Config.INTERVAL,
         save_data: bool = True,
         backfill_days: Optional[int] = None
-    ):
-        self.symbol = symbol
-        self.interval = interval
-        self.save_data = save_data
-        self.backfill_days = backfill_days or Config.HISTORY_DAYS
+    ) -> None:
+        self.symbol: str = symbol
+        self.interval: str = interval
+        self.save_data: bool = save_data
+        self.backfill_days: int = backfill_days or Config.HISTORY_DAYS
         
-        # WebSocket subscription message
-        self.subscribe_msg = {
+        self.subscribe_msg: Dict[str, str] = {
             "id": f"{symbol}-{interval}",
             "reqType": "sub",
             "dataType": f"{symbol}@kline_{interval}",
         }
         
-        # State management
-        self.state = ConnectionState.DISCONNECTED
-        self._shutdown = asyncio.Event()
+        self.state: ConnectionState = ConnectionState.DISCONNECTED
+        self._shutdown: asyncio.Event = asyncio.Event()
         self._ws: Optional[websockets.WebSocketClientProtocol] = None
         
-        # Statistics
-        self.stats = StreamStats()
+        self.stats: StreamStats = StreamStats()
         
-        # Components
-        self.aggregator = CandleAggregator(
+        self.aggregator: CandleAggregator = CandleAggregator(
             on_bucket_complete=self._on_bucket_complete,
             skip_partial_buckets=Config.SKIP_PARTIAL_BUCKETS,
             calculate_ma=Config.CALCULATE_MA,
@@ -987,10 +922,9 @@ class BingXCompleteClient:
             calculate_atr=Config.CALCULATE_ATR,
             atr_period=Config.ATR_PERIOD
         )
-        self.persistence = DataPersistence() if save_data else None
-        self.backfiller = HistoryBackfiller()
+        self.persistence: Optional[DataPersistence] = DataPersistence() if save_data else None
+        self.backfiller: HistoryBackfiller = HistoryBackfiller()
         
-        # Dataset for loading historical data from disk
         self.dataset: Optional[ParquetDataset] = None
         if Config.USE_MEMORY_MAPPED_FILES:
             log.info("Memory-mapped file option is enabled. Initializing ParquetDataset.")
@@ -998,55 +932,35 @@ class BingXCompleteClient:
                 directory=Config.OUTPUT_DIR / "parquet",
                 use_memory_map=True
             )
-        else:
-            log.info("Memory-mapped file option is disabled.")
-
-        # Recent candles buffer
-        self.recent_candles: Deque[Candle] = deque(maxlen=Config.MAX_MEMORY_CANDLES)
         
-        # Track current candle for timestamp-based close detection
+        self.recent_candles: Deque[Candle] = deque(maxlen=Config.MAX_MEMORY_CANDLES)
         self.current_candle_ts: Optional[int] = None
-        self.last_candle_data: Optional[dict] = None
+        self.last_candle_data: Optional[Dict[str, Any]] = None
         self.last_processed_ts: Optional[int] = None
         
-        # Tasks
         self._tasks: List[asyncio.Task] = []
-        
-        # Thread pool for sync operations
-        self._executor = ThreadPoolExecutor(max_workers=2)
+        self._executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
         
     async def run(self) -> None:
         """Main entry point - run the client with all features"""
         log.info(f"Starting BingX Complete Client for {self.symbol} {self.interval}")
-        print("Running client.run()")
-        # Load previous state if available
         if self.persistence:
-            print("Loading state")
-            state = self.persistence.load_state()
+            state: Optional[Dict[str, Any]] = self.persistence.load_state()
             if state:
                 self.last_processed_ts = state.get("last_candle_timestamp")
                 log.info(f"Loaded state: last candle at {self.last_processed_ts}")
-
-                # Restore persistence buffer
                 if 'persistence_buffer' in state:
                     self.persistence.buffer = state['persistence_buffer']
                     log.info(f"Restored {len(self.persistence.buffer)} items to persistence buffer")
-            print("State loaded")
         
-        # Perform initial backfill
         if Config.BACKFILL_ON_START:
-            print("Performing initial backfill")
             await self._initial_backfill()
-            print("Initial backfill complete")
         
-        # Start background tasks
-        print("Starting background tasks")
         self._tasks = [
             asyncio.create_task(self._connection_loop()),
             asyncio.create_task(self._stats_reporter()),
             asyncio.create_task(self._auto_save_loop()),
         ]
-        print("Background tasks started")
         
         try:
             await asyncio.gather(*self._tasks)
@@ -1058,152 +972,106 @@ class BingXCompleteClient:
     async def _initial_backfill(self) -> None:
         """Perform initial historical data backfill from Parquet or API"""
         self.state = ConnectionState.BACKFILLING
-
-        # Try loading from Parquet first if enabled
         if self.dataset and self.dataset.table is not None:
-            log.info(f"Loading historical data from Parquet dataset...")
+            log.info("Loading historical data from Parquet dataset...")
             try:
-                df = self.dataset.get_full_data()
-                df = df.sort_values(by='open_ts').reset_index(drop=True)
-
-                # Convert DataFrame rows to candle objects
-                for _, row in df.iterrows():
-                    candle = Candle(
-                        open_ts=row['open_ts'],
-                        close_ts=row['close_ts'],
-                        open=row['open'],
-                        high=row['high'],
-                        low=row['low'],
-                        close=row['close'],
-                        volume=row['volume'],
-                        trades=row.get('trades', 0)
-                    )
-                    self.recent_candles.append(candle)
-                    self.aggregator.add_candle(candle)
-                    self.last_processed_ts = candle.close_ts
-
-                self.stats.historical_candles_loaded = len(df)
-                self.stats.buckets_completed = len(self.aggregator.completed_buckets)
-                log.info(f"Loaded {len(df)} candles and {self.stats.buckets_completed} buckets from Parquet.")
-                return # Skip API backfill
+                df: Optional[pd.DataFrame] = self.dataset.get_full_data()
+                if df is not None:
+                    df = df.sort_values(by='open_ts').reset_index(drop=True)
+                    for _, row in df.iterrows():
+                        candle = Candle(
+                            open_ts=row['open_ts'], close_ts=row['close_ts'],
+                            open=row['open'], high=row['high'], low=row['low'],
+                            close=row['close'], volume=row['volume'],
+                            trades=row.get('trades', 0)
+                        )
+                        self.recent_candles.append(candle)
+                        self.aggregator.add_candle(candle)
+                        self.last_processed_ts = candle.close_ts
+                    self.stats.historical_candles_loaded = len(df)
+                    self.stats.buckets_completed = len(self.aggregator.completed_buckets)
+                    log.info(f"Loaded {len(df)} candles and {self.stats.buckets_completed} buckets from Parquet.")
+                    return
             except Exception as e:
                 log.error(f"Failed to load from Parquet, falling back to API: {e}", exc_info=True)
 
-        # Fallback to API backfill
         log.info(f"Starting historical backfill from API for {self.backfill_days} days")
-        print("In _initial_backfill (API)")
 
-        def process_chunk(candles: List[Dict]):
+        def process_chunk(candles: List[Dict[str, Any]]) -> None:
             log.info(f"Processing chunk of {len(candles)} historical candles")
-            converted = [self.backfiller.convert_to_websocket_format(c) for c in candles]
+            converted: List[Dict[str, Any]] = [self.backfiller.convert_to_websocket_format(c) for c in candles]
             for candle_data in converted:
                 self._process_historical_candle(candle_data)
             self.stats.historical_candles_loaded += len(candles)
 
         try:
-            # Run backfill in thread pool
-            print("Running API backfill in executor")
-            loop = asyncio.get_event_loop()
-            backfiller = HistoryBackfiller()
+            loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
+            backfiller: HistoryBackfiller = HistoryBackfiller()
             backfiller.config.SYMBOL = self.symbol
-
             await loop.run_in_executor(
                 self._executor,
                 backfiller.backfill,
                 self.backfill_days,
                 process_chunk
             )
-            print("API backfill in executor complete")
-            
-            log.info(
-                f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
-                f"{self.stats.buckets_completed} buckets"
-            )
-                
+            log.info(f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
+                     f"{self.stats.buckets_completed} buckets")
         except Exception as e:
             log.error(f"Historical backfill failed: {e}", exc_info=True)
             
-    def _process_historical_candle(self, kline: dict) -> None:
+    def _process_historical_candle(self, kline: Dict[str, Any]) -> None:
         """Process a historical candle (already marked as closed)"""
-        # Create candle object
-        candle = Candle(
-            open_ts=kline["t"],
-            close_ts=kline["T"],
-            open=float(kline["o"]),
-            high=float(kline["h"]),
-            low=float(kline["l"]),
-            close=float(kline["c"]),
-            volume=float(kline["v"]),
-            trades=kline.get("n", 0),
+        candle: Candle = Candle(
+            open_ts=kline["t"], close_ts=kline["T"],
+            open=float(kline["o"]), high=float(kline["h"]),
+            low=float(kline["l"]), close=float(kline["c"]),
+            volume=float(kline["v"]), trades=kline.get("n", 0)
         )
-        
-        # Update last processed timestamp
         self.last_processed_ts = candle.close_ts
-        
-        # Store in recent buffer
         self.recent_candles.append(candle)
-        
-        # Add to aggregator
-        aggregated = self.aggregator.add_candle(candle)
-        if aggregated:
+        if self.aggregator.add_candle(candle):
             self.stats.buckets_completed += 1
             
     async def _connection_loop(self) -> None:
         """Main connection loop with exponential backoff"""
-        delay = Config.INITIAL_RECONNECT_DELAY
-        consecutive_errors = 0
+        delay: float = Config.INITIAL_RECONNECT_DELAY
+        consecutive_errors: int = 0
         
         while not self._shutdown.is_set():
             try:
                 self.state = ConnectionState.CONNECTING
-                
-                # Check for gaps and fill if needed
                 if Config.FILL_GAPS_ON_RECONNECT and self.last_processed_ts:
                     await self._fill_gaps()
                 
-                # Connect and stream
                 await self._connect_and_stream()
                 
-                # Reset counters on successful connection
                 delay = Config.INITIAL_RECONNECT_DELAY
                 consecutive_errors = 0
                 
-            except asyncio.CancelledError:
-                raise
-            except (websockets.exceptions.ConnectionClosedError, 
-                    websockets.exceptions.WebSocketException,
-                    asyncio.TimeoutError,
-                    ConnectionError) as e:
+            except (websockets.exceptions.ConnectionClosedError, websockets.exceptions.WebSocketException,
+                    asyncio.TimeoutError, ConnectionError) as e:
                 self.stats.errors_count += 1
                 consecutive_errors += 1
-                
-                error_type = type(e).__name__
-                log.warning(f"Connection error ({error_type}): {e}")
+                log.warning(f"Connection error ({type(e).__name__}): {e}")
                 
                 if not self._shutdown.is_set():
                     self.state = ConnectionState.RECONNECTING
-                    
-                    # If we get too many consecutive errors, increase delay more aggressively
                     if consecutive_errors > 5:
                         delay = min(delay * 2, Config.MAX_RECONNECT_DELAY)
                         log.warning(f"Multiple connection failures ({consecutive_errors}), increasing delay to {delay}s")
                     
                     log.info(f"Reconnecting in {delay:.1f} seconds...")
                     await asyncio.sleep(delay)
-                    
-                    # Exponential backoff
                     delay = min(delay * Config.RECONNECT_MULTIPLIER, Config.MAX_RECONNECT_DELAY)
                     self.stats.reconnect_count += 1
                     
             except Exception as e:
                 self.stats.errors_count += 1
                 log.error(f"Unexpected error: {e}", exc_info=True)
-                
                 if not self._shutdown.is_set():
                     self.state = ConnectionState.RECONNECTING
                     log.info(f"Reconnecting in {delay:.1f} seconds...")
                     await asyncio.sleep(delay)
-                    
                     delay = min(delay * Config.RECONNECT_MULTIPLIER, Config.MAX_RECONNECT_DELAY)
                     self.stats.reconnect_count += 1
                     
@@ -1212,22 +1080,19 @@ class BingXCompleteClient:
         if not self.last_processed_ts:
             return
 
-        gaps_found = False
-        def process_chunk(candles: List[Dict]):
+        gaps_found: bool = False
+        def process_chunk(candles: List[Dict[str, Any]]) -> None:
             nonlocal gaps_found
-            if not candles:
-                return
+            if not candles: return
             gaps_found = True
             log.info(f"Filling gap with chunk of {len(candles)} candles")
-            converted = [self.backfiller.convert_to_websocket_format(c) for c in candles]
+            converted: List[Dict[str, Any]] = [self.backfiller.convert_to_websocket_format(c) for c in candles]
             for candle_data in converted:
                 self._process_historical_candle(candle_data)
 
         try:
             log.info("Checking for gaps in data...")
-            
-            # Run gap fill in thread pool
-            loop = asyncio.get_event_loop()
+            loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
             await loop.run_in_executor(
                 self._executor,
                 self.backfiller.fill_gap,
@@ -1235,43 +1100,29 @@ class BingXCompleteClient:
                 self.symbol,
                 process_chunk
             )
-            
             if gaps_found:
                 self.stats.gaps_filled += 1
-                log.info(f"Gap filled successfully")
+                log.info("Gap filled successfully")
             else:
                 log.info("No gap detected")
-                
         except Exception as e:
             log.error(f"Gap filling failed: {e}", exc_info=True)
             
     async def _connect_and_stream(self) -> None:
         """Establish WebSocket connection and stream data"""
         log.info(f"Connecting to {Config.WS_URL}")
-        
         try:
             async with websockets.connect(
-                Config.WS_URL,
-                ping_interval=20,
-                ping_timeout=10,
-                close_timeout=10,
-                max_size=10 * 1024 * 1024,  # 10MB max message size
+                Config.WS_URL, ping_interval=20, ping_timeout=10,
+                close_timeout=10, max_size=10 * 1024 * 1024
             ) as ws:
                 self._ws = ws
                 self.state = ConnectionState.CONNECTED
                 self.stats.connected_at = datetime.now(timezone.utc)
-                
-                # Subscribe to kline stream
                 await self._subscribe()
-                
-                # Main message loop
                 await self._message_loop(ws)
-                
-        except websockets.exceptions.ConnectionClosedError as e:
-            log.warning(f"WebSocket connection closed: {e}")
-            raise
-        except asyncio.TimeoutError:
-            log.warning("WebSocket connection timed out")
+        except (websockets.exceptions.ConnectionClosedError, asyncio.TimeoutError) as e:
+            log.warning(f"WebSocket connection issue: {e}")
             raise
         except Exception as e:
             log.error(f"WebSocket error: {e}")
@@ -1279,46 +1130,37 @@ class BingXCompleteClient:
             
     async def _subscribe(self) -> None:
         """Send subscription message"""
+        if not self._ws: return
         self.state = ConnectionState.SUBSCRIBING
         log.info(f"Subscribing to {self.symbol} {self.interval} klines")
-        
         await self._ws.send(json.dumps(self.subscribe_msg))
         self.state = ConnectionState.STREAMING
         
-    async def _message_loop(self, ws) -> None:
+    async def _message_loop(self, ws: websockets.WebSocketClientProtocol) -> None:
         """Process incoming WebSocket messages"""
         try:
             async for message in ws:
-                if self._shutdown.is_set():
-                    break
-                    
+                if self._shutdown.is_set(): break
                 self.stats.messages_received += 1
-                
                 try:
-                    # Handle different message types
-                    if isinstance(message, (bytes, bytearray)):
+                    text: str
+                    if isinstance(message, bytes):
                         self.stats.bytes_received += len(message)
                         text = self._decompress_message(message)
                     else:
-                        text = message
-                        
-                    # Handle ping/pong
+                        text = str(message)
+
                     if text == "Ping":
                         await ws.send("Pong")
                         continue
-                        
-                    # Parse JSON message
-                    data = json.loads(text)
-                    await self._process_message(data)
                     
-                except json.JSONDecodeError as e:
-                    log.warning(f"Failed to parse message as JSON: {e}")
+                    await self._process_message(json.loads(text))
+                except json.JSONDecodeError:
+                    log.warning(f"Failed to parse message as JSON: {message}")
                 except Exception as e:
                     self.stats.errors_count += 1
                     log.error(f"Error processing message: {e}", exc_info=True)
-                    
-        except websockets.exceptions.ConnectionClosedError:
-            # This is expected when connection closes, just propagate
+        except websockets.exceptions.ConnectionClosed:
             raise
         except Exception as e:
             log.error(f"Unexpected error in message loop: {e}", exc_info=True)
@@ -1329,12 +1171,11 @@ class BingXCompleteClient:
         with gzip.GzipFile(fileobj=io.BytesIO(data)) as gz:
             return gz.read().decode("utf-8")
             
-    async def _process_message(self, message: dict) -> None:
+    async def _process_message(self, message: Dict[str, Any]) -> None:
         """Process parsed WebSocket message"""
-        data = message.get("data")
+        data: Optional[List[Dict[str, Any]]] = message.get("data")
         if not isinstance(data, list):
             return
-            
         for kline_data in data:
             try:
                 self._process_kline(kline_data)
@@ -1342,95 +1183,65 @@ class BingXCompleteClient:
                 self.stats.errors_count += 1
                 log.error(f"Error processing kline: {e}", exc_info=True)
                 
-    def _process_kline(self, kline: dict) -> None:
+    def _process_kline(self, kline: Dict[str, Any]) -> None:
         """Process individual kline data - detect closes by timestamp changes"""
-        current_ts = kline["T"]
+        current_ts: int = kline["T"]
         
-        # If this is a new timestamp and we have previous candle data, the previous candle has closed
         if self.current_candle_ts is not None and current_ts > self.current_candle_ts and self.last_candle_data:
-            # Process the closed candle
-            candle = Candle(
+            candle: Candle = Candle(
                 open_ts=self.last_candle_data["T"],
-                close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,  # 3 minutes minus 1ms
-                open=float(self.last_candle_data["o"]),
-                high=float(self.last_candle_data["h"]),
-                low=float(self.last_candle_data["l"]),
-                close=float(self.last_candle_data["c"]),
-                volume=float(self.last_candle_data["v"]),
-                trades=self.last_candle_data.get("n", 0),
+                close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,
+                open=float(self.last_candle_data["o"]), high=float(self.last_candle_data["h"]),
+                low=float(self.last_candle_data["l"]), close=float(self.last_candle_data["c"]),
+                volume=float(self.last_candle_data["v"]), trades=self.last_candle_data.get("n", 0)
             )
-            
-            # Update statistics
             self.stats.candles_processed += 1
             self.stats.last_candle_time = candle.timestamp_utc
             self.last_processed_ts = candle.close_ts
-            
-            # Log closed candle
             log.info(f"Closed candle: {candle}")
-            
-            # Store in recent buffer
             self.recent_candles.append(candle)
-            
-            # Add to aggregator
-            aggregated = self.aggregator.add_candle(candle)
-            if aggregated:
+            if self.aggregator.add_candle(candle):
                 self.stats.buckets_completed += 1
         
-        # Update current candle tracking
         self.current_candle_ts = current_ts
         self.last_candle_data = kline.copy()
         
-        # Show live updates periodically
         if self.stats.messages_received % 30 == 1:
-            ts = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
+            ts: datetime = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
             log.debug(f"Live update: {ts:%H:%M:%S} UTC, Price: {float(kline['c']):.2f}")
             
-    def _on_bucket_complete(self, aggregated: dict) -> None:
+    def _on_bucket_complete(self, aggregated: Dict[str, Any]) -> None:
         """Handle completed bucket"""
-        # Format display
-        start = datetime.fromtimestamp(aggregated["open_ts"] / 1000, tz=timezone.utc)
-        end = datetime.fromtimestamp(aggregated["close_ts"] / 1000, tz=timezone.utc)
+        start: datetime = datetime.fromtimestamp(aggregated["open_ts"] / 1000, tz=timezone.utc)
+        end: datetime = datetime.fromtimestamp(aggregated["close_ts"] / 1000, tz=timezone.utc)
         
-        # Basic candle info
-        log_msg = (
+        log_msg: str = (
             f"Bucket complete: {start:%Y-%m-%d %H:%M:%S}-{end:%H:%M:%S} | "
             f"O: {aggregated['open']:.2f} | H: {aggregated['high']:.2f} | "
             f"L: {aggregated['low']:.2f} | C: {aggregated['close']:.2f} | "
-            f"V: {aggregated['volume']:.2f} | Candles: {aggregated['candle_count']} "
-            f"({aggregated.get('first_candle_time', 'N/A')}-{aggregated.get('last_candle_time', 'N/A')})"
+            f"V: {aggregated['volume']:.2f} | Candles: {aggregated['candle_count']}"
         )
         
-        # Add MA info if available
         if "ma_short" in aggregated and aggregated["ma_short"]:
-            ma_short_period = self.aggregator.ma_calculator.short_period if self.aggregator.ma_calculator else Config.MA_SHORT_PERIOD
-            log_msg += f" | MA{ma_short_period}: {aggregated['ma_short']:.2f}"
+            log_msg += f" | MA{self.aggregator.ma_calculator.short_period}: {aggregated['ma_short']:.2f}"
         if "ma_long" in aggregated and aggregated["ma_long"]:
-            ma_long_period = self.aggregator.ma_calculator.long_period if self.aggregator.ma_calculator else Config.MA_LONG_PERIOD
-            log_msg += f" | MA{ma_long_period}: {aggregated['ma_long']:.2f}"
+            log_msg += f" | MA{self.aggregator.ma_calculator.long_period}: {aggregated['ma_long']:.2f}"
         if "trend" in aggregated and aggregated["trend"]:
             log_msg += f" | Trend: {aggregated['trend']}"
         if "ma_cross" in aggregated and aggregated["ma_cross"]:
             log_msg += f" | 🚨 {aggregated['ma_cross']}"
-            
-        # Add ATR info if available
         if "atr" in aggregated and aggregated["atr"]:
-            atr_period = self.aggregator.atr_calculator.period if self.aggregator.atr_calculator else Config.ATR_PERIOD
-            log_msg += f" | ATR({atr_period}): {aggregated['atr']:.2f} ({aggregated['atr_percent']:.2f}%)"
+            log_msg += f" | ATR({self.aggregator.atr_calculator.period}): {aggregated['atr']:.2f} ({aggregated['atr_percent']:.2f}%)"
             
         log.info(log_msg)
         
-        # Save to disk
         if self.persistence:
-            try:
-                self.persistence.save_aggregated_candle(aggregated)
-            except Exception as e:
-                log.error(f"Failed to save aggregated candle: {e}", exc_info=True)
+            self.persistence.save_aggregated_candle(aggregated)
                 
     async def _stats_reporter(self) -> None:
         """Periodically report statistics"""
         while not self._shutdown.is_set():
             await asyncio.sleep(Config.STATS_INTERVAL_SECONDS)
-            
             if self.state in [ConnectionState.STREAMING, ConnectionState.BACKFILLING]:
                 log.info(f"Stats: {self.stats}")
                 
@@ -1438,50 +1249,28 @@ class BingXCompleteClient:
         """Periodically save state"""
         while not self._shutdown.is_set():
             await asyncio.sleep(Config.SAVE_INTERVAL_SECONDS)
-            
             if self.persistence and (self.stats.candles_processed > 0 or self.stats.historical_candles_loaded > 0):
-                try:
-                    self.persistence.save_state(
-                        self.aggregator,
-                        self.stats,
-                        self.last_processed_ts
-                    )
-                except Exception as e:
-                    log.error(f"Failed to save state: {e}", exc_info=True)
+                self.persistence.save_state(self.aggregator, self.stats, self.last_processed_ts)
                     
     async def _cleanup(self) -> None:
         """Clean up resources on shutdown"""
         log.info("Cleaning up resources...")
-        
-        # Cancel background tasks
         for task in self._tasks:
             if not task.done():
                 task.cancel()
                 
-        # Flush any remaining items in the buffer
         if self.persistence and self.persistence.buffer:
             log.info(f"Flushing remaining {len(self.persistence.buffer)} items from buffer...")
             self.persistence.flush_buffer()
 
-        # Save final state
         if self.persistence:
-            try:
-                self.persistence.save_state(
-                    self.aggregator,
-                    self.stats,
-                    self.last_processed_ts
-                )
-                log.info("Final state saved")
-            except Exception as e:
-                log.error(f"Failed to save final state: {e}")
+            self.persistence.save_state(self.aggregator, self.stats, self.last_processed_ts)
+            log.info("Final state saved")
                 
-        # Close WebSocket
         if self._ws and not self._ws.closed:
             await self._ws.close()
             
-        # Shutdown executor
         self._executor.shutdown(wait=True)
-            
         log.info("Cleanup complete")
         
     def stop(self) -> None:
@@ -1493,15 +1282,14 @@ class BingXCompleteClient:
         """Get recent candles from buffer"""
         return list(self.recent_candles)[-count:]
     
-    def get_aggregated_candles(self, count: int = 50) -> List[dict]:
+    def get_aggregated_candles(self, count: int = 50) -> List[Dict[str, Any]]:
         """Get recent aggregated candles"""
         return list(self.aggregator.completed_buckets)[-count:]
     
-    def get_current_ma_values(self) -> Dict[str, Optional[float]]:
+    def get_current_ma_values(self) -> Dict[str, Optional[Any]]:
         """Get current moving average values and trend"""
         if not self.aggregator.calculate_ma or not self.aggregator.ma_calculator:
             return {"ma_short": None, "ma_long": None, "trend": None}
-            
         return {
             "ma_short": self.aggregator.ma_calculator.calculate_ma(Config.MA_SHORT_PERIOD),
             "ma_long": self.aggregator.ma_calculator.calculate_ma(Config.MA_LONG_PERIOD),
@@ -1512,13 +1300,11 @@ class BingXCompleteClient:
         """Get current ATR value"""
         if not self.aggregator.calculate_atr or not self.aggregator.atr_calculator:
             return {"atr": None, "atr_percent": None}
-            
-        atr = self.aggregator.atr_calculator.get_current_atr()
+        atr: Optional[float] = self.aggregator.atr_calculator.get_current_atr()
         if atr and self.recent_candles:
-            last_close = self.recent_candles[-1].close
-            atr_percent = (atr / last_close) * 100 if last_close > 0 else 0
+            last_close: float = self.recent_candles[-1].close
+            atr_percent: float = (atr / last_close) * 100 if last_close > 0 else 0.0
             return {"atr": atr, "atr_percent": atr_percent}
-            
         return {"atr": None, "atr_percent": None}
 
 # ═══════════════════════════════════════════ Utility Functions ═══════════════════════════════════════
@@ -1551,177 +1337,94 @@ def print_banner(config: Config = Config()) -> None:
 
 # ═══════════════════════════════════════════ Main Entry Point ═══════════════════════════════════════
 
-async def main():
+async def main() -> None:
     """Main application entry point"""
-    # Print banner
     print_banner()
-    print("Creating client")
-    # Create and configure client - use Config values
-    client = BingXCompleteClient(
+    client: BingXCompleteClient = BingXCompleteClient(
         symbol=Config.SYMBOL,
         interval=Config.INTERVAL,
         save_data=True,
         backfill_days=Config.HISTORY_DAYS
     )
-    print("Client created")
     
-    # Setup signal handlers
-    print("Setting up signal handlers")
-    loop = asyncio.get_running_loop()
+    loop: asyncio.AbstractEventLoop = asyncio.get_running_loop()
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, client.stop)
         
-    # Run client
-    print("Running client")
     try:
         await client.run()
     except KeyboardInterrupt:
         log.info("Interrupted by user")
     except Exception as e:
-        log.error(f"Unexpected error: {e}", exc_info=True)
-    print("Client finished")
-        
-    log.info("Application terminated")
+        log.error(f"Unexpected error in main: {e}", exc_info=True)
+    finally:
+        log.info("Application terminated")
 
 # ═══════════════════════════════════════════ CLI Interface ═══════════════════════════════════════════
 
-def create_cli():
+def create_cli() -> argparse.ArgumentParser:
     """Create command-line interface"""
     parser = argparse.ArgumentParser(
         description="BingX Complete Streamer with Historical Backfill and ATR"
     )
     
-    parser.add_argument(
-        "--symbol",
-        default="BTC-USDT",
-        help="Trading symbol (default: BTC-USDT)"
-    )
-    parser.add_argument(
-        "--interval",
-        default="3m",
-        choices=["1m", "3m", "5m", "15m", "30m", "1h"],
-        help="Candle interval (default: 3m)"
-    )
-    parser.add_argument(
-        "--history-days",
-        type=int,
-        default=3,
-        help="Days of history to backfill (default: 3)"
-    )
-    parser.add_argument(
-        "--no-backfill",
-        action="store_true",
-        help="Skip initial historical backfill"
-    )
-    parser.add_argument(
-        "--no-gap-fill",
-        action="store_true",
-        help="Disable automatic gap filling on reconnect"
-    )
-    parser.add_argument(
-        "--skip-partial",
-        action="store_true",
-        help="Skip partial buckets when starting mid-day"
-    )
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=Path("bingx_data"),
-        help="Output directory for data files"
-    )
-    parser.add_argument(
-        "--debug",
-        action="store_true",
-        help="Enable debug logging"
-    )
-    parser.add_argument(
-        "--verify-bucket",
-        type=str,
-        help="Verify a specific bucket (format: YYYY-MM-DD HH:MM)"
-    )
-    parser.add_argument(
-        "--show-alignment",
-        action="store_true",
-        help="Show TradingView alignment guide"
-    )
-    parser.add_argument(
-        "--ma-short",
-        type=int,
-        default=3,  # Changed from 9 to 3
-        help="Short moving average period (default: 3)"
-    )
-    parser.add_argument(
-        "--ma-long",
-        type=int,
-        default=7,  # Changed from 21 to 7
-        help="Long moving average period (default: 7)"
-    )
-    parser.add_argument(
-        "--no-ma",
-        action="store_true",
-        help="Disable moving average calculations"
-    )
-    parser.add_argument(
-        "--atr-period",
-        type=int,
-        default=14,
-        help="ATR period (default: 14)"
-    )
-    parser.add_argument(
-        "--no-atr",
-        action="store_true",
-        help="Disable ATR calculations"
-    )
-
-    parser.add_argument(
-        "--memory-mapped",
-        action="store_true",
-        help="Enable memory-mapped files for large datasets"
-    )
+    parser.add_argument("--symbol", default="BTC-USDT", help="Trading symbol (default: BTC-USDT)")
+    parser.add_argument("--interval", default="3m", choices=["1m", "3m", "5m", "15m", "30m", "1h"], help="Candle interval (default: 3m)")
+    parser.add_argument("--history-days", type=int, default=3, help="Days of history to backfill (default: 3)")
+    parser.add_argument("--no-backfill", action="store_true", help="Skip initial historical backfill")
+    parser.add_argument("--no-gap-fill", action="store_true", help="Disable automatic gap filling on reconnect")
+    parser.add_argument("--skip-partial", action="store_true", help="Skip partial buckets when starting mid-day")
+    parser.add_argument("--output", type=Path, default=Path("bingx_data"), help="Output directory for data files")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--verify-bucket", type=str, help="Verify a specific bucket (format: YYYY-MM-DD HH:MM)")
+    parser.add_argument("--show-alignment", action="store_true", help="Show TradingView alignment guide")
+    parser.add_argument("--ma-short", type=int, default=3, help="Short moving average period (default: 3)")
+    parser.add_argument("--ma-long", type=int, default=7, help="Long moving average period (default: 7)")
+    parser.add_argument("--no-ma", action="store_true", help="Disable moving average calculations")
+    parser.add_argument("--atr-period", type=int, default=14, help="ATR period (default: 14)")
+    parser.add_argument("--no-atr", action="store_true", help="Disable ATR calculations")
+    parser.add_argument("--memory-mapped", action="store_true", help="Enable memory-mapped files for large datasets")
     
     return parser
 
-def verify_bucket_alignment(symbol: str, bucket_time: str):
+def verify_bucket_alignment(symbol: str, bucket_time: str) -> None:
     """Verify bucket alignment with TradingView"""
     try:
-        dt = datetime.strptime(bucket_time, "%Y-%m-%d %H:%M")
-        dt = dt.replace(tzinfo=timezone.utc)
+        dt: datetime = datetime.strptime(bucket_time, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
         
-        # Calculate bucket boundaries
-        minute_of_day = dt.hour * 60 + dt.minute
+        minute_of_day: int = dt.hour * 60 + dt.minute
+        bucket_minutes: int
         if minute_of_day >= Config.FINAL_BUCKET_START_HOUR * 60 + Config.FINAL_BUCKET_START_MINUTE:
             bucket_minutes = Config.FINAL_BUCKET_MINUTES
         else:
             bucket_minutes = Config.STANDARD_BUCKET_MINUTES
             
-        # Find bucket start
-        bucket_start_minute = (minute_of_day // bucket_minutes) * bucket_minutes
-        bucket_start = dt.replace(hour=bucket_start_minute // 60, minute=bucket_start_minute % 60, second=0, microsecond=0)
-        bucket_end = bucket_start + timedelta(minutes=bucket_minutes - 1, seconds=59)
+        bucket_start_minute: int = (minute_of_day // bucket_minutes) * bucket_minutes
+        bucket_start: datetime = dt.replace(hour=bucket_start_minute // 60, minute=bucket_start_minute % 60, second=0, microsecond=0)
+        bucket_end: datetime = bucket_start + timedelta(minutes=bucket_minutes - 1, seconds=59)
         
         print(f"\n📊 Bucket Analysis for {symbol} at {bucket_time}")
         print(f"{'='*60}")
         print(f"Bucket period: {bucket_start:%Y-%m-%d %H:%M:%S} - {bucket_end:%H:%M:%S} UTC")
         print(f"Duration: {bucket_minutes} minutes")
         print(f"Expected 3-minute candles: {bucket_minutes // 3}")
-        print(f"\n3-minute candles in this bucket:")
+        print("\n3-minute candles in this bucket:")
         
         for i in range(bucket_minutes // 3):
-            candle_start = bucket_start + timedelta(minutes=i * 3)
-            candle_end = candle_start + timedelta(minutes=2, seconds=59)
+            candle_start: datetime = bucket_start + timedelta(minutes=i * 3)
+            candle_end: datetime = candle_start + timedelta(minutes=2, seconds=59)
             print(f"  {i+1}. {candle_start:%H:%M:%S} - {candle_end:%H:%M:%S}")
             
-        print(f"\n💡 To verify in TradingView:")
+        print("\n💡 To verify in TradingView:")
         print(f"1. Set chart to {symbol}")
         print(f"2. Set timeframe to {bucket_minutes} minutes")
         print(f"3. Find candle starting at {bucket_start:%Y-%m-%d %H:%M} UTC")
-        print(f"4. Compare OHLC values with aggregated output")
+        print("4. Compare OHLC values with aggregated output")
         
-    except ValueError as e:
-        print(f"❌ Error: Invalid date format. Use YYYY-MM-DD HH:MM")
+    except ValueError:
+        print("❌ Error: Invalid date format. Use YYYY-MM-DD HH:MM")
 
-
-def verify_tradingview_alignment():
+def verify_tradingview_alignment() -> None:
     """Print TradingView alignment information"""
     print("\n📊 TradingView Alignment Guide")
     print("=" * 80)
@@ -1732,20 +1435,19 @@ def verify_tradingview_alignment():
     
     for hour in range(24):
         for minute in [0, 21, 42]:
-            if hour == 23 and minute > 42:
-                break
-            start_time = f"{hour:02d}:{minute:02d}:00"
-            end_minute = minute + 20
-            end_hour = hour
+            if hour == 23 and minute > 42: continue
+            start_time: str = f"{hour:02d}:{minute:02d}:00"
+            end_minute: int = minute + 20
+            end_hour: int = hour
             if end_minute >= 60:
                 end_minute -= 60
                 end_hour += 1
-            end_time = f"{end_hour:02d}:{end_minute:02d}:59"
+            end_time: str = f"{end_hour:02d}:{end_minute:02d}:59"
             
-            candles = []
+            candles: List[str] = []
             for i in range(7):
-                c_min = minute + (i * 3)
-                c_hour = hour
+                c_min: int = minute + (i * 3)
+                c_hour: int = hour
                 if c_min >= 60:
                     c_min -= 60
                     c_hour += 1
@@ -1755,36 +1457,26 @@ def verify_tradingview_alignment():
     
     print("\n12-Minute Bucket (Final):")
     print("  68   | 23:48:00 | 23:59:59 | 23:48, 23:51, 23:54, 23:57")
-    
     print("\n💡 Important Notes:")
     print("1. All times are in UTC")
-    print("2. Open price = Open of FIRST 3-min candle (e.g., 14:21:00)")
-    print("3. Close price = Close of LAST 3-min candle (e.g., 14:39:59)")
-    print("4. High = Highest high of all 7 candles")
-    print("5. Low = Lowest low of all 7 candles")
-    print("6. ATR = Average True Range of aggregated candles")
-    print("\n⚠️  Common Issues:")
-    print("• TradingView might show exchange time (not UTC)")
-    print("• Ensure you're looking at BingX data on TradingView")
-    print("• Check for missing candles in the data feed")
-    print("• ATR values may differ slightly due to initialization differences")
+    print("2. Open price = Open of FIRST 3-min candle")
+    print("3. Close price = Close of LAST 3-min candle")
+    print("4. High = Highest high of all candles in bucket")
+    print("5. Low = Lowest low of all candles in bucket")
     
-async def main_cli():
+async def main_cli() -> None:
     """CLI entry point"""
-    parser = create_cli()
-    args = parser.parse_args()
+    parser: argparse.ArgumentParser = create_cli()
+    args: argparse.Namespace = parser.parse_args()
     
-    # Handle alignment guide
     if args.show_alignment:
         verify_tradingview_alignment()
         return
         
-    # Handle bucket verification
     if args.verify_bucket:
         verify_bucket_alignment(args.symbol, args.verify_bucket)
         return
     
-    # Update configuration
     Config.SYMBOL = args.symbol
     Config.INTERVAL = args.interval
     Config.HISTORY_DAYS = args.history_days
@@ -1802,20 +1494,14 @@ async def main_cli():
     if args.debug:
         Config.LOG_LEVEL = logging.DEBUG
         
-    # Reinitialize logger with new settings
     global log
     log = setup_logging(Config.LOG_LEVEL)
     
-    # Run main
     await main()
 
 if __name__ == "__main__":
-    # Create output directory
     Config.OUTPUT_DIR.mkdir(exist_ok=True)
-    
-    # Check if running with CLI arguments
     if len(sys.argv) > 1:
-        import sys
         asyncio.run(main_cli())
     else:
         asyncio.run(main())
