@@ -33,9 +33,9 @@ from typing import Any, Dict, List, Optional, Tuple, Deque, Callable, Set
 import csv
 import threading
 from concurrent.futures import ThreadPoolExecutor
-
-import pandas as pd
-import pyarrow as pa
+import psutil
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import socket
 import pyarrow.parquet as pq
 from memory_profiler import profile
 
@@ -100,8 +100,95 @@ class Config:
     # Performance monitoring
     STATS_INTERVAL_SECONDS: int = 60
 
+    # Graceful degradation
+    CPU_THRESHOLD: float = 85.0  # %
+    MEMORY_THRESHOLD: float = 85.0  # %
+    MAX_SLEEP_ON_LOAD: float = 1.0  # seconds
+
+    # Health check
+    HEALTH_CHECK_PORT: int = 0  # 0 means find a free port
+
     # Memory-mapped files
     USE_MEMORY_MAPPED_FILES: bool = False
+
+# ═══════════════════════════════════════════ System Health & Load ═══════════════════════════════════════════
+
+class SystemLoadMonitor:
+    """Monitors system CPU and memory usage"""
+    @staticmethod
+    def get_load() -> Dict[str, float]:
+        """Get current CPU and memory usage"""
+        return {
+            "cpu_percent": psutil.cpu_percent(interval=None),
+            "memory_percent": psutil.virtual_memory().percent,
+        }
+
+    @staticmethod
+    async def sleep_if_under_load(config: Config = Config()) -> None:
+        """Sleep for a duration proportional to system load if it exceeds thresholds"""
+        load: Dict[str, float] = SystemLoadMonitor.get_load()
+        cpu: float = load["cpu_percent"]
+        mem: float = load["memory_percent"]
+
+        if cpu > config.CPU_THRESHOLD or mem > config.MEMORY_THRESHOLD:
+            # Calculate sleep duration, more load = longer sleep
+            cpu_factor: float = max(0, (cpu - config.CPU_THRESHOLD) / (100 - config.CPU_THRESHOLD))
+            mem_factor: float = max(0, (mem - config.MEMORY_THRESHOLD) / (100 - config.MEMORY_THRESHOLD))
+            load_factor: float = max(cpu_factor, mem_factor)
+
+            sleep_duration: float = config.MAX_SLEEP_ON_LOAD * load_factor
+
+            log.warning(
+                f"High system load detected (CPU: {cpu:.1f}%, Mem: {mem:.1f}%). "
+                f"Throttling for {sleep_duration:.3f}s."
+            )
+            await asyncio.sleep(sleep_duration)
+
+class HealthCheckServer(threading.Thread):
+    """Simple HTTP server for health checks"""
+    def __init__(self, port: int, client: "BingXCompleteClient") -> None:
+        super().__init__(daemon=True)
+        self.port: int = port
+        self.client: "BingXCompleteClient" = client
+        self.server: Optional[HTTPServer] = None
+
+    def run(self) -> None:
+        handler = self._create_handler()
+        self.server = HTTPServer(("", self.port), handler)
+        log.info(f"Health check server started on http://localhost:{self.port}")
+        self.server.serve_forever()
+
+    def _create_handler(self) -> Callable[..., BaseHTTPRequestHandler]:
+        client = self.client
+        class HealthCheckHandler(BaseHTTPRequestHandler):
+            def do_GET(self) -> None:
+                if self.path == '/health':
+                    is_healthy, reason = client.is_healthy()
+                    if is_healthy:
+                        self.send_response(200)
+                        self.send_header('Content-type', 'application/json')
+                        self.end_headers()
+                        self.wfile.write(json.dumps({"status": "ok"}).encode())
+                    else:
+                        self.send_response(503)
+                        self.send_header('Content-type', 'application/json')
+                        self.end_headers()
+                        self.wfile.write(json.dumps({"status": "unhealthy", "reason": reason}).encode())
+                else:
+                    self.send_response(404)
+                    self.end_headers()
+        return HealthCheckHandler
+
+    def shutdown(self) -> None:
+        if self.server:
+            log.info("Shutting down health check server...")
+            self.server.shutdown()
+
+def find_free_port() -> int:
+    """Find an available port on the host"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        return s.getsockname()[1]
 
 # ═══════════════════════════════════════════ Logging Setup ═══════════════════════════════════════════
 
@@ -891,6 +978,115 @@ class DataPersistence:
             log.error(f"Failed to load state: {e}")
             return None
 
+# ═══════════════════════════════════════════ Data Processor ═══════════════════════════════════════════
+
+class DataProcessor:
+    """Handles processing of incoming candle data"""
+    def __init__(self, client: "BingXCompleteClient", config: Config):
+        self.client: "BingXCompleteClient" = client
+        self.config: Config = config
+        self.stats: StreamStats = client.stats
+        self._lock: threading.Lock = threading.Lock()
+
+        self.aggregator: CandleAggregator = CandleAggregator(
+            on_bucket_complete=self._on_bucket_complete,
+            skip_partial_buckets=self.config.SKIP_PARTIAL_BUCKETS,
+            calculate_ma=self.config.CALCULATE_MA,
+            ma_short=self.config.MA_SHORT_PERIOD,
+            ma_long=self.config.MA_LONG_PERIOD,
+            calculate_atr=self.config.CALCULATE_ATR,
+            atr_period=self.config.ATR_PERIOD
+        )
+        self.persistence: Optional[DataPersistence] = DataPersistence() if self.client.save_data else None
+
+        self.recent_candles: Deque[Candle] = deque(maxlen=self.config.MAX_MEMORY_CANDLES)
+        self.current_candle_ts: Optional[int] = None
+        self.last_candle_data: Optional[Dict[str, Any]] = None
+        self.last_processed_ts: Optional[int] = None
+
+    def process_historical_candle(self, kline: Dict[str, Any]) -> None:
+        """Process a historical candle (already marked as closed)"""
+        candle: Candle = Candle(
+            open_ts=kline["t"], close_ts=kline["T"],
+            open=float(kline["o"]), high=float(kline["h"]),
+            low=float(kline["l"]), close=float(kline["c"]),
+            volume=float(kline["v"]), trades=kline.get("n", 0)
+        )
+        with self._lock:
+            self.last_processed_ts = candle.close_ts
+            self.recent_candles.append(candle)
+
+        if self.aggregator.add_candle(candle):
+            with self._lock:
+                self.stats.buckets_completed += 1
+
+    def process_kline(self, kline: Dict[str, Any]) -> None:
+        """Process individual kline data - detect closes by timestamp changes"""
+        with self._lock:
+            current_ts: int = kline["T"]
+
+            if self.current_candle_ts is not None and current_ts > self.current_candle_ts and self.last_candle_data:
+                candle: Candle = Candle(
+                    open_ts=self.last_candle_data["T"],
+                    close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,
+                    open=float(self.last_candle_data["o"]), high=float(self.last_candle_data["h"]),
+                    low=float(self.last_candle_data["l"]), close=float(self.last_candle_data["c"]),
+                    volume=float(self.last_candle_data["v"]), trades=self.last_candle_data.get("n", 0)
+                )
+                self.stats.candles_processed += 1
+                self.stats.last_candle_time = candle.timestamp_utc
+                self.last_processed_ts = candle.close_ts
+                log.info(f"Closed candle: {candle}")
+                self.recent_candles.append(candle)
+
+                if self.aggregator.add_candle(candle):
+                    self.stats.buckets_completed += 1
+
+            self.current_candle_ts = current_ts
+            self.last_candle_data = kline.copy()
+
+            if self.stats.messages_received % 30 == 1:
+                ts: datetime = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
+                log.debug(f"Live update: {ts:%H:%M:%S} UTC, Price: {float(kline['c']):.2f}")
+
+    def _on_bucket_complete(self, aggregated: Dict[str, Any]) -> None:
+        """Handle completed bucket"""
+        start: datetime = datetime.fromtimestamp(aggregated["open_ts"] / 1000, tz=timezone.utc)
+        end: datetime = datetime.fromtimestamp(aggregated["close_ts"] / 1000, tz=timezone.utc)
+
+        log_msg: str = (
+            f"Bucket complete: {start:%Y-%m-%d %H:%M:%S}-{end:%H:%M:%S} | "
+            f"O: {aggregated['open']:.2f} | H: {aggregated['high']:.2f} | "
+            f"L: {aggregated['low']:.2f} | C: {aggregated['close']:.2f} | "
+            f"V: {aggregated['volume']:.2f} | Candles: {aggregated['candle_count']}"
+        )
+
+        if "ma_short" in aggregated and aggregated["ma_short"]:
+            log_msg += f" | MA{self.aggregator.ma_calculator.short_period}: {aggregated['ma_short']:.2f}"
+        if "ma_long" in aggregated and aggregated["ma_long"]:
+            log_msg += f" | MA{self.aggregator.ma_calculator.long_period}: {aggregated['ma_long']:.2f}"
+        if "trend" in aggregated and aggregated["trend"]:
+            log_msg += f" | Trend: {aggregated['trend']}"
+        if "ma_cross" in aggregated and aggregated["ma_cross"]:
+            log_msg += f" | 🚨 {aggregated['ma_cross']}"
+        if "atr" in aggregated and aggregated["atr"]:
+            log_msg += f" | ATR({self.aggregator.atr_calculator.period}): {aggregated['atr']:.2f} ({aggregated['atr_percent']:.2f}%)"
+
+        log.info(log_msg)
+
+        if self.persistence:
+            self.persistence.save_aggregated_candle(aggregated)
+
+    def get_recent_candles(self, count: int = 100) -> List[Candle]:
+        """Get recent candles from buffer"""
+        with self._lock:
+            return list(self.recent_candles)[-count:]
+
+    def get_aggregated_candles(self, count: int = 50) -> List[Dict[str, Any]]:
+        """Get recent aggregated candles"""
+        with self.aggregator._lock:
+            return list(self.aggregator.completed_buckets)[-count:]
+
 # ═══════════════════════════════════════════ Complete Client ═══════════════════════════════════════
 
 class BingXCompleteClient:
@@ -919,50 +1115,61 @@ class BingXCompleteClient:
         self._ws: Optional[websockets.WebSocketClientProtocol] = None
         
         self.stats: StreamStats = StreamStats()
+        self.config: Config = Config()
         
-        self.aggregator: CandleAggregator = CandleAggregator(
-            on_bucket_complete=self._on_bucket_complete,
-            skip_partial_buckets=Config.SKIP_PARTIAL_BUCKETS,
-            calculate_ma=Config.CALCULATE_MA,
-            ma_short=Config.MA_SHORT_PERIOD,
-            ma_long=Config.MA_LONG_PERIOD,
-            calculate_atr=Config.CALCULATE_ATR,
-            atr_period=Config.ATR_PERIOD
-        )
-        self.persistence: Optional[DataPersistence] = DataPersistence() if save_data else None
+        self.processor: DataProcessor = DataProcessor(self, self.config)
         self.backfiller: HistoryBackfiller = HistoryBackfiller()
         
         self.dataset: Optional[ParquetDataset] = None
-        if Config.USE_MEMORY_MAPPED_FILES:
+        if self.config.USE_MEMORY_MAPPED_FILES:
             log.info("Memory-mapped file option is enabled. Initializing ParquetDataset.")
             self.dataset = ParquetDataset(
-                directory=Config.OUTPUT_DIR / "parquet",
+                directory=self.config.OUTPUT_DIR / "parquet",
                 use_memory_map=True
             )
         
-        self.recent_candles: Deque[Candle] = deque(maxlen=Config.MAX_MEMORY_CANDLES)
-        self.current_candle_ts: Optional[int] = None
-        self.last_candle_data: Optional[Dict[str, Any]] = None
-        self.last_processed_ts: Optional[int] = None
-        
         self._tasks: List[asyncio.Task] = []
-        self._executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
+        self._executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=3)
         self._lock: threading.Lock = threading.Lock()
         
+        # Health check server
+        self.health_server: Optional[HealthCheckServer] = None
+
+    @property
+    def last_processed_ts(self) -> Optional[int]:
+        return self.processor.last_processed_ts
+
+    def is_healthy(self) -> Tuple[bool, str]:
+        """Check if the client is healthy"""
+        if self._shutdown.is_set():
+            return False, "Client is shutting down"
+        if self.state in [ConnectionState.DISCONNECTED, ConnectionState.RECONNECTING]:
+            return False, f"Client is in {self.state.value} state"
+        if self.last_processed_ts:
+            time_since_last_candle: float = (datetime.now(timezone.utc).timestamp() * 1000 - self.last_processed_ts) / 1000
+            if time_since_last_candle > 300: # 5 minutes
+                return False, f"No candle processed in {time_since_last_candle:.1f}s"
+        return True, "OK"
+
     async def run(self) -> None:
         """Main entry point - run the client with all features"""
         log.info(f"Starting BingX Complete Client for {self.symbol} {self.interval}")
-        if self.persistence:
-            state: Optional[Dict[str, Any]] = self.persistence.load_state()
+        if self.processor.persistence:
+            state: Optional[Dict[str, Any]] = self.processor.persistence.load_state()
             if state:
-                self.last_processed_ts = state.get("last_candle_timestamp")
+                self.processor.last_processed_ts = state.get("last_candle_timestamp")
                 log.info(f"Loaded state: last candle at {self.last_processed_ts}")
                 if 'persistence_buffer' in state:
-                    self.persistence.buffer = state['persistence_buffer']
-                    log.info(f"Restored {len(self.persistence.buffer)} items to persistence buffer")
+                    self.processor.persistence.buffer = state['persistence_buffer']
+                    log.info(f"Restored {len(self.processor.persistence.buffer)} items to persistence buffer")
         
-        if Config.BACKFILL_ON_START:
+        if self.config.BACKFILL_ON_START:
             await self._initial_backfill()
+
+        # Start health check server
+        port: int = self.config.HEALTH_CHECK_PORT or find_free_port()
+        self.health_server = HealthCheckServer(port, self)
+        self.health_server.start()
         
         self._tasks = [
             asyncio.create_task(self._connection_loop()),
@@ -993,11 +1200,11 @@ class BingXCompleteClient:
                             close=row['close'], volume=row['volume'],
                             trades=row.get('trades', 0)
                         )
-                        self.recent_candles.append(candle)
-                        self.aggregator.add_candle(candle)
-                        self.last_processed_ts = candle.close_ts
+                        self.processor.recent_candles.append(candle)
+                        self.processor.aggregator.add_candle(candle)
+                        self.processor.last_processed_ts = candle.close_ts
                     self.stats.historical_candles_loaded = len(df)
-                    self.stats.buckets_completed = len(self.aggregator.completed_buckets)
+                    self.stats.buckets_completed = len(self.processor.aggregator.completed_buckets)
                     log.info(f"Loaded {len(df)} candles and {self.stats.buckets_completed} buckets from Parquet.")
                     return
             except Exception as e:
@@ -1009,7 +1216,7 @@ class BingXCompleteClient:
             log.info(f"Processing chunk of {len(candles)} historical candles")
             converted: List[Dict[str, Any]] = [self.backfiller.convert_to_websocket_format(c) for c in candles]
             for candle_data in converted:
-                self._process_historical_candle(candle_data)
+                self.processor.process_historical_candle(candle_data)
             self.stats.historical_candles_loaded += len(candles)
 
         try:
@@ -1027,36 +1234,20 @@ class BingXCompleteClient:
         except Exception as e:
             log.error(f"Historical backfill failed: {e}", exc_info=True)
             
-    def _process_historical_candle(self, kline: Dict[str, Any]) -> None:
-        """Process a historical candle (already marked as closed)"""
-        candle: Candle = Candle(
-            open_ts=kline["t"], close_ts=kline["T"],
-            open=float(kline["o"]), high=float(kline["h"]),
-            low=float(kline["l"]), close=float(kline["c"]),
-            volume=float(kline["v"]), trades=kline.get("n", 0)
-        )
-        with self._lock:
-            self.last_processed_ts = candle.close_ts
-            self.recent_candles.append(candle)
-
-        if self.aggregator.add_candle(candle):
-            with self._lock:
-                self.stats.buckets_completed += 1
-            
     async def _connection_loop(self) -> None:
         """Main connection loop with exponential backoff"""
-        delay: float = Config.INITIAL_RECONNECT_DELAY
+        delay: float = self.config.INITIAL_RECONNECT_DELAY
         consecutive_errors: int = 0
         
         while not self._shutdown.is_set():
             try:
                 self.state = ConnectionState.CONNECTING
-                if Config.FILL_GAPS_ON_RECONNECT and self.last_processed_ts:
+                if self.config.FILL_GAPS_ON_RECONNECT and self.last_processed_ts:
                     await self._fill_gaps()
                 
                 await self._connect_and_stream()
                 
-                delay = Config.INITIAL_RECONNECT_DELAY
+                delay = self.config.INITIAL_RECONNECT_DELAY
                 consecutive_errors = 0
                 
             except (websockets.exceptions.ConnectionClosedError, websockets.exceptions.WebSocketException,
@@ -1068,12 +1259,12 @@ class BingXCompleteClient:
                 if not self._shutdown.is_set():
                     self.state = ConnectionState.RECONNECTING
                     if consecutive_errors > 5:
-                        delay = min(delay * 2, Config.MAX_RECONNECT_DELAY)
+                        delay = min(delay * 2, self.config.MAX_RECONNECT_DELAY)
                         log.warning(f"Multiple connection failures ({consecutive_errors}), increasing delay to {delay}s")
                     
                     log.info(f"Reconnecting in {delay:.1f} seconds...")
                     await asyncio.sleep(delay)
-                    delay = min(delay * Config.RECONNECT_MULTIPLIER, Config.MAX_RECONNECT_DELAY)
+                    delay = min(delay * self.config.RECONNECT_MULTIPLIER, self.config.MAX_RECONNECT_DELAY)
                     self.stats.reconnect_count += 1
                     
             except Exception as e:
@@ -1083,7 +1274,7 @@ class BingXCompleteClient:
                     self.state = ConnectionState.RECONNECTING
                     log.info(f"Reconnecting in {delay:.1f} seconds...")
                     await asyncio.sleep(delay)
-                    delay = min(delay * Config.RECONNECT_MULTIPLIER, Config.MAX_RECONNECT_DELAY)
+                    delay = min(delay * self.config.RECONNECT_MULTIPLIER, self.config.MAX_RECONNECT_DELAY)
                     self.stats.reconnect_count += 1
                     
     async def _fill_gaps(self) -> None:
@@ -1099,7 +1290,7 @@ class BingXCompleteClient:
             log.info(f"Filling gap with chunk of {len(candles)} candles")
             converted: List[Dict[str, Any]] = [self.backfiller.convert_to_websocket_format(c) for c in candles]
             for candle_data in converted:
-                self._process_historical_candle(candle_data)
+                self.processor.process_historical_candle(candle_data)
 
         try:
             log.info("Checking for gaps in data...")
@@ -1121,10 +1312,10 @@ class BingXCompleteClient:
             
     async def _connect_and_stream(self) -> None:
         """Establish WebSocket connection and stream data"""
-        log.info(f"Connecting to {Config.WS_URL}")
+        log.info(f"Connecting to {self.config.WS_URL}")
         try:
             async with websockets.connect(
-                Config.WS_URL, ping_interval=20, ping_timeout=10,
+                self.config.WS_URL, ping_interval=20, ping_timeout=10,
                 close_timeout=10, max_size=10 * 1024 * 1024
             ) as ws:
                 self._ws = ws
@@ -1166,6 +1357,8 @@ class BingXCompleteClient:
                         continue
                     
                     await self._process_message(json.loads(text))
+                    await SystemLoadMonitor.sleep_if_under_load(self.config)
+
                 except json.JSONDecodeError:
                     log.warning(f"Failed to parse message as JSON: {message}")
                 except Exception as e:
@@ -1189,81 +1382,24 @@ class BingXCompleteClient:
             return
         for kline_data in data:
             try:
-                self._process_kline(kline_data)
+                self.processor.process_kline(kline_data)
             except Exception as e:
                 self.stats.errors_count += 1
                 log.error(f"Error processing kline: {e}", exc_info=True)
                 
-    def _process_kline(self, kline: Dict[str, Any]) -> None:
-        """Process individual kline data - detect closes by timestamp changes"""
-        with self._lock:
-            current_ts: int = kline["T"]
-
-            if self.current_candle_ts is not None and current_ts > self.current_candle_ts and self.last_candle_data:
-                candle: Candle = Candle(
-                    open_ts=self.last_candle_data["T"],
-                    close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,
-                    open=float(self.last_candle_data["o"]), high=float(self.last_candle_data["h"]),
-                    low=float(self.last_candle_data["l"]), close=float(self.last_candle_data["c"]),
-                    volume=float(self.last_candle_data["v"]), trades=self.last_candle_data.get("n", 0)
-                )
-                self.stats.candles_processed += 1
-                self.stats.last_candle_time = candle.timestamp_utc
-                self.last_processed_ts = candle.close_ts
-                log.info(f"Closed candle: {candle}")
-                self.recent_candles.append(candle)
-
-                if self.aggregator.add_candle(candle):
-                    self.stats.buckets_completed += 1
-
-            self.current_candle_ts = current_ts
-            self.last_candle_data = kline.copy()
-
-            if self.stats.messages_received % 30 == 1:
-                ts: datetime = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
-                log.debug(f"Live update: {ts:%H:%M:%S} UTC, Price: {float(kline['c']):.2f}")
-            
-    def _on_bucket_complete(self, aggregated: Dict[str, Any]) -> None:
-        """Handle completed bucket"""
-        start: datetime = datetime.fromtimestamp(aggregated["open_ts"] / 1000, tz=timezone.utc)
-        end: datetime = datetime.fromtimestamp(aggregated["close_ts"] / 1000, tz=timezone.utc)
-        
-        log_msg: str = (
-            f"Bucket complete: {start:%Y-%m-%d %H:%M:%S}-{end:%H:%M:%S} | "
-            f"O: {aggregated['open']:.2f} | H: {aggregated['high']:.2f} | "
-            f"L: {aggregated['low']:.2f} | C: {aggregated['close']:.2f} | "
-            f"V: {aggregated['volume']:.2f} | Candles: {aggregated['candle_count']}"
-        )
-        
-        if "ma_short" in aggregated and aggregated["ma_short"]:
-            log_msg += f" | MA{self.aggregator.ma_calculator.short_period}: {aggregated['ma_short']:.2f}"
-        if "ma_long" in aggregated and aggregated["ma_long"]:
-            log_msg += f" | MA{self.aggregator.ma_calculator.long_period}: {aggregated['ma_long']:.2f}"
-        if "trend" in aggregated and aggregated["trend"]:
-            log_msg += f" | Trend: {aggregated['trend']}"
-        if "ma_cross" in aggregated and aggregated["ma_cross"]:
-            log_msg += f" | 🚨 {aggregated['ma_cross']}"
-        if "atr" in aggregated and aggregated["atr"]:
-            log_msg += f" | ATR({self.aggregator.atr_calculator.period}): {aggregated['atr']:.2f} ({aggregated['atr_percent']:.2f}%)"
-            
-        log.info(log_msg)
-        
-        if self.persistence:
-            self.persistence.save_aggregated_candle(aggregated)
-                
     async def _stats_reporter(self) -> None:
         """Periodically report statistics"""
         while not self._shutdown.is_set():
-            await asyncio.sleep(Config.STATS_INTERVAL_SECONDS)
+            await asyncio.sleep(self.config.STATS_INTERVAL_SECONDS)
             if self.state in [ConnectionState.STREAMING, ConnectionState.BACKFILLING]:
                 log.info(f"Stats: {self.stats}")
                 
     async def _auto_save_loop(self) -> None:
         """Periodically save state"""
         while not self._shutdown.is_set():
-            await asyncio.sleep(Config.SAVE_INTERVAL_SECONDS)
-            if self.persistence and (self.stats.candles_processed > 0 or self.stats.historical_candles_loaded > 0):
-                self.persistence.save_state(self.aggregator, self.stats, self.last_processed_ts)
+            await asyncio.sleep(self.config.SAVE_INTERVAL_SECONDS)
+            if self.processor.persistence and (self.stats.candles_processed > 0 or self.stats.historical_candles_loaded > 0):
+                self.processor.persistence.save_state(self.processor.aggregator, self.stats, self.last_processed_ts)
                     
     async def _cleanup(self) -> None:
         """Clean up resources on shutdown"""
@@ -1272,16 +1408,19 @@ class BingXCompleteClient:
             if not task.done():
                 task.cancel()
                 
-        if self.persistence and self.persistence.buffer:
-            log.info(f"Flushing remaining {len(self.persistence.buffer)} items from buffer...")
-            self.persistence.flush_buffer()
+        if self.processor.persistence and self.processor.persistence.buffer:
+            log.info(f"Flushing remaining {len(self.processor.persistence.buffer)} items from buffer...")
+            self.processor.persistence.flush_buffer()
 
-        if self.persistence:
-            self.persistence.save_state(self.aggregator, self.stats, self.last_processed_ts)
+        if self.processor.persistence:
+            self.processor.persistence.save_state(self.processor.aggregator, self.stats, self.last_processed_ts)
             log.info("Final state saved")
                 
         if self._ws and not self._ws.closed:
             await self._ws.close()
+
+        if self.health_server:
+            self.health_server.shutdown()
             
         self._executor.shutdown(wait=True)
         log.info("Cleanup complete")
@@ -1291,33 +1430,28 @@ class BingXCompleteClient:
         log.info("Shutdown signal received")
         self._shutdown.set()
         
+    # Methods to access processed data, delegated to the processor
     def get_recent_candles(self, count: int = 100) -> List[Candle]:
-        """Get recent candles from buffer"""
-        with self._lock:
-            return list(self.recent_candles)[-count:]
-    
+        return self.processor.get_recent_candles(count)
+
     def get_aggregated_candles(self, count: int = 50) -> List[Dict[str, Any]]:
-        """Get recent aggregated candles"""
-        with self.aggregator._lock:
-            return list(self.aggregator.completed_buckets)[-count:]
-    
+        return self.processor.get_aggregated_candles(count)
+
     def get_current_ma_values(self) -> Dict[str, Optional[Any]]:
-        """Get current moving average values and trend"""
-        if not self.aggregator.calculate_ma or not self.aggregator.ma_calculator:
+        if not self.processor.aggregator.calculate_ma or not self.processor.aggregator.ma_calculator:
             return {"ma_short": None, "ma_long": None, "trend": None}
         return {
-            "ma_short": self.aggregator.ma_calculator.calculate_ma(Config.MA_SHORT_PERIOD),
-            "ma_long": self.aggregator.ma_calculator.calculate_ma(Config.MA_LONG_PERIOD),
-            "trend": self.aggregator.ma_calculator.get_trend()
+            "ma_short": self.processor.aggregator.ma_calculator.calculate_ma(self.config.MA_SHORT_PERIOD),
+            "ma_long": self.processor.aggregator.ma_calculator.calculate_ma(self.config.MA_LONG_PERIOD),
+            "trend": self.processor.aggregator.ma_calculator.get_trend()
         }
-        
+
     def get_current_atr_value(self) -> Dict[str, Optional[float]]:
-        """Get current ATR value"""
-        if not self.aggregator.calculate_atr or not self.aggregator.atr_calculator:
+        if not self.processor.aggregator.calculate_atr or not self.processor.aggregator.atr_calculator:
             return {"atr": None, "atr_percent": None}
-        atr: Optional[float] = self.aggregator.atr_calculator.get_current_atr()
-        if atr and self.recent_candles:
-            last_close: float = self.recent_candles[-1].close
+        atr: Optional[float] = self.processor.aggregator.atr_calculator.get_current_atr()
+        if atr and self.processor.recent_candles:
+            last_close: float = self.processor.recent_candles[-1].close
             atr_percent: float = (atr / last_close) * 100 if last_close > 0 else 0.0
             return {"atr": atr, "atr_percent": atr_percent}
         return {"atr": None, "atr_percent": None}
