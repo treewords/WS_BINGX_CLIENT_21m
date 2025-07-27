@@ -1492,7 +1492,7 @@ def print_banner(config: Config = Config()) -> None:
     print(f"║ History Days: {config.HISTORY_DAYS:<46} ║")
     print(f"║ Output:       {str(config.OUTPUT_DIR):<46} ║")
     if config.CALCULATE_MA:
-        print(f"║ MA Periods:   Short: {config.MA_SHORT_PERIOD}, Long: {config.MA_LONG_PERIOD:<30} ║")
+        print(f"║ MA Periods:   Short: {config.MA_SHORT_PERIOD}, Long: {config.MA_LONG_PERIOD:<28} ║")
     if config.CALCULATE_ATR:
         print(f"║ ATR Period:   {config.ATR_PERIOD:<46} ║")
     print("╠══════════════════════════════════════════════════════════════╣")
