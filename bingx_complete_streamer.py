@@ -42,7 +42,7 @@ import pyarrow.parquet as pq
 from memory_profiler import profile
 
 import websockets
-from websockets.exceptions import WebSocketException
+from websockets.asyncio.client import ClientConnection
 import requests
 from tenacity import (
     retry,
@@ -1126,7 +1126,7 @@ class BingXCompleteClient:
         
         self.state: ConnectionState = ConnectionState.DISCONNECTED
         self._shutdown: asyncio.Event = asyncio.Event()
-        self._ws: Optional[websockets.WebSocketClientProtocol] = None
+        self._ws: Optional[ClientConnection] = None
         
         self.stats: StreamStats = StreamStats()
         self.config: Config = Config()
@@ -1358,7 +1358,7 @@ class BingXCompleteClient:
         await self._ws.send(json.dumps(self.subscribe_msg))
         self.state = ConnectionState.STREAMING
         
-    async def _message_loop(self, ws: websockets.WebSocketClientProtocol) -> None:
+    async def _message_loop(self, ws: ClientConnection) -> None:
         """Process incoming WebSocket messages"""
         try:
             async for message in ws:
