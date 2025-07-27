@@ -456,11 +456,11 @@ class HistoryBackfiller:
         start_time: datetime = end_time - timedelta(days=days)
         
         self.log.info(f"Starting backfill for {days} days of {self.config.SYMBOL}")
-        print("In backfill method")
+        self.log.info("In backfill method")
         try:
-            print("Calling stream_history")
+            self.log.info("Calling stream_history")
             self.stream_history(start_time, end_time, process_chunk=process_chunk)
-            print("stream_history finished")
+            self.log.info("stream_history finished")
         except Exception as e:
             self.log.error(f"Backfill failed: {e}")
 
