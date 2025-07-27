@@ -1492,7 +1492,7 @@ def print_banner(config: Config = Config()) -> None:
     print(f"║ History Days: {config.HISTORY_DAYS:<46} ║")
     print(f"║ Output:       {str(config.OUTPUT_DIR):<46} ║")
     if config.CALCULATE_MA:
-        print(f"║ MA Periods:   Short: {config.MA_SHORT_PERIOD}, Long: {config.MA_LONG_PERIOD:<35} ║")
+        print(f"║ MA Periods:   Short: {config.MA_SHORT_PERIOD}, Long: {config.MA_LONG_PERIOD:<30} ║")
     if config.CALCULATE_ATR:
         print(f"║ ATR Period:   {config.ATR_PERIOD:<46} ║")
     print("╠══════════════════════════════════════════════════════════════╣")
@@ -1500,7 +1500,7 @@ def print_banner(config: Config = Config()) -> None:
     print("║ • Historical backfill on startup                             ║")
     print("║ • Automatic gap detection and filling                        ║")
     print("║ • State persistence and recovery                             ║")
-    print("║ • Real-time aggregation to 21/12 minute candles             ║")
+    print("║ • Real-time aggregation to 21/12 minute candles              ║")
     if config.CALCULATE_MA:
         print("║ • Moving average calculations with crossover detection       ║")
     if config.CALCULATE_ATR:
