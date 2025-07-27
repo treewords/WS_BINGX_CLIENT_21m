@@ -373,9 +373,9 @@ class HistoryBackfiller:
                 f"Fetching {symbol} from {start_time:%Y-%m-%d %H:%M} "
                 f"to {end_time:%Y-%m-%d %H:%M}"
             )
-            print("Making request to REST API")
+            self.log.debug("Making request to REST API")
             response: requests.Response = self.session.get(self.rest_url, params=params, timeout=30)
-            print("Request complete")
+            self.log.debug("Request complete")
             response.raise_for_status()
 
             data: Dict[str, Any] = response.json()
@@ -407,15 +407,15 @@ class HistoryBackfiller:
         symbol = symbol or self.config.SYMBOL
         current_start: datetime = start_time
         total_fetched: int = 0
-        print("In stream_history")
+        self.log.info("In stream_history")
         while current_start < end_time:
             chunk_end: datetime = min(
                 current_start + timedelta(hours=50),
                 end_time
             )
-            print(f"Fetching chunk from {current_start} to {chunk_end}")
+            self.log.info(f"Fetching chunk from {current_start} to {chunk_end}")
             candles: List[Dict[str, Any]] = self.fetch_history_chunk(current_start, chunk_end, symbol)
-            print(f"Fetched {len(candles)} candles")
+            self.log.info(f"Fetched {len(candles)} candles")
             if candles:
                 total_fetched += len(candles)
                 if process_chunk:
