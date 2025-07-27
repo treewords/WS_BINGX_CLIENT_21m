@@ -743,7 +743,7 @@ class CandleAggregator:
             log.debug(f"Added to bucket {key}: {len(bucket)}/{expected_count} candles")
             
             if len(bucket) in [1, expected_count // 2, expected_count - 1]:
-                log.info(f"Bucket progress {key}: {len(bucket)}/{expected_count} candles")
+                log.debug(f"Bucket progress {key}: {len(bucket)}/{expected_count} candles")
             
             if len(bucket) == expected_count:
                 aggregated: Dict[str, Any] = self.aggregate_candles(bucket)
@@ -1086,7 +1086,7 @@ class DataProcessor:
         if "atr" in aggregated and aggregated["atr"]:
             log_msg += f" | ATR({self.aggregator.atr_calculator.period}): {aggregated['atr']:.2f} ({aggregated['atr_percent']:.2f}%)"
 
-        log.info(log_msg)
+        log.debug(log_msg)
 
         if self.persistence:
             self.persistence.save_aggregated_candle(aggregated)
