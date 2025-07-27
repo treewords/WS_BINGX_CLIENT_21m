@@ -36,6 +36,8 @@ from concurrent.futures import ThreadPoolExecutor
 import psutil
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import socket
+import pandas as pd
+import pyarrow as pa
 import pyarrow.parquet as pq
 from memory_profiler import profile
 
