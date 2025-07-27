@@ -208,6 +208,15 @@ class StreamStats:
         if not self.connected_at:
             return 0.0
         return (datetime.now(timezone.utc) - self.connected_at).total_seconds()
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary for serialization, handling datetimes."""
+        data = asdict(self)
+        if self.connected_at:
+            data['connected_at'] = self.connected_at.isoformat()
+        if self.last_candle_time:
+            data['last_candle_time'] = self.last_candle_time.isoformat()
+        return data
     
     def __str__(self) -> str:
         uptime: timedelta = timedelta(seconds=int(self.uptime_seconds()))
@@ -854,7 +863,7 @@ class DataPersistence:
         state: Dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "last_candle_timestamp": last_candle_ts,
-            "stats": asdict(stats),
+            "stats": stats.to_dict(),
             "incomplete_buckets": aggregator.get_incomplete_buckets(),
             "completed_buckets_count": len(aggregator.completed_buckets),
             "persistence_buffer": self.buffer,
