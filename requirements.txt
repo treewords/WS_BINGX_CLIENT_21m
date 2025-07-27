@@ -4,3 +4,4 @@ tenacity
 memory-profiler
 pyarrow
 pandas
+psutil
