@@ -283,14 +283,20 @@ class StreamStats:
     """Performance and connection statistics"""
     connected_at: Optional[datetime] = None
     messages_received: int = 0
+    bytes_received: int = 0
     candles_processed: int = 0
     historical_candles_loaded: int = 0
     buckets_completed: int = 0
-    errors_count: int = 0
-    reconnect_count: int = 0
     gaps_filled: int = 0
+    reconnect_count: int = 0
     last_candle_time: Optional[datetime] = None
-    bytes_received: int = 0
+
+    # Comprehensive error metrics
+    total_errors: int = 0
+    ws_errors: int = 0
+    api_errors: int = 0
+    processing_errors: int = 0
+    disconnections: int = 0
     
     def uptime_seconds(self) -> float:
         """Calculate connection uptime"""
@@ -309,10 +315,12 @@ class StreamStats:
     
     def __str__(self) -> str:
         uptime: timedelta = timedelta(seconds=int(self.uptime_seconds()))
-        return (f"Uptime: {uptime} | Messages: {self.messages_received} | "
-                f"Candles: {self.candles_processed} (Historical: {self.historical_candles_loaded}) | "
+        error_summary = (f"Errors(T/W/A/P/D): {self.total_errors}/{self.ws_errors}/"
+                         f"{self.api_errors}/{self.processing_errors}/{self.disconnections}")
+        return (f"Uptime: {uptime} | Msgs: {self.messages_received} | "
+                f"Candles: {self.candles_processed} (Hist: {self.historical_candles_loaded}) | "
                 f"Buckets: {self.buckets_completed} | Gaps: {self.gaps_filled} | "
-                f"Errors: {self.errors_count} | Reconnects: {self.reconnect_count}")
+                f"Reconnects: {self.reconnect_count} | {error_summary}")
 
 @dataclass(slots=True)
 class ATRData:
@@ -383,6 +391,10 @@ class HistoryBackfiller:
 
         except requests.exceptions.RequestException as e:
             raise NetworkError(f"Network error: {e}") from e
+        except Exception:
+            # Catch any other unexpected errors during API call
+            self.log.error("An unexpected error occurred during history fetch.", exc_info=True)
+            raise
 
     def stream_history(
         self,
@@ -1235,6 +1247,8 @@ class BingXCompleteClient:
                      f"{self.stats.buckets_completed} buckets")
         except Exception as e:
             log.error(f"Historical backfill failed: {e}", exc_info=True)
+            self.stats.api_errors += 1
+            self.stats.total_errors += 1
             
     async def _connection_loop(self) -> None:
         """Main connection loop with exponential backoff"""
@@ -1254,7 +1268,9 @@ class BingXCompleteClient:
                 
             except (websockets.exceptions.ConnectionClosedError, websockets.exceptions.WebSocketException,
                     asyncio.TimeoutError, ConnectionError) as e:
-                self.stats.errors_count += 1
+                self.stats.ws_errors += 1
+                self.stats.total_errors += 1
+                self.stats.disconnections += 1
                 consecutive_errors += 1
                 log.warning(f"Connection error ({type(e).__name__}): {e}")
                 
@@ -1270,8 +1286,8 @@ class BingXCompleteClient:
                     self.stats.reconnect_count += 1
                     
             except Exception as e:
-                self.stats.errors_count += 1
-                log.error(f"Unexpected error: {e}", exc_info=True)
+                self.stats.total_errors += 1
+                log.error(f"Unexpected error in connection loop: {e}", exc_info=True)
                 if not self._shutdown.is_set():
                     self.state = ConnectionState.RECONNECTING
                     log.info(f"Reconnecting in {delay:.1f} seconds...")
@@ -1311,6 +1327,8 @@ class BingXCompleteClient:
                 log.info("No gap detected")
         except Exception as e:
             log.error(f"Gap filling failed: {e}", exc_info=True)
+            self.stats.api_errors += 1
+            self.stats.total_errors += 1
             
     async def _connect_and_stream(self) -> None:
         """Establish WebSocket connection and stream data"""
@@ -1363,8 +1381,11 @@ class BingXCompleteClient:
 
                 except json.JSONDecodeError:
                     log.warning(f"Failed to parse message as JSON: {message}")
+                    self.stats.processing_errors += 1
+                    self.stats.total_errors += 1
                 except Exception as e:
-                    self.stats.errors_count += 1
+                    self.stats.processing_errors += 1
+                    self.stats.total_errors += 1
                     log.error(f"Error processing message: {e}", exc_info=True)
         except websockets.exceptions.ConnectionClosed:
             raise
@@ -1386,7 +1407,8 @@ class BingXCompleteClient:
             try:
                 self.processor.process_kline(kline_data)
             except Exception as e:
-                self.stats.errors_count += 1
+                self.stats.processing_errors += 1
+                self.stats.total_errors += 1
                 log.error(f"Error processing kline: {e}", exc_info=True)
                 
     async def _stats_reporter(self) -> None:
@@ -1508,7 +1530,12 @@ async def main() -> None:
         log.info("Interrupted by user")
     except Exception as e:
         log.error(f"Unexpected error in main: {e}", exc_info=True)
+        # Make sure to increment the total_errors counter
+        if client:
+            client.stats.total_errors += 1
     finally:
+        if client:
+            log.info(f"Final Stats: {client.stats}")
         log.info("Application terminated")
 
 # ═══════════════════════════════════════════ CLI Interface ═══════════════════════════════════════════
