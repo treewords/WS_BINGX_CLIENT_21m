@@ -400,72 +400,80 @@ class MovingAverageCalculator:
         self.price_history: Deque[float] = deque(maxlen=max(short_period, long_period) + 1)
         self.prev_short_ma: Optional[float] = None
         self.prev_long_ma: Optional[float] = None
+        self._lock: threading.Lock = threading.Lock()
         
     def add_price(self, close_price: float) -> Dict[str, Optional[Any]]:
         """Add a new close price and calculate MAs"""
-        # Calculate MAs before adding new price (for previous values)
-        prev_short: Optional[float] = self.calculate_ma(self.short_period)
-        prev_long: Optional[float] = self.calculate_ma(self.long_period)
+        with self._lock:
+            # Calculate MAs before adding new price (for previous values)
+            prev_short: Optional[float] = self._calculate_ma_unsafe(self.short_period)
+            prev_long: Optional[float] = self._calculate_ma_unsafe(self.long_period)
+
+            # Add new price
+            self.price_history.append(close_price)
+
+            # Calculate new MAs
+            ma_short: Optional[float] = self._calculate_ma_unsafe(self.short_period)
+            ma_long: Optional[float] = self._calculate_ma_unsafe(self.long_period)
         
-        # Add new price
-        self.price_history.append(close_price)
-        
-        # Calculate new MAs
-        ma_short: Optional[float] = self.calculate_ma(self.short_period)
-        ma_long: Optional[float] = self.calculate_ma(self.long_period)
-        
-        # Detect crossover using stored previous values
-        cross_signal: Optional[str] = None
-        if (self.prev_short_ma is not None and self.prev_long_ma is not None and 
-            ma_short is not None and ma_long is not None):
+        with self._lock:
+            # Detect crossover using stored previous values
+            cross_signal: Optional[str] = None
+            if (self.prev_short_ma is not None and self.prev_long_ma is not None and
+                ma_short is not None and ma_long is not None):
+
+                tolerance: float = 0.01
+
+                # Previous: short below long, Current: short above long = Golden Cross
+                if self.prev_short_ma <= self.prev_long_ma + tolerance and ma_short > ma_long + tolerance:
+                    cross_signal = "GOLDEN_CROSS"
+                    log.info(f"📊 MA Crossover detected: GOLDEN CROSS | "
+                            f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
+                            f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
+
+                # Previous: short above long, Current: short below long = Death Cross
+                elif self.prev_short_ma >= self.prev_long_ma - tolerance and ma_short < ma_long - tolerance:
+                    cross_signal = "DEATH_CROSS"
+                    log.info(f"📊 MA Crossover detected: DEATH CROSS | "
+                            f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
+                            f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
             
-            tolerance: float = 0.01
+            # Update previous values for next iteration
+            self.prev_short_ma = ma_short
+            self.prev_long_ma = ma_long
             
-            # Previous: short below long, Current: short above long = Golden Cross
-            if self.prev_short_ma <= self.prev_long_ma + tolerance and ma_short > ma_long + tolerance:
-                cross_signal = "GOLDEN_CROSS"
-                log.info(f"📊 MA Crossover detected: GOLDEN CROSS | "
-                        f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
-                        f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
+            # Get trend
+            trend: Optional[str] = self._get_trend_unsafe()
             
-            # Previous: short above long, Current: short below long = Death Cross
-            elif self.prev_short_ma >= self.prev_long_ma - tolerance and ma_short < ma_long - tolerance:
-                cross_signal = "DEATH_CROSS"
-                log.info(f"📊 MA Crossover detected: DEATH CROSS | "
-                        f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
-                        f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
-        
-        # Update previous values for next iteration
-        self.prev_short_ma = ma_short
-        self.prev_long_ma = ma_long
-        
-        # Get trend
-        trend: Optional[str] = self.get_trend()
-        
-        # Log MA values periodically for debugging
-        if ma_short is not None and ma_long is not None and len(self.price_history) % 5 == 0:
-            log.debug(f"MA Update: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f} "
-                     f"Diff={(ma_short - ma_long):.2f} Trend={trend}")
-        
-        return {
-            "ma_short": ma_short,
-            "ma_long": ma_long,
-            "ma_cross": cross_signal,
-            "trend": trend
-        }
+            # Log MA values periodically for debugging
+            if ma_short is not None and ma_long is not None and len(self.price_history) % 5 == 0:
+                log.debug(f"MA Update: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f} "
+                         f"Diff={(ma_short - ma_long):.2f} Trend={trend}")
+
+            return {
+                "ma_short": ma_short,
+                "ma_long": ma_long,
+                "ma_cross": cross_signal,
+                "trend": trend
+            }
     
-    def calculate_ma(self, period: int) -> Optional[float]:
-        """Calculate simple moving average for given period"""
+    def _calculate_ma_unsafe(self, period: int) -> Optional[float]:
+        """Calculate simple moving average for given period (not thread-safe)"""
         if len(self.price_history) < period:
             return None
         
         relevant_prices: List[float] = list(self.price_history)[-period:]
         return sum(relevant_prices) / period
     
-    def get_trend(self) -> Optional[str]:
-        """Get current trend based on MA positions"""
-        short_ma: Optional[float] = self.calculate_ma(self.short_period)
-        long_ma: Optional[float] = self.calculate_ma(self.long_period)
+    def calculate_ma(self, period: int) -> Optional[float]:
+        """Calculate simple moving average for given period (thread-safe)"""
+        with self._lock:
+            return self._calculate_ma_unsafe(period)
+
+    def _get_trend_unsafe(self) -> Optional[str]:
+        """Get current trend based on MA positions (not thread-safe)"""
+        short_ma: Optional[float] = self._calculate_ma_unsafe(self.short_period)
+        long_ma: Optional[float] = self._calculate_ma_unsafe(self.long_period)
         
         if not short_ma or not long_ma:
             return None
@@ -478,6 +486,11 @@ class MovingAverageCalculator:
             return "BEARISH"
         else:
             return "NEUTRAL"
+
+    def get_trend(self) -> Optional[str]:
+        """Get current trend based on MA positions (thread-safe)"""
+        with self._lock:
+            return self._get_trend_unsafe()
 
 class ATRCalculator:
     """
@@ -500,6 +513,7 @@ class ATRCalculator:
         self.tr_values: Deque[float] = deque(maxlen=period)
         self.atr: Optional[float] = None
         self.candle_count: int = 0
+        self._lock: threading.Lock = threading.Lock()
         
     def add_candle(self, high: float, low: float, close: float) -> Optional[ATRData]:
         """
@@ -513,52 +527,55 @@ class ATRCalculator:
         Returns:
             ATRData object if ATR can be calculated, None otherwise
         """
-        tr: float
-        if self.prev_close is None:
-            tr = high - low
-        else:
-            tr = max(
-                high - low,
-                abs(high - self.prev_close),
-                abs(low - self.prev_close)
-            )
-        
-        self.tr_values.append(tr)
-        self.candle_count += 1
-        
-        atr_value: Optional[float] = None
-        atr_percent: Optional[float] = None
+        with self._lock:
+            tr: float
+            if self.prev_close is None:
+                tr = high - low
+            else:
+                tr = max(
+                    high - low,
+                    abs(high - self.prev_close),
+                    abs(low - self.prev_close)
+                )
 
-        if self.candle_count == self.period:
-            atr_value = sum(self.tr_values) / self.period
-            self.atr = atr_value
-            atr_percent = (atr_value / close) * 100 if close > 0 else 0.0
-        elif self.candle_count > self.period:
-            if self.atr is not None:
-                atr_value = ((self.atr * (self.period - 1)) + tr) / self.period
+            self.tr_values.append(tr)
+            self.candle_count += 1
+
+            atr_value: Optional[float] = None
+            atr_percent: Optional[float] = None
+
+            if self.candle_count == self.period:
+                atr_value = sum(self.tr_values) / self.period
                 self.atr = atr_value
                 atr_percent = (atr_value / close) * 100 if close > 0 else 0.0
-        
-        self.prev_close = close
-        
-        if atr_value is not None and atr_percent is not None:
-            return ATRData(
-                tr=tr,
-                atr=atr_value,
-                atr_percent=atr_percent
-            )
-        return None
+            elif self.candle_count > self.period:
+                if self.atr is not None:
+                    atr_value = ((self.atr * (self.period - 1)) + tr) / self.period
+                    self.atr = atr_value
+                    atr_percent = (atr_value / close) * 100 if close > 0 else 0.0
+
+            self.prev_close = close
+
+            if atr_value is not None and atr_percent is not None:
+                return ATRData(
+                    tr=tr,
+                    atr=atr_value,
+                    atr_percent=atr_percent
+                )
+            return None
     
     def get_current_atr(self) -> Optional[float]:
         """Get current ATR value"""
-        return self.atr
+        with self._lock:
+            return self.atr
     
     def reset(self) -> None:
         """Reset calculator state"""
-        self.prev_close = None
-        self.tr_values.clear()
-        self.atr = None
-        self.candle_count = 0
+        with self._lock:
+            self.prev_close = None
+            self.tr_values.clear()
+            self.atr = None
+            self.candle_count = 0
 
 # ═══════════════════════════════════════════ Aggregation Logic ═══════════════════════════════════════
 
@@ -583,6 +600,7 @@ class CandleAggregator:
         
         self.calculate_atr: bool = calculate_atr
         self.atr_calculator: Optional[ATRCalculator] = ATRCalculator(atr_period) if calculate_atr else None
+        self._lock: threading.Lock = threading.Lock()
         
     def get_bucket_info(self, dt: datetime) -> Tuple[int, int]:
         """
@@ -609,88 +627,52 @@ class CandleAggregator:
         dt: datetime = candle.timestamp_utc
         date_str: str = dt.strftime("%Y-%m-%d")
         bucket_idx, expected_count = self.get_bucket_info(dt)
-        
         key: Tuple[str, int] = (date_str, bucket_idx)
-        bucket: List[Candle] = self.buckets.setdefault(key, [])
-        
-        if len(bucket) == 0 and key not in self.partial_bucket_warned:
-            minute_in_bucket: int = (dt.hour * 60 + dt.minute) % Config.STANDARD_BUCKET_MINUTES
-            if minute_in_bucket > 0:
-                self.partial_bucket_warned.add(key)
-                log.warning(
-                    f"Starting partial bucket {key} at minute {minute_in_bucket}/{Config.STANDARD_BUCKET_MINUTES}. "
-                    f"This bucket will only have {(Config.STANDARD_BUCKET_MINUTES - minute_in_bucket) // 3} candles."
-                )
-                
-                if self.skip_partial_buckets:
-                    log.info(f"Skipping partial bucket {key} (skip_partial_buckets=True)")
-                    return None
-        
-        for existing in bucket:
-            if existing.open_ts == candle.open_ts:
+
+        with self._lock:
+            bucket: List[Candle] = self.buckets.setdefault(key, [])
+
+            # Prevent adding duplicates
+            if any(existing.open_ts == candle.open_ts for existing in bucket):
                 log.warning(f"Duplicate candle detected at {candle.timestamp_utc}, skipping")
                 return None
-        
-        bucket.append(candle)
-        
-        log.debug(f"Added to bucket {key}: {len(bucket)}/{expected_count} candles")
-        
-        if len(bucket) in [1, expected_count // 2, expected_count - 1]:
-            log.info(f"Bucket progress {key}: {len(bucket)}/{expected_count} candles")
-        
-        if len(bucket) == expected_count:
-            aggregated: Dict[str, Any] = self.aggregate_candles(bucket)
-            aggregated["bucket_info"] = {
-                "date": date_str,
-                "index": bucket_idx,
-                "candle_count": len(bucket)
-            }
             
-            if self.calculate_ma and self.ma_calculator:
-                ma_data: Dict[str, Optional[Any]] = self.ma_calculator.add_price(aggregated["close"])
-                aggregated.update(ma_data)
-                
-                ma_short_str: str = f"{ma_data['ma_short']:.2f}" if ma_data['ma_short'] is not None else "N/A"
-                ma_long_str: str = f"{ma_data['ma_long']:.2f}" if ma_data['ma_long'] is not None else "N/A"
-                
-                log.debug(
-                    f"MA calculation - Close: {aggregated['close']:.2f} | "
-                    f"MA{self.ma_calculator.short_period}: {ma_short_str} | "
-                    f"MA{self.ma_calculator.long_period}: {ma_long_str} | "
-                    f"Cross: {ma_data['ma_cross'] or 'None'}"
-                )
+            bucket.append(candle)
             
-            if self.calculate_atr and self.atr_calculator:
-                atr_data: Optional[ATRData] = self.atr_calculator.add_candle(
-                    aggregated["high"], 
-                    aggregated["low"], 
-                    aggregated["close"]
-                )
+            log.debug(f"Added to bucket {key}: {len(bucket)}/{expected_count} candles")
+            
+            if len(bucket) in [1, expected_count // 2, expected_count - 1]:
+                log.info(f"Bucket progress {key}: {len(bucket)}/{expected_count} candles")
+            
+            if len(bucket) == expected_count:
+                aggregated: Dict[str, Any] = self.aggregate_candles(bucket)
+                aggregated["bucket_info"] = {
+                    "date": date_str,
+                    "index": bucket_idx,
+                    "candle_count": len(bucket)
+                }
                 
-                if atr_data:
-                    aggregated["tr"] = atr_data.tr
-                    aggregated["atr"] = atr_data.atr
-                    aggregated["atr_percent"] = atr_data.atr_percent
-                    
-                    log.debug(
-                        f"ATR calculation - TR: {atr_data.tr:.2f} | "
-                        f"ATR({self.atr_calculator.period}): {atr_data.atr:.2f} | "
-                        f"ATR%: {atr_data.atr_percent:.2f}%"
+                self.completed_buckets.append(aggregated)
+                del self.buckets[key]
+
+                # Perform calculations outside the main lock if possible
+                if self.calculate_ma and self.ma_calculator:
+                    ma_data: Dict[str, Optional[Any]] = self.ma_calculator.add_price(aggregated["close"])
+                    aggregated.update(ma_data)
+
+                if self.calculate_atr and self.atr_calculator:
+                    atr_data: Optional[ATRData] = self.atr_calculator.add_candle(
+                        aggregated["high"], aggregated["low"], aggregated["close"]
                     )
-                else:
-                    aggregated["tr"] = None
-                    aggregated["atr"] = None
-                    aggregated["atr_percent"] = None
-            
-            self.completed_buckets.append(aggregated)
-            del self.buckets[key]
-            
-            if self.on_bucket_complete:
-                self.on_bucket_complete(aggregated)
-                
-            return aggregated
-            
-        return None
+                    if atr_data:
+                        aggregated.update(asdict(atr_data))
+
+                if self.on_bucket_complete:
+                    self.on_bucket_complete(aggregated)
+
+                return aggregated
+
+            return None
     
     @staticmethod
     def aggregate_candles(candles: List[Candle]) -> Dict[str, Any]:
@@ -739,17 +721,19 @@ class CandleAggregator:
     
     def get_incomplete_buckets(self) -> Dict[str, List[Dict[str, Any]]]:
         """Get all incomplete buckets for persistence"""
-        result: Dict[str, List[Dict[str, Any]]] = {}
-        for (date_str, bucket_idx), candles in self.buckets.items():
-            key: str = f"{date_str}_bucket_{bucket_idx}"
-            result[key] = [c.to_dict() for c in candles]
-        return result
+        with self._lock:
+            result: Dict[str, List[Dict[str, Any]]] = {}
+            for (date_str, bucket_idx), candles in self.buckets.items():
+                key: str = f"{date_str}_bucket_{bucket_idx}"
+                result[key] = [c.to_dict() for c in candles]
+            return result
     
     def clear(self) -> None:
         """Clear all buckets"""
-        self.buckets.clear()
-        self.completed_buckets.clear()
-        self.partial_bucket_warned.clear()
+        with self._lock:
+            self.buckets.clear()
+            self.completed_buckets.clear()
+            self.partial_bucket_warned.clear()
 
 # ═══════════════════════════════════════════ Data Persistence ═══════════════════════════════════════
 
@@ -805,21 +789,29 @@ class DataPersistence:
         
         self.buffer: List[Dict[str, Any]] = []
         self.buffer_size: int = buffer_size
+        self._lock: threading.Lock = threading.Lock()
         
     def save_aggregated_candle(self, candle: Dict[str, Any]) -> None:
         """Add aggregated candle to buffer and flush if full"""
-        self.buffer.append(candle)
-        if len(self.buffer) >= self.buffer_size:
+        with self._lock:
+            self.buffer.append(candle)
+            should_flush: bool = len(self.buffer) >= self.buffer_size
+
+        if should_flush:
             self.flush_buffer()
             
     def flush_buffer(self) -> None:
         """Write buffered candles to Parquet files"""
-        log.info(f"Flushing buffer with {len(self.buffer)} items.")
-        if not self.buffer:
-            return
+        with self._lock:
+            if not self.buffer:
+                return
             
-        df: pd.DataFrame = pd.DataFrame(self.buffer)
-        self.buffer.clear()
+            buffer_copy: List[Dict[str, Any]] = list(self.buffer)
+            self.buffer.clear()
+
+        log.info(f"Flushing buffer with {len(buffer_copy)} items.")
+
+        df: pd.DataFrame = pd.DataFrame(buffer_copy)
 
         try:
             df['date'] = df['bucket_info'].apply(lambda x: x['date'])
@@ -855,30 +847,36 @@ class DataPersistence:
 
         except Exception as e:
             log.error(f"Failed to flush buffer to Parquet: {e}", exc_info=True)
-            self.buffer.extend(df.to_dict('records'))
+            with self._lock:
+                self.buffer.extend(df.to_dict('records'))
             
     def save_state(self, aggregator: "CandleAggregator", stats: "StreamStats",
                    last_candle_ts: Optional[int] = None) -> None:
         """Save current state for recovery"""
-        state: Dict[str, Any] = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "last_candle_timestamp": last_candle_ts,
-            "stats": stats.to_dict(),
-            "incomplete_buckets": aggregator.get_incomplete_buckets(),
-            "completed_buckets_count": len(aggregator.completed_buckets),
-            "persistence_buffer": self.buffer,
-        }
+        with self._lock:
+            state: Dict[str, Any] = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "last_candle_timestamp": last_candle_ts,
+                "stats": stats.to_dict(),
+                "incomplete_buckets": aggregator.get_incomplete_buckets(),
+                "completed_buckets_count": len(aggregator.completed_buckets),
+                "persistence_buffer": self.buffer,
+            }
         
         state_file: Path = self.output_dir / "state.json"
         try:
             with open(state_file, "w", encoding='utf-8') as f:
                 json.dump(state, f, indent=2)
-        except (TypeError, OverflowError) as e:
-            log.error(f"Error serializing state to JSON: {e}")
-            with open(state_file.with_suffix(".log"), "w", encoding='utf-8') as f:
-                f.write(str(state))
-            
-        log.info(f"State saved to {state_file}")
+            log.info(f"State saved to {state_file}")
+        except (TypeError, OverflowError, IOError) as e:
+            log.error(f"Error saving state to JSON: {e}")
+            # Fallback for serialization errors
+            try:
+                with open(state_file.with_suffix(".log"), "w", encoding='utf-8') as f:
+                    f.write(str(state))
+                log.warning(f"State saved to fallback log file: {state_file.with_suffix('.log')}")
+            except Exception as log_e:
+                log.error(f"Could not write to fallback log file: {log_e}")
     
     def load_state(self) -> Optional[Dict[str, Any]]:
         """Load saved state"""
@@ -949,6 +947,7 @@ class BingXCompleteClient:
         
         self._tasks: List[asyncio.Task] = []
         self._executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=2)
+        self._lock: threading.Lock = threading.Lock()
         
     async def run(self) -> None:
         """Main entry point - run the client with all features"""
@@ -1036,10 +1035,13 @@ class BingXCompleteClient:
             low=float(kline["l"]), close=float(kline["c"]),
             volume=float(kline["v"]), trades=kline.get("n", 0)
         )
-        self.last_processed_ts = candle.close_ts
-        self.recent_candles.append(candle)
+        with self._lock:
+            self.last_processed_ts = candle.close_ts
+            self.recent_candles.append(candle)
+
         if self.aggregator.add_candle(candle):
-            self.stats.buckets_completed += 1
+            with self._lock:
+                self.stats.buckets_completed += 1
             
     async def _connection_loop(self) -> None:
         """Main connection loop with exponential backoff"""
@@ -1194,30 +1196,32 @@ class BingXCompleteClient:
                 
     def _process_kline(self, kline: Dict[str, Any]) -> None:
         """Process individual kline data - detect closes by timestamp changes"""
-        current_ts: int = kline["T"]
-        
-        if self.current_candle_ts is not None and current_ts > self.current_candle_ts and self.last_candle_data:
-            candle: Candle = Candle(
-                open_ts=self.last_candle_data["T"],
-                close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,
-                open=float(self.last_candle_data["o"]), high=float(self.last_candle_data["h"]),
-                low=float(self.last_candle_data["l"]), close=float(self.last_candle_data["c"]),
-                volume=float(self.last_candle_data["v"]), trades=self.last_candle_data.get("n", 0)
-            )
-            self.stats.candles_processed += 1
-            self.stats.last_candle_time = candle.timestamp_utc
-            self.last_processed_ts = candle.close_ts
-            log.info(f"Closed candle: {candle}")
-            self.recent_candles.append(candle)
-            if self.aggregator.add_candle(candle):
-                self.stats.buckets_completed += 1
-        
-        self.current_candle_ts = current_ts
-        self.last_candle_data = kline.copy()
-        
-        if self.stats.messages_received % 30 == 1:
-            ts: datetime = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
-            log.debug(f"Live update: {ts:%H:%M:%S} UTC, Price: {float(kline['c']):.2f}")
+        with self._lock:
+            current_ts: int = kline["T"]
+
+            if self.current_candle_ts is not None and current_ts > self.current_candle_ts and self.last_candle_data:
+                candle: Candle = Candle(
+                    open_ts=self.last_candle_data["T"],
+                    close_ts=self.last_candle_data["T"] + 3 * 60 * 1000 - 1,
+                    open=float(self.last_candle_data["o"]), high=float(self.last_candle_data["h"]),
+                    low=float(self.last_candle_data["l"]), close=float(self.last_candle_data["c"]),
+                    volume=float(self.last_candle_data["v"]), trades=self.last_candle_data.get("n", 0)
+                )
+                self.stats.candles_processed += 1
+                self.stats.last_candle_time = candle.timestamp_utc
+                self.last_processed_ts = candle.close_ts
+                log.info(f"Closed candle: {candle}")
+                self.recent_candles.append(candle)
+
+                if self.aggregator.add_candle(candle):
+                    self.stats.buckets_completed += 1
+
+            self.current_candle_ts = current_ts
+            self.last_candle_data = kline.copy()
+
+            if self.stats.messages_received % 30 == 1:
+                ts: datetime = datetime.fromtimestamp(current_ts / 1000, tz=timezone.utc)
+                log.debug(f"Live update: {ts:%H:%M:%S} UTC, Price: {float(kline['c']):.2f}")
             
     def _on_bucket_complete(self, aggregated: Dict[str, Any]) -> None:
         """Handle completed bucket"""
@@ -1289,11 +1293,13 @@ class BingXCompleteClient:
         
     def get_recent_candles(self, count: int = 100) -> List[Candle]:
         """Get recent candles from buffer"""
-        return list(self.recent_candles)[-count:]
+        with self._lock:
+            return list(self.recent_candles)[-count:]
     
     def get_aggregated_candles(self, count: int = 50) -> List[Dict[str, Any]]:
         """Get recent aggregated candles"""
-        return list(self.aggregator.completed_buckets)[-count:]
+        with self.aggregator._lock:
+            return list(self.aggregator.completed_buckets)[-count:]
     
     def get_current_ma_values(self) -> Dict[str, Optional[Any]]:
         """Get current moving average values and trend"""
