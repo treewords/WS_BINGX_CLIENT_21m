@@ -528,14 +528,14 @@ class MovingAverageCalculator:
                 # Previous: short below long, Current: short above long = Golden Cross
                 if self.prev_short_ma <= self.prev_long_ma + tolerance and ma_short > ma_long + tolerance:
                     cross_signal = "GOLDEN_CROSS"
-                    log.info(f"📊 MA Crossover detected: GOLDEN CROSS | "
+                    log.debug(f"📊 MA Crossover detected: GOLDEN CROSS | "
                             f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
                             f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
 
                 # Previous: short above long, Current: short below long = Death Cross
                 elif self.prev_short_ma >= self.prev_long_ma - tolerance and ma_short < ma_long - tolerance:
                     cross_signal = "DEATH_CROSS"
-                    log.info(f"📊 MA Crossover detected: DEATH CROSS | "
+                    log.debug(f"📊 MA Crossover detected: DEATH CROSS | "
                             f"Previous: MA{self.short_period}={self.prev_short_ma:.2f} MA{self.long_period}={self.prev_long_ma:.2f} | "
                             f"Current: MA{self.short_period}={ma_short:.2f} MA{self.long_period}={ma_long:.2f}")
             
