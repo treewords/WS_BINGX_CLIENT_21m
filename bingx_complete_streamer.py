@@ -1335,7 +1335,7 @@ class BingXCompleteClient:
         log.info(f"Connecting to {self.config.WS_URL}")
         try:
             async with websockets.connect(
-                self.config.WS_URL, ping_interval=20, ping_timeout=10,
+                self.config.WS_URL, ping_interval=20, ping_timeout=20,
                 close_timeout=10, max_size=10 * 1024 * 1024
             ) as ws:
                 self._ws = ws
