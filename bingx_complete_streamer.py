@@ -40,10 +40,10 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 from memory_profiler import profile
+import httpx
 
 import websockets
 from websockets.asyncio.client import ClientConnection
-import requests
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -337,22 +337,22 @@ class NetworkError(Exception):
 
 class HistoryBackfiller:
     """Handles historical data fetching and gap filling"""
-    
+
     def __init__(self, config: Config = Config()) -> None:
         self.config: Config = config
         self.log: logging.Logger = logging.getLogger("backfiller")
-        self.session: requests.Session = requests.Session()
-        
+        self.client: httpx.AsyncClient = httpx.AsyncClient(timeout=30)
+
     @property
     def rest_url(self) -> str:
         return f"{self.config.REST_BASE_URL}{self.config.REST_ENDPOINT}"
-    
+
     @retry(
         stop=stop_after_attempt(5),
         wait=wait_exponential(multiplier=1, min=2, max=30),
         retry=retry_if_exception_type(NetworkError),
     )
-    def fetch_history_chunk(
+    async def fetch_history_chunk(
         self,
         start_time: datetime,
         end_time: datetime,
@@ -374,7 +374,7 @@ class HistoryBackfiller:
                 f"to {end_time:%Y-%m-%d %H:%M}"
             )
             self.log.debug("Making request to REST API")
-            response: requests.Response = self.session.get(self.rest_url, params=params, timeout=30)
+            response: httpx.Response = await self.client.get(self.rest_url, params=params)
             self.log.debug("Request complete")
             response.raise_for_status()
 
@@ -389,14 +389,14 @@ class HistoryBackfiller:
             )
             return sorted(candles, key=lambda x: int(x["time"]))
 
-        except requests.exceptions.RequestException as e:
+        except httpx.RequestError as e:
             raise NetworkError(f"Network error: {e}") from e
         except Exception:
             # Catch any other unexpected errors during API call
             self.log.error("An unexpected error occurred during history fetch.", exc_info=True)
             raise
 
-    def stream_history(
+    async def stream_history(
         self,
         start_time: datetime,
         end_time: datetime,
@@ -414,7 +414,7 @@ class HistoryBackfiller:
                 end_time
             )
             self.log.info(f"Fetching chunk from {current_start} to {chunk_end}")
-            candles: List[Dict[str, Any]] = self.fetch_history_chunk(current_start, chunk_end, symbol)
+            candles: List[Dict[str, Any]] = await self.fetch_history_chunk(current_start, chunk_end, symbol)
             self.log.info(f"Fetched {len(candles)} candles")
             if candles:
                 total_fetched += len(candles)
@@ -426,10 +426,10 @@ class HistoryBackfiller:
 
             # Small delay to avoid rate limits
             if current_start < end_time:
-                time.sleep(0.5)
-        
+                await asyncio.sleep(0.5)
+
         self.log.info(f"Total fetched: {total_fetched} candles for {symbol}")
-    
+
     def convert_to_websocket_format(self, api_candle: Dict[str, Any]) -> Dict[str, Any]:
         """Convert REST API candle format to WebSocket format"""
         timestamp: int = int(api_candle["time"])
@@ -444,8 +444,8 @@ class HistoryBackfiller:
             "n": api_candle.get("count", 0),
             "x": True,  # Mark as closed
         }
-    
-    def backfill(
+
+    async def backfill(
         self,
         days: Optional[int] = None,
         process_chunk: Optional[Callable[[List[Dict[str, Any]]], None]] = None
@@ -454,17 +454,17 @@ class HistoryBackfiller:
         days = days or self.config.HISTORY_DAYS
         end_time: datetime = datetime.now(timezone.utc)
         start_time: datetime = end_time - timedelta(days=days)
-        
+
         self.log.info(f"Starting backfill for {days} days of {self.config.SYMBOL}")
         self.log.info("In backfill method")
         try:
             self.log.info("Calling stream_history")
-            self.stream_history(start_time, end_time, process_chunk=process_chunk)
+            await self.stream_history(start_time, end_time, process_chunk=process_chunk)
             self.log.info("stream_history finished")
         except Exception as e:
             self.log.error(f"Backfill failed: {e}")
 
-    def fill_gap(
+    async def fill_gap(
         self,
         last_timestamp: int,
         symbol: Optional[str] = None,
@@ -474,19 +474,19 @@ class HistoryBackfiller:
         symbol = symbol or self.config.SYMBOL
         start_time: datetime = datetime.fromtimestamp(last_timestamp / 1000, tz=timezone.utc)
         end_time: datetime = datetime.now(timezone.utc)
-        
+
         gap_minutes: float = (end_time - start_time).total_seconds() / 60
-        
+
         if gap_minutes < 3:  # Less than one candle
             return
-        
+
         self.log.info(
             f"Filling gap for {symbol}: {gap_minutes:.1f} minutes "
             f"from {start_time:%Y-%m-%d %H:%M}"
         )
-        
+
         try:
-            self.stream_history(start_time, end_time, symbol, process_chunk)
+            await self.stream_history(start_time, end_time, symbol, process_chunk)
         except Exception as e:
             self.log.error(f"Gap fill failed: {e}")
 
@@ -1143,7 +1143,6 @@ class BingXCompleteClient:
             )
         
         self._tasks: List[asyncio.Task] = []
-        self._executor: ThreadPoolExecutor = ThreadPoolExecutor(max_workers=3)
         self._lock: threading.Lock = threading.Lock()
         
         # Health check server
@@ -1234,14 +1233,11 @@ class BingXCompleteClient:
             self.stats.historical_candles_loaded += len(candles)
 
         try:
-            loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
             backfiller: HistoryBackfiller = HistoryBackfiller()
             backfiller.config.SYMBOL = self.symbol
-            await loop.run_in_executor(
-                self._executor,
-                backfiller.backfill,
-                self.backfill_days,
-                process_chunk
+            await backfiller.backfill(
+                days=self.backfill_days,
+                process_chunk=process_chunk
             )
             log.info(f"Historical backfill complete: {self.stats.historical_candles_loaded} candles, "
                      f"{self.stats.buckets_completed} buckets")
@@ -1312,13 +1308,10 @@ class BingXCompleteClient:
 
         try:
             log.info("Checking for gaps in data...")
-            loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
-            await loop.run_in_executor(
-                self._executor,
-                self.backfiller.fill_gap,
-                self.last_processed_ts,
-                self.symbol,
-                process_chunk
+            await self.backfiller.fill_gap(
+                last_timestamp=self.last_processed_ts,
+                symbol=self.symbol,
+                process_chunk=process_chunk
             )
             if gaps_found:
                 self.stats.gaps_filled += 1
@@ -1446,7 +1439,6 @@ class BingXCompleteClient:
         if self.health_server:
             self.health_server.shutdown()
             
-        self._executor.shutdown(wait=True)
         log.info("Cleanup complete")
         
     def stop(self) -> None:

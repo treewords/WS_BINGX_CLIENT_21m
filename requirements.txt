@@ -5,3 +5,4 @@ memory-profiler
 pyarrow
 pandas
 psutil
+httpx

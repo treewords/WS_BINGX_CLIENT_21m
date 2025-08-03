@@ -1,0 +1,1594 @@
+2025-08-03 12:32:25 | bingx        | INFO     | Initializing DataPersistence
+2025-08-03 12:32:25 | bingx        | INFO     | Parquet directory: bingx_data/parquet
+2025-08-03 12:32:25 | bingx        | INFO     | Starting BingX Complete Client for BTC-USDT 3m
+2025-08-03 12:32:25 | bingx        | INFO     | Starting historical backfill from API for 1 days
+2025-08-03 12:32:26 | bingx        | INFO     | Processing chunk of 480 historical candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 35): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 35): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 36): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 36): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 36): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 36): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 12:36:00 - Open: 113698.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 12:54:00 - Close: 113623.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113700.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113531.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 12:36:00 O:113698.30 H:113700.00 L:113657.90 C:113680.20 V:3.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 12:39:00 O:113680.00 H:113695.20 L:113637.10 C:113637.10 V:6.08
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 12:42:00 O:113637.10 H:113637.30 L:113531.90 C:113535.10 V:16.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 12:45:00 O:113535.30 H:113584.30 L:113535.10 C:113543.10 V:8.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 12:48:00 O:113542.90 H:113600.00 L:113535.10 C:113566.70 V:7.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 12:51:00 O:113566.70 H:113622.60 L:113565.00 C:113588.00 V:4.72
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 12:54:00 O:113587.80 H:113670.00 L:113575.20 C:113623.50 V:5.88
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 12:36:00-12:54:00 | O: 113698.30 | H: 113700.00 | L: 113531.90 | C: 113623.50 | V: 53.09 | Candles: 7
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 37): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 37): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 37): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 37): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 12:57:00 - Open: 113623.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 13:15:00 - Close: 113409.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113623.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113405.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 12:57:00 O:113623.70 H:113623.70 L:113600.00 C:113600.10 V:3.63
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 13:00:00 O:113600.10 H:113600.10 L:113565.00 C:113576.70 V:9.35
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 13:03:00 O:113576.70 H:113600.00 L:113539.30 C:113565.80 V:4.35
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 13:06:00 O:113543.30 H:113570.00 L:113455.20 C:113455.20 V:19.66
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 13:09:00 O:113455.20 H:113522.60 L:113452.80 C:113452.80 V:7.94
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 13:12:00 O:113452.90 H:113490.00 L:113416.20 C:113416.20 V:23.95
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 13:15:00 O:113416.20 H:113454.30 L:113405.00 C:113409.40 V:28.15
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 12:57:00-13:15:00 | O: 113623.70 | H: 113623.70 | L: 113405.00 | C: 113409.40 | V: 97.03 | Candles: 7
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 38): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 38): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 38): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 38): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 13:18:00 - Open: 113409.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 13:36:00 - Close: 113339.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113446.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113182.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 13:18:00 O:113409.60 H:113430.00 L:113409.00 C:113415.50 V:21.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 13:21:00 O:113415.50 H:113446.60 L:113400.00 C:113411.90 V:9.77
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 13:24:00 O:113434.40 H:113439.80 L:113409.00 C:113415.40 V:8.97
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 13:27:00 O:113415.40 H:113433.00 L:113260.30 C:113260.40 V:64.01
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 13:30:00 O:113282.80 H:113402.60 L:113182.00 C:113371.50 V:80.16
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 13:33:00 O:113371.70 H:113435.50 L:113300.80 C:113335.00 V:18.97
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 13:36:00 O:113330.10 H:113403.60 L:113328.80 C:113339.80 V:9.29
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 13:18:00-13:36:00 | O: 113409.60 | H: 113446.60 | L: 113182.00 | C: 113339.80 | V: 212.49 | Candles: 7 | MA3: 113457.57
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 39): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 39): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 39): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 39): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 13:39:00 - Open: 113339.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 13:57:00 - Close: 113424.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113500.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113262.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 13:39:00 O:113339.70 H:113382.20 L:113262.50 C:113278.10 V:14.74
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 13:42:00 O:113277.90 H:113360.00 L:113271.80 C:113320.10 V:8.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 13:45:00 O:113342.60 H:113415.50 L:113301.50 C:113393.40 V:34.17
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 13:48:00 O:113393.60 H:113423.80 L:113332.20 C:113373.70 V:9.97
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 13:51:00 O:113373.70 H:113443.80 L:113350.50 C:113425.80 V:7.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 13:54:00 O:113425.60 H:113500.00 L:113421.10 C:113489.60 V:11.79
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 13:57:00 O:113489.80 H:113499.90 L:113410.80 C:113424.00 V:6.36
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 13:39:00-13:57:00 | O: 113339.70 | H: 113500.00 | L: 113262.50 | C: 113424.00 | V: 93.12 | Candles: 7 | MA3: 113391.07
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 40): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 40): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 40): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 40): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 14:00:00 - Open: 113424.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 14:18:00 - Close: 113109.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113510.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113090.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 14:00:00 O:113424.00 H:113469.70 L:113424.00 C:113453.40 V:8.75
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 14:03:00 O:113453.20 H:113500.00 L:113419.20 C:113499.90 V:3.52
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 14:06:00 O:113480.80 H:113510.00 L:113457.40 C:113480.70 V:5.13
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 14:09:00 O:113480.50 H:113485.50 L:113317.00 C:113359.30 V:20.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 14:12:00 O:113359.50 H:113378.70 L:113322.00 C:113344.60 V:3.84
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 14:15:00 O:113322.10 H:113344.60 L:113211.80 C:113212.80 V:35.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 14:18:00 O:113212.80 H:113266.80 L:113090.80 C:113109.30 V:43.97
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 14:00:00-14:18:00 | O: 113424.00 | H: 113510.00 | L: 113090.80 | C: 113109.30 | V: 121.62 | Candles: 7 | MA3: 113291.03
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 41): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 41): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 41): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 41): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 14:21:00 - Open: 113109.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 14:39:00 - Close: 113011.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113282.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112966.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 14:21:00 O:113109.50 H:113263.40 L:113108.50 C:113200.10 V:23.43
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 14:24:00 O:113200.10 H:113250.00 L:113180.00 C:113205.90 V:29.36
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 14:27:00 O:113205.90 H:113282.50 L:113205.10 C:113229.80 V:14.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 14:30:00 O:113229.60 H:113257.30 L:113171.10 C:113175.30 V:35.23
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 14:33:00 O:113175.30 H:113202.20 L:113122.90 C:113134.20 V:92.54
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 14:36:00 O:113134.20 H:113172.90 L:113056.10 C:113059.70 V:33.39
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 14:39:00 O:113059.90 H:113119.90 L:112966.00 C:113011.40 V:100.16
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 14:21:00-14:39:00 | O: 113109.50 | H: 113282.50 | L: 112966.00 | C: 113011.40 | V: 329.01 | Candles: 7 | MA3: 113181.57
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 42): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 42): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 42): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 42): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 14:42:00 - Open: 112989.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 15:00:00 - Close: 113116.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113190.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112879.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 14:42:00 O:112989.10 H:113049.70 L:112938.50 C:112967.00 V:80.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 14:45:00 O:112967.00 H:113082.70 L:112954.00 C:113078.10 V:44.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 14:48:00 O:113077.90 H:113097.10 L:112971.40 C:113085.90 V:16.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 14:51:00 O:113086.10 H:113121.20 L:112879.20 C:112969.90 V:96.49
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 14:54:00 O:112970.00 H:113073.80 L:112954.30 C:113032.20 V:40.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 14:57:00 O:113032.20 H:113148.50 L:113025.50 C:113064.00 V:23.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 15:00:00 O:113064.00 H:113190.60 L:113060.10 C:113116.20 V:18.46
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 14:42:00-15:00:00 | O: 112989.10 | H: 113190.60 | L: 112879.20 | C: 113116.20 | V: 319.66 | Candles: 7 | MA3: 113078.97 | MA7: 113290.51 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 43): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 43): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 43): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 43): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 15:03:00 - Open: 113116.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 15:21:00 - Close: 113212.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113391.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113116.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 15:03:00 O:113116.20 H:113198.00 L:113116.00 C:113173.90 V:10.04
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 15:06:00 O:113173.90 H:113210.80 L:113150.00 C:113189.90 V:15.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 15:09:00 O:113171.40 H:113234.50 L:113171.30 C:113189.30 V:20.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 15:12:00 O:113189.10 H:113245.60 L:113163.80 C:113235.30 V:22.38
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 15:15:00 O:113235.30 H:113379.30 L:113235.10 C:113379.10 V:24.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 15:18:00 O:113379.10 H:113391.40 L:113226.90 C:113312.50 V:47.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 15:21:00 O:113312.40 H:113312.40 L:113195.00 C:113212.60 V:10.98
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 15:03:00-15:21:00 | O: 113116.20 | H: 113391.40 | L: 113116.00 | C: 113212.60 | V: 150.12 | Candles: 7 | MA3: 113113.40 | MA7: 113231.81 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 44): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 44): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 44): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 44): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 15:24:00 - Open: 113212.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 15:42:00 - Close: 113008.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113312.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112932.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 15:24:00 O:113212.60 H:113244.70 L:113192.00 C:113229.10 V:8.13
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 15:27:00 O:113229.30 H:113312.50 L:113212.10 C:113212.10 V:4.21
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 15:30:00 O:113212.10 H:113221.30 L:112975.40 C:112984.20 V:112.98
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 15:33:00 O:112984.00 H:113030.80 L:112932.60 C:113003.70 V:36.88
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 15:36:00 O:113003.70 H:113055.00 L:112959.00 C:113030.30 V:19.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 15:39:00 O:113030.30 H:113034.60 L:112962.00 C:112983.20 V:13.84
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 15:42:00 O:112985.40 H:113031.40 L:112980.60 C:113008.70 V:15.13
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 15:24:00-15:42:00 | O: 113212.60 | H: 113312.50 | L: 112932.60 | C: 113008.70 | V: 210.79 | Candles: 7 | MA3: 113112.50 | MA7: 113174.57 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 45): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 45): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 45): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 45): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 15:45:00 - Open: 113008.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 16:03:00 - Close: 112944.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113012.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112762.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 15:45:00 O:113008.70 H:113012.30 L:112984.40 C:113007.80 V:8.65
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 15:48:00 O:113007.60 H:113011.30 L:112918.50 C:113006.40 V:20.04
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 15:51:00 O:113006.40 H:113010.00 L:112928.20 C:112939.10 V:18.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 15:54:00 O:112938.90 H:112999.90 L:112933.00 C:112954.90 V:12.52
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 15:57:00 O:112954.90 H:112956.40 L:112786.00 C:112805.60 V:100.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 16:00:00 O:112805.40 H:112928.60 L:112762.50 C:112865.10 V:61.91
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 16:03:00 O:112865.10 H:112944.80 L:112835.00 C:112944.70 V:19.21
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 15:45:00-16:03:00 | O: 113008.70 | H: 113012.30 | L: 112762.50 | C: 112944.70 | V: 241.34 | Candles: 7 | MA3: 113055.33 | MA7: 113118.13 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 46): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 46): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 46): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 46): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 16:06:00 - Open: 112944.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 16:24:00 - Close: 112863.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112976.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112680.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 16:06:00 O:112944.70 H:112950.00 L:112768.40 C:112788.20 V:32.44
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 16:09:00 O:112788.20 H:112836.40 L:112680.20 C:112743.70 V:78.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 16:12:00 O:112743.90 H:112857.80 L:112734.00 C:112740.50 V:23.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 16:15:00 O:112740.50 H:112815.50 L:112687.30 C:112717.60 V:20.37
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 16:18:00 O:112717.60 H:112890.00 L:112708.90 C:112828.90 V:25.57
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 16:21:00 O:112828.90 H:112893.00 L:112794.80 C:112860.90 V:16.93
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 16:24:00 O:112861.10 H:112976.30 L:112845.60 C:112863.00 V:71.27
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 16:06:00-16:24:00 | O: 112944.70 | H: 112976.30 | L: 112680.20 | C: 112863.00 | V: 269.09 | Candles: 7 | MA3: 112938.80 | MA7: 113037.99 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 47): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 47): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 47): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 47): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 16:27:00 - Open: 112863.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 16:45:00 - Close: 113118.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113242.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112827.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 16:27:00 O:112863.20 H:112937.50 L:112863.00 C:112885.20 V:15.25
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 16:30:00 O:112885.40 H:112928.00 L:112846.00 C:112852.60 V:12.37
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 16:33:00 O:112852.60 H:112946.50 L:112827.80 C:112861.40 V:29.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 16:36:00 O:112861.40 H:112974.60 L:112861.40 C:112974.40 V:17.68
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 16:39:00 O:112974.60 H:113087.50 L:112950.00 C:113085.10 V:36.65
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 16:42:00 O:113089.50 H:113122.60 L:113012.20 C:113077.30 V:41.87
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 16:45:00 O:113077.50 H:113242.00 L:113077.30 C:113118.20 V:92.61
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 16:27:00-16:45:00 | O: 112863.20 | H: 113242.00 | L: 112827.80 | C: 113118.20 | V: 245.46 | Candles: 7 | MA3: 112975.30 | MA7: 113039.26 | Trend: BEARISH
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 48): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 48): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 48): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 48): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 16:48:00 - Open: 113118.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 17:06:00 - Close: 113306.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113320.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112948.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 16:48:00 O:113118.20 H:113130.60 L:113008.80 C:113026.10 V:17.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 16:51:00 O:113026.10 H:113040.50 L:112948.90 C:112975.10 V:14.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 16:54:00 O:112988.40 H:113119.90 L:112965.90 C:113116.80 V:25.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 16:57:00 O:113116.80 H:113185.00 L:113116.70 C:113167.30 V:17.64
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 17:00:00 O:113167.10 H:113200.00 L:113125.10 C:113147.50 V:17.18
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 17:03:00 O:113125.10 H:113306.40 L:113125.00 C:113282.80 V:28.54
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 17:06:00 O:113260.30 H:113320.00 L:113240.40 C:113306.10 V:25.14
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=112975.30 MA7=113039.26 | Current: MA3=113095.77 MA7=113081.36
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 16:48:00-17:06:00 | O: 113118.20 | H: 113320.00 | L: 112948.90 | C: 113306.10 | V: 145.25 | Candles: 7 | MA3: 113095.77 | MA7: 113081.36 | Trend: BULLISH | 🚨 GOLDEN_CROSS
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 49): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 49): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 49): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 49): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 17:09:00 - Open: 113306.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 17:27:00 - Close: 113317.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113392.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113230.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 17:09:00 O:113306.30 H:113341.60 L:113277.50 C:113335.00 V:32.06
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 17:12:00 O:113335.00 H:113351.70 L:113309.60 C:113320.60 V:11.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 17:15:00 O:113320.60 H:113342.40 L:113230.40 C:113319.60 V:13.63
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 17:18:00 O:113342.10 H:113380.70 L:113319.60 C:113376.20 V:15.59
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 17:21:00 O:113376.20 H:113392.70 L:113244.70 C:113293.10 V:14.39
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 17:24:00 O:113293.00 H:113303.80 L:113233.30 C:113281.20 V:7.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 17:27:00 O:113303.70 H:113328.70 L:113277.20 C:113317.70 V:9.32
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 17:09:00-17:27:00 | O: 113306.30 | H: 113392.70 | L: 113230.40 | C: 113317.70 | V: 103.60 | Candles: 7 | MA3: 113247.33 | MA7: 113110.14 | Trend: BULLISH | ATR(14): 291.77 (0.26%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 50): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 50): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 50): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 50): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 17:30:00 - Open: 113317.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 17:48:00 - Close: 112987.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113334.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112978.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 17:30:00 O:113317.70 H:113334.40 L:113244.90 C:113287.60 V:7.11
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 17:33:00 O:113287.60 H:113305.90 L:113247.40 C:113247.40 V:4.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 17:36:00 O:113247.60 H:113280.00 L:113191.00 C:113198.90 V:11.67
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 17:39:00 O:113199.10 H:113234.10 L:113069.30 C:113145.30 V:13.24
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 17:42:00 O:113145.30 H:113160.00 L:113083.50 C:113093.60 V:19.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 17:45:00 O:113093.80 H:113096.50 L:113027.80 C:113027.80 V:15.23
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 17:48:00 O:113027.80 H:113084.80 L:112978.50 C:112987.70 V:78.49
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 17:30:00-17:48:00 | O: 113317.70 | H: 113334.40 | L: 112978.50 | C: 112987.70 | V: 150.01 | Candles: 7 | MA3: 113203.83 | MA7: 113078.01 | Trend: BULLISH | ATR(14): 296.35 (0.26%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 51): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 51): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 51): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 51): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 17:51:00 - Open: 112986.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 18:09:00 - Close: 112626.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113013.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112550.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 17:51:00 O:112986.50 H:113013.30 L:112550.00 C:112575.50 V:188.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 17:54:00 O:112575.50 H:112723.30 L:112575.50 C:112605.60 V:82.87
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 17:57:00 O:112605.60 H:112738.90 L:112602.60 C:112689.10 V:42.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 18:00:00 O:112689.10 H:112799.90 L:112661.70 C:112777.50 V:39.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 18:03:00 O:112777.50 H:112861.70 L:112733.90 C:112775.40 V:25.06
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 18:06:00 O:112775.60 H:112814.80 L:112561.60 C:112578.10 V:56.58
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 18:09:00 O:112577.90 H:112699.00 L:112561.30 C:112626.90 V:24.12
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=113203.83 MA7=113078.01 | Current: MA3=112977.43 MA7=113023.47
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 17:51:00-18:09:00 | O: 112986.50 | H: 113013.30 | L: 112550.00 | C: 112626.90 | V: 458.22 | Candles: 7 | MA3: 112977.43 | MA7: 113023.47 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 308.28 (0.27%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 52): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 52): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 52): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 52): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 18:12:00 - Open: 112631.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 18:30:00 - Close: 112302.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112688.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112263.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 18:12:00 O:112631.90 H:112680.00 L:112435.00 C:112442.10 V:64.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 18:15:00 O:112442.10 H:112631.50 L:112429.00 C:112583.50 V:59.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 18:18:00 O:112583.50 H:112688.80 L:112356.90 C:112623.10 V:144.17
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 18:21:00 O:112625.20 H:112649.50 L:112398.80 C:112597.80 V:72.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 18:24:00 O:112597.80 H:112645.90 L:112455.00 C:112468.70 V:37.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 18:27:00 O:112461.00 H:112477.40 L:112300.00 C:112341.60 V:87.99
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 18:30:00 O:112363.90 H:112401.10 L:112263.90 C:112302.80 V:54.89
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 18:12:00-18:30:00 | O: 112631.90 | H: 112688.80 | L: 112263.90 | C: 112302.80 | V: 521.46 | Candles: 7 | MA3: 112639.13 | MA7: 112931.77 | Trend: BEARISH | ATR(14): 316.61 (0.28%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 53): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 53): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 53): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 53): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 18:33:00 - Open: 112302.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 18:51:00 - Close: 112275.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112536.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112231.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 18:33:00 O:112302.80 H:112386.50 L:112252.00 C:112255.00 V:33.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 18:36:00 O:112254.80 H:112536.10 L:112252.00 C:112482.80 V:55.04
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 18:39:00 O:112483.00 H:112506.40 L:112380.00 C:112402.40 V:19.24
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 18:42:00 O:112402.40 H:112485.20 L:112364.30 C:112460.10 V:19.25
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 18:45:00 O:112459.90 H:112500.80 L:112323.50 C:112333.30 V:8.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 18:48:00 O:112351.20 H:112371.50 L:112231.70 C:112276.00 V:34.79
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 18:51:00 O:112285.20 H:112450.90 L:112234.40 C:112275.80 V:23.80
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 18:33:00-18:51:00 | O: 112302.80 | H: 112536.10 | L: 112231.70 | C: 112275.80 | V: 194.23 | Candles: 7 | MA3: 112401.83 | MA7: 112847.89 | Trend: BEARISH | ATR(14): 315.74 (0.28%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 54): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 54): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 54): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 54): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 18:54:00 - Open: 112277.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 19:12:00 - Close: 112015.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112381.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   111960.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 18:54:00 O:112277.70 H:112323.80 L:112070.80 C:112179.60 V:98.26
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 18:57:00 O:112179.60 H:112378.40 L:112030.00 C:112288.90 V:166.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 19:00:00 O:112288.90 H:112381.70 L:112103.20 C:112172.10 V:57.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 19:03:00 O:112172.30 H:112300.00 L:112166.20 C:112281.60 V:60.99
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 19:06:00 O:112281.80 H:112308.50 L:112119.70 C:112163.50 V:53.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 19:09:00 O:112163.70 H:112214.90 L:112123.80 C:112207.10 V:13.75
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 19:12:00 O:112207.30 H:112207.60 L:111960.00 C:112015.60 V:161.02
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 18:54:00-19:12:00 | O: 112277.70 | H: 112381.70 | L: 111960.00 | C: 112015.60 | V: 611.47 | Candles: 7 | MA3: 112198.07 | MA7: 112690.37 | Trend: BEARISH | ATR(14): 323.30 (0.29%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 55): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 55): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 55): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 55): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 19:15:00 - Open: 112015.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 19:33:00 - Close: 112796.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112900.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   111999.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 19:15:00 O:112015.40 H:112160.50 L:111999.00 C:112113.80 V:50.38
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 19:18:00 O:112113.60 H:112400.10 L:112113.60 C:112395.70 V:45.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 19:21:00 O:112395.90 H:112526.80 L:112351.40 C:112518.40 V:45.85
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 19:24:00 O:112496.20 H:112587.00 L:112408.80 C:112564.60 V:29.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 19:27:00 O:112586.90 H:112675.10 L:112524.30 C:112670.00 V:42.72
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 19:30:00 O:112671.30 H:112820.40 L:112649.20 C:112712.20 V:51.25
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 19:33:00 O:112712.00 H:112900.00 L:112712.00 C:112796.70 V:39.95
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 19:15:00-19:33:00 | O: 112015.40 | H: 112900.00 | L: 111999.00 | C: 112796.70 | V: 305.17 | Candles: 7 | MA3: 112362.70 | MA7: 112617.60 | Trend: BEARISH | ATR(14): 364.57 (0.32%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 56): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 56): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 56): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 56): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 19:36:00 - Open: 112803.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 19:54:00 - Close: 112324.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112803.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112271.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 19:36:00 O:112803.00 H:112803.00 L:112688.70 C:112689.20 V:38.11
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 19:39:00 O:112688.70 H:112721.30 L:112560.10 C:112683.10 V:28.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 19:42:00 O:112683.10 H:112748.60 L:112660.00 C:112722.00 V:33.81
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 19:45:00 O:112719.80 H:112750.00 L:112488.40 C:112497.50 V:30.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 19:48:00 O:112496.10 H:112508.60 L:112325.00 C:112426.10 V:110.36
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 19:51:00 O:112426.10 H:112467.50 L:112372.20 C:112413.60 V:25.58
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 19:54:00 O:112413.60 H:112418.40 L:112271.60 C:112324.70 V:18.98
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 19:36:00-19:54:00 | O: 112803.00 | H: 112803.00 | L: 112271.60 | C: 112324.70 | V: 285.53 | Candles: 7 | MA3: 112379.00 | MA7: 112475.74 | Trend: BEARISH | ATR(14): 376.48 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 57): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 57): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 57): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 57): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 19:57:00 - Open: 112324.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 20:15:00 - Close: 112413.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112443.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112030.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 19:57:00 O:112324.70 H:112324.90 L:112182.90 C:112184.40 V:34.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 20:00:00 O:112184.40 H:112268.00 L:112142.00 C:112163.40 V:32.08
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 20:03:00 O:112163.20 H:112181.10 L:112100.00 C:112100.10 V:18.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 20:06:00 O:112100.10 H:112144.60 L:112030.80 C:112056.60 V:29.13
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 20:09:00 O:112055.10 H:112256.50 L:112030.80 C:112199.90 V:50.44
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 20:12:00 O:112177.70 H:112336.10 L:112177.60 C:112311.20 V:29.44
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 20:15:00 O:112311.20 H:112443.10 L:112303.70 C:112413.20 V:21.39
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=112379.00 MA7=112475.74 | Current: MA3=112511.53 MA7=112393.67
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 19:57:00-20:15:00 | O: 112324.70 | H: 112443.10 | L: 112030.80 | C: 112413.20 | V: 215.58 | Candles: 7 | MA3: 112511.53 | MA7: 112393.67 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 379.04 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 58): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 58): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 58): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 58): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 20:18:00 - Open: 112413.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 20:36:00 - Close: 112312.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112435.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112055.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 20:18:00 O:112413.00 H:112435.90 L:112153.90 C:112166.30 V:38.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 20:21:00 O:112166.10 H:112202.40 L:112055.10 C:112131.10 V:29.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 20:24:00 O:112130.90 H:112335.10 L:112124.30 C:112335.10 V:12.94
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 20:27:00 O:112335.10 H:112386.50 L:112234.90 C:112386.50 V:11.15
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 20:30:00 O:112386.30 H:112388.80 L:112293.00 C:112369.60 V:16.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 20:33:00 O:112369.60 H:112383.80 L:112261.10 C:112361.40 V:7.68
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 20:36:00 O:112361.60 H:112389.40 L:112254.80 C:112312.30 V:9.07
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 20:18:00-20:36:00 | O: 112413.00 | H: 112435.90 | L: 112055.10 | C: 112312.30 | V: 124.84 | Candles: 7 | MA3: 112350.07 | MA7: 112348.73 | Trend: BULLISH | ATR(14): 379.17 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 59): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 59): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 59): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 59): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 20:39:00 - Open: 112312.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 20:57:00 - Close: 112754.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112756.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112286.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 20:39:00 O:112312.50 H:112364.90 L:112286.00 C:112342.40 V:5.11
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 20:42:00 O:112342.40 H:112389.90 L:112291.30 C:112385.20 V:8.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 20:45:00 O:112385.00 H:112422.40 L:112330.10 C:112380.30 V:10.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 20:48:00 O:112380.30 H:112430.10 L:112355.60 C:112422.80 V:8.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 20:51:00 O:112422.80 H:112431.10 L:112365.10 C:112398.60 V:5.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 20:54:00 O:112398.80 H:112631.60 L:112393.20 C:112615.40 V:25.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 20:57:00 O:112615.20 H:112756.20 L:112564.90 C:112754.40 V:35.00
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 20:39:00-20:57:00 | O: 112312.50 | H: 112756.20 | L: 112286.00 | C: 112754.40 | V: 97.94 | Candles: 7 | MA3: 112493.30 | MA7: 112413.24 | Trend: BULLISH | ATR(14): 385.67 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 60): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 60): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 60): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 60): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 21:00:00 - Open: 112754.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 21:18:00 - Close: 112565.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112899.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112500.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 21:00:00 O:112754.20 H:112897.00 L:112739.70 C:112896.90 V:35.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 21:03:00 O:112896.90 H:112899.60 L:112677.60 C:112682.30 V:31.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 21:06:00 O:112682.10 H:112718.70 L:112550.10 C:112718.70 V:20.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 21:09:00 O:112718.70 H:112718.70 L:112550.10 C:112553.00 V:21.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 21:12:00 O:112553.20 H:112628.60 L:112500.00 C:112561.30 V:10.13
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 21:15:00 O:112561.10 H:112655.90 L:112547.60 C:112600.90 V:12.39
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 21:18:00 O:112600.90 H:112625.00 L:112510.10 C:112565.00 V:9.14
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 21:00:00-21:18:00 | O: 112754.20 | H: 112899.60 | L: 112500.00 | C: 112565.00 | V: 139.92 | Candles: 7 | MA3: 112543.90 | MA7: 112454.56 | Trend: BULLISH | ATR(14): 386.67 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 61): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 61): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 61): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 61): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 21:21:00 - Open: 112565.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 21:39:00 - Close: 112778.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112847.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112514.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 21:21:00 O:112565.20 H:112637.00 L:112514.50 C:112637.00 V:15.98
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 21:24:00 O:112636.80 H:112637.50 L:112547.10 C:112547.10 V:14.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 21:27:00 O:112545.00 H:112620.00 L:112530.80 C:112550.00 V:3.05
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 21:30:00 O:112550.00 H:112693.00 L:112549.80 C:112691.00 V:15.75
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 21:33:00 O:112691.00 H:112735.10 L:112643.30 C:112734.90 V:5.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 21:36:00 O:112734.90 H:112800.00 L:112719.40 C:112794.50 V:5.92
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 21:39:00 O:112794.50 H:112847.30 L:112778.10 C:112778.20 V:8.77
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 21:21:00-21:39:00 | O: 112565.20 | H: 112847.30 | L: 112514.50 | C: 112778.20 | V: 68.71 | Candles: 7 | MA3: 112699.20 | MA7: 112563.50 | Trend: BULLISH | ATR(14): 382.82 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 62): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 62): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 62): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 62): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 21:42:00 - Open: 112778.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 22:00:00 - Close: 112897.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113025.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112764.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 21:42:00 O:112778.20 H:112820.00 L:112764.00 C:112805.00 V:2.81
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 21:45:00 O:112820.00 H:112951.50 L:112790.00 C:112951.30 V:20.84
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 21:48:00 O:112951.30 H:112971.30 L:112856.10 C:112924.20 V:27.59
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 21:51:00 O:112924.20 H:112965.00 L:112883.30 C:112964.90 V:8.49
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 21:54:00 O:112964.90 H:113025.60 L:112942.40 C:113021.10 V:54.75
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 21:57:00 O:113021.50 H:113021.60 L:112806.90 C:112811.70 V:23.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 22:00:00 O:112811.90 H:112897.80 L:112811.70 C:112897.80 V:8.13
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 21:42:00-22:00:00 | O: 112778.20 | H: 113025.60 | L: 112764.00 | C: 112897.80 | V: 146.41 | Candles: 7 | MA3: 112747.00 | MA7: 112577.94 | Trend: BULLISH | ATR(14): 374.16 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 63): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 63): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 63): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 63): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 22:03:00 - Open: 112897.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 22:21:00 - Close: 112553.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112982.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112500.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 22:03:00 O:112897.80 H:112982.00 L:112876.30 C:112968.00 V:26.41
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 22:06:00 O:112968.00 H:112978.40 L:112886.60 C:112914.30 V:7.92
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 22:09:00 O:112914.50 H:112914.50 L:112841.10 C:112841.10 V:17.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 22:12:00 O:112841.30 H:112852.60 L:112785.60 C:112787.90 V:13.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 22:15:00 O:112787.70 H:112802.40 L:112656.00 C:112689.10 V:15.35
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 22:18:00 O:112690.20 H:112697.10 L:112550.00 C:112565.10 V:32.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 22:21:00 O:112565.00 H:112590.30 L:112500.00 C:112553.60 V:22.36
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 22:03:00-22:21:00 | O: 112897.80 | H: 112982.00 | L: 112500.00 | C: 112553.60 | V: 135.89 | Candles: 7 | MA3: 112743.20 | MA7: 112610.64 | Trend: BULLISH | ATR(14): 381.86 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 64): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 64): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 64): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 64): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 22:24:00 - Open: 112553.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 22:42:00 - Close: 112739.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112805.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112515.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 22:24:00 O:112553.80 H:112575.20 L:112529.50 C:112537.60 V:10.38
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 22:27:00 O:112537.60 H:112575.20 L:112515.00 C:112542.70 V:11.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 22:30:00 O:112542.90 H:112646.00 L:112520.00 C:112635.60 V:22.06
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 22:33:00 O:112635.80 H:112721.10 L:112627.40 C:112637.40 V:13.97
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 22:36:00 O:112637.20 H:112704.90 L:112632.30 C:112689.70 V:4.05
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 22:39:00 O:112689.90 H:112805.10 L:112670.00 C:112750.90 V:10.37
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 22:42:00 O:112750.90 H:112765.60 L:112691.20 C:112739.90 V:6.99
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 22:24:00-22:42:00 | O: 112553.80 | H: 112805.10 | L: 112515.00 | C: 112739.90 | V: 79.65 | Candles: 7 | MA3: 112730.43 | MA7: 112657.31 | Trend: BULLISH | ATR(14): 375.31 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 65): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 65): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 65): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 65): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 22:45:00 - Open: 112739.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 23:03:00 - Close: 112757.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112910.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112700.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 22:45:00 O:112739.70 H:112795.00 L:112718.90 C:112791.80 V:3.85
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 22:48:00 O:112792.00 H:112869.00 L:112791.80 C:112859.10 V:9.41
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 22:51:00 O:112859.10 H:112900.00 L:112819.20 C:112888.50 V:7.53
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 22:54:00 O:112888.30 H:112910.90 L:112862.40 C:112862.40 V:9.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 22:57:00 O:112862.60 H:112879.60 L:112812.50 C:112814.20 V:8.48
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 23:00:00 O:112814.20 H:112833.30 L:112739.10 C:112752.30 V:13.16
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 23:03:00 O:112752.50 H:112766.90 L:112700.00 C:112757.50 V:7.40
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=112730.43 MA7=112657.31 | Current: MA3=112683.67 MA7=112720.91
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 22:45:00-23:03:00 | O: 112739.70 | H: 112910.90 | L: 112700.00 | C: 112757.50 | V: 59.43 | Candles: 7 | MA3: 112683.67 | MA7: 112720.91 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 363.56 (0.32%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 66): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 66): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 66): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 66): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 23:06:00 - Open: 112757.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 23:24:00 - Close: 112325.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112779.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112280.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 23:06:00 O:112757.50 H:112779.70 L:112662.00 C:112718.20 V:5.76
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 23:09:00 O:112718.20 H:112750.00 L:112622.00 C:112622.00 V:5.88
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 23:12:00 O:112621.90 H:112625.60 L:112516.80 C:112572.80 V:22.18
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 23:15:00 O:112572.80 H:112682.40 L:112534.60 C:112538.50 V:11.92
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 23:18:00 O:112538.30 H:112634.50 L:112342.80 C:112358.60 V:41.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 23:21:00 O:112358.60 H:112477.10 L:112280.00 C:112365.70 V:51.73
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 23:24:00 O:112365.70 H:112460.60 L:112305.30 C:112325.20 V:19.40
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 23:06:00-23:24:00 | O: 112757.50 | H: 112779.70 | L: 112280.00 | C: 112325.20 | V: 158.09 | Candles: 7 | MA3: 112607.53 | MA7: 112659.60 | Trend: BEARISH | ATR(14): 373.29 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 67): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 67): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 67): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 67): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 23:27:00 - Open: 112325.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 23:45:00 - Close: 112707.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112742.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112237.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 23:27:00 O:112325.00 H:112344.40 L:112280.00 C:112280.10 V:12.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 23:30:00 O:112280.10 H:112341.80 L:112250.00 C:112268.90 V:16.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 23:33:00 O:112250.00 H:112441.00 L:112237.90 C:112441.00 V:17.65
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 23:36:00 O:112438.80 H:112531.00 L:112381.00 C:112530.80 V:27.64
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 23:39:00 O:112530.80 H:112716.50 L:112497.50 C:112679.80 V:32.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 23:42:00 O:112680.00 H:112724.00 L:112650.00 C:112667.90 V:23.39
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 23:45:00 O:112667.90 H:112742.30 L:112650.10 C:112707.50 V:66.59
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 23:27:00-23:45:00 | O: 112325.00 | H: 112742.30 | L: 112237.90 | C: 112707.50 | V: 197.05 | Candles: 7 | MA3: 112596.73 | MA7: 112679.96 | Trend: BEARISH | ATR(14): 382.65 (0.34%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 68): 1/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 68): 1/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 68): 2/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 68): 2/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 68): 3/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-02', 68): 3/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-02', 68): 4/4 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 4 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-02 23:48:00 - Open: 112707.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-02 23:57:00 - Close: 112509.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112710.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112450.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 23:48:00 O:112707.50 H:112710.70 L:112625.10 C:112649.90 V:18.53
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 23:51:00 O:112649.90 H:112673.50 L:112544.20 C:112584.90 V:6.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 23:54:00 O:112584.90 H:112608.50 L:112468.80 C:112494.20 V:14.06
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 23:57:00 O:112494.40 H:112557.80 L:112450.00 C:112509.50 V:5.46
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-02 23:48:00-23:57:00 | O: 112707.50 | H: 112710.70 | L: 112450.00 | C: 112509.50 | V: 44.67 | Candles: 4 | MA3: 112514.07 | MA7: 112641.57 | Trend: BEARISH | ATR(14): 373.94 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 0): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 0): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 0): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 0): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 00:00:00 - Open: 112509.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 00:18:00 - Close: 112625.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112750.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112465.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 00:00:00 O:112509.50 H:112684.90 L:112465.60 C:112577.70 V:13.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 00:03:00 O:112577.90 H:112682.60 L:112526.50 C:112541.00 V:16.84
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 00:06:00 O:112541.20 H:112620.90 L:112541.20 C:112588.50 V:7.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 00:09:00 O:112588.50 H:112638.00 L:112529.80 C:112577.40 V:6.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 00:12:00 O:112577.20 H:112641.60 L:112571.30 C:112627.00 V:12.26
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 00:15:00 O:112627.00 H:112740.00 L:112605.10 C:112739.90 V:10.67
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 00:18:00 O:112740.00 H:112750.00 L:112625.10 C:112625.10 V:8.53
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=112514.07 MA7=112641.57 | Current: MA3=112614.03 MA7=112602.61
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 00:00:00-00:18:00 | O: 112509.50 | H: 112750.00 | L: 112465.60 | C: 112625.10 | V: 76.36 | Candles: 7 | MA3: 112614.03 | MA7: 112602.61 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 367.55 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 1): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 1): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 1): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 1): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 00:21:00 - Open: 112647.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 00:39:00 - Close: 112300.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112647.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   111834.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 00:21:00 O:112647.40 H:112647.50 L:112387.30 C:112387.30 V:16.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 00:24:00 O:112387.30 H:112425.50 L:112306.10 C:112306.30 V:40.08
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 00:27:00 O:112306.10 H:112399.60 L:112260.00 C:112337.60 V:20.63
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 00:30:00 O:112332.90 H:112332.90 L:112184.50 C:112202.50 V:36.58
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 00:33:00 O:112202.50 H:112300.00 L:112184.50 C:112262.70 V:26.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 00:36:00 O:112262.90 H:112290.30 L:111834.70 C:112290.30 V:280.33
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 00:39:00 O:112267.90 H:112393.60 L:112144.80 C:112300.10 V:67.92
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=112614.03 MA7=112602.61 | Current: MA3=112478.23 MA7=112566.40
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 00:21:00-00:39:00 | O: 112647.40 | H: 112647.50 | L: 111834.70 | C: 112300.10 | V: 488.21 | Candles: 7 | MA3: 112478.23 | MA7: 112566.40 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 399.35 (0.36%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 2): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 2): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 2): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 2): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 00:42:00 - Open: 112309.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 01:00:00 - Close: 112937.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  112999.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112300.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 00:42:00 O:112309.90 H:112656.60 L:112300.10 C:112588.00 V:94.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 00:45:00 O:112590.90 H:112700.00 L:112547.60 C:112684.10 V:25.09
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 00:48:00 O:112684.30 H:112738.80 L:112622.40 C:112733.50 V:23.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 00:51:00 O:112733.50 H:112870.40 L:112694.10 C:112848.80 V:37.49
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 00:54:00 O:112851.60 H:112946.00 L:112803.50 C:112917.80 V:30.01
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 00:57:00 O:112917.60 H:112926.90 L:112803.80 C:112919.90 V:46.68
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 01:00:00 O:112919.90 H:112999.40 L:112878.90 C:112937.10 V:29.17
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=112478.23 MA7=112566.40 | Current: MA3=112620.77 MA7=112594.57
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 00:42:00-01:00:00 | O: 112309.90 | H: 112999.40 | L: 112300.10 | C: 112937.10 | V: 286.82 | Candles: 7 | MA3: 112620.77 | MA7: 112594.57 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 420.78 (0.37%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 3): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 3): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 3): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 3): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 01:03:00 - Open: 112937.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 01:21:00 - Close: 113037.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113093.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112792.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 01:03:00 O:112937.10 H:112958.80 L:112792.70 C:112879.40 V:58.76
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 01:06:00 O:112879.40 H:113093.00 L:112839.10 C:113062.20 V:27.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 01:09:00 O:113062.20 H:113081.50 L:112921.70 C:113025.40 V:54.34
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 01:12:00 O:113025.60 H:113072.60 L:112963.30 C:112964.00 V:17.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 01:15:00 O:112963.80 H:112975.50 L:112887.60 C:112902.30 V:17.99
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 01:18:00 O:112902.50 H:112948.10 L:112855.00 C:112945.20 V:9.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 01:21:00 O:112945.20 H:113059.90 L:112886.90 C:113037.90 V:21.35
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 01:03:00-01:21:00 | O: 112937.10 | H: 113093.00 | L: 112792.70 | C: 113037.90 | V: 206.66 | Candles: 7 | MA3: 112758.37 | MA7: 112634.63 | Trend: BULLISH | ATR(14): 412.17 (0.36%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 4): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 4): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 4): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 4): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 01:24:00 - Open: 113037.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 01:42:00 - Close: 113183.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113227.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113008.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 01:24:00 O:113037.70 H:113149.80 L:113008.30 C:113146.30 V:28.78
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 01:27:00 O:113146.30 H:113161.90 L:113030.10 C:113158.10 V:21.28
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 01:30:00 O:113161.00 H:113227.90 L:113100.80 C:113123.70 V:48.02
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 01:33:00 O:113123.70 H:113161.20 L:113067.40 C:113148.30 V:12.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 01:36:00 O:113148.10 H:113164.40 L:113103.30 C:113122.20 V:7.34
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 01:39:00 O:113122.20 H:113164.10 L:113103.30 C:113151.10 V:6.19
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 01:42:00 O:113151.10 H:113184.90 L:113120.00 C:113183.30 V:13.68
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 01:24:00-01:42:00 | O: 113037.70 | H: 113227.90 | L: 113008.30 | C: 113183.30 | V: 137.99 | Candles: 7 | MA3: 113052.77 | MA7: 112757.21 | Trend: BULLISH | ATR(14): 398.42 (0.35%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 5): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 5): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 5): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 5): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 01:45:00 - Open: 113160.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 02:03:00 - Close: 113297.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113312.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   112940.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 01:45:00 O:113160.90 H:113183.40 L:113004.90 C:113005.10 V:33.94
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 01:48:00 O:113004.90 H:113009.50 L:112940.50 C:112952.80 V:16.68
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 01:51:00 O:112952.80 H:113039.20 L:112944.50 C:113005.40 V:14.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 01:54:00 O:113005.40 H:113035.40 L:112985.50 C:113035.40 V:6.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 01:57:00 O:113035.20 H:113113.50 L:112994.80 C:113076.70 V:10.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 02:00:00 O:113076.70 H:113203.90 L:113042.10 C:113199.90 V:13.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 02:03:00 O:113177.50 H:113312.00 L:113160.00 C:113297.20 V:38.26
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 01:45:00-02:03:00 | O: 113160.90 | H: 113312.00 | L: 112940.50 | C: 113297.20 | V: 134.02 | Candles: 7 | MA3: 113172.80 | MA7: 112841.46 | Trend: BULLISH | ATR(14): 396.49 (0.35%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 6): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 6): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 6): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 6): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 02:06:00 - Open: 113297.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 02:24:00 - Close: 113290.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113348.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113203.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 02:06:00 O:113297.00 H:113297.20 L:113210.00 C:113259.70 V:24.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 02:09:00 O:113259.70 H:113326.50 L:113247.80 C:113326.40 V:10.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 02:12:00 O:113326.40 H:113342.40 L:113303.30 C:113338.50 V:15.87
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 02:15:00 O:113338.70 H:113348.40 L:113306.50 C:113306.50 V:19.09
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 02:18:00 O:113306.70 H:113335.00 L:113228.50 C:113228.70 V:18.59
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 02:21:00 O:113228.70 H:113331.40 L:113203.70 C:113268.00 V:26.78
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 02:24:00 O:113268.00 H:113309.40 L:113257.30 C:113290.60 V:6.91
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 02:06:00-02:24:00 | O: 113297.00 | H: 113348.40 | L: 113203.70 | C: 113290.60 | V: 122.97 | Candles: 7 | MA3: 113257.03 | MA7: 112953.04 | Trend: BULLISH | ATR(14): 378.51 (0.33%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 7): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 7): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 7): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 7): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 02:27:00 - Open: 113290.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 02:45:00 - Close: 113371.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113387.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113287.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 02:27:00 O:113290.40 H:113355.00 L:113287.70 C:113299.50 V:13.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 02:30:00 O:113299.70 H:113354.90 L:113295.30 C:113331.80 V:12.04
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 02:33:00 O:113332.00 H:113379.30 L:113322.60 C:113353.50 V:6.81
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 02:36:00 O:113353.70 H:113387.60 L:113351.90 C:113375.00 V:6.64
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 02:39:00 O:113374.80 H:113387.50 L:113324.00 C:113363.70 V:5.64
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 02:42:00 O:113363.70 H:113372.70 L:113363.70 C:113372.70 V:6.04
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 02:45:00 O:113372.70 H:113378.50 L:113357.90 C:113371.10 V:5.81
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 02:27:00-02:45:00 | O: 113290.40 | H: 113387.60 | L: 113287.70 | C: 113371.10 | V: 56.80 | Candles: 7 | MA3: 113319.63 | MA7: 113059.61 | Trend: BULLISH | ATR(14): 358.61 (0.32%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 8): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 8): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 8): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 8): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 02:48:00 - Open: 113371.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 03:06:00 - Close: 113437.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113482.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113300.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 02:48:00 O:113371.10 H:113371.80 L:113348.40 C:113369.10 V:3.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 02:51:00 O:113371.70 H:113383.70 L:113300.00 C:113383.50 V:40.59
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 02:54:00 O:113383.70 H:113449.90 L:113381.00 C:113440.00 V:18.19
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 02:57:00 O:113440.00 H:113462.10 L:113413.50 C:113462.00 V:19.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 03:00:00 O:113439.40 H:113482.50 L:113422.90 C:113424.40 V:23.16
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 03:03:00 O:113424.20 H:113451.60 L:113410.50 C:113433.10 V:6.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 03:06:00 O:113433.30 H:113467.00 L:113405.00 C:113437.10 V:12.27
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 02:48:00-03:06:00 | O: 113371.10 | H: 113482.50 | L: 113300.00 | C: 113437.10 | V: 124.09 | Candles: 7 | MA3: 113366.27 | MA7: 113222.04 | Trend: BULLISH | ATR(14): 346.03 (0.31%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 9): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 9): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 9): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 9): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 03:09:00 - Open: 113437.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 03:27:00 - Close: 113473.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113510.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113390.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 03:09:00 O:113437.00 H:113453.60 L:113390.30 C:113421.90 V:10.41
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 03:12:00 O:113421.70 H:113421.90 L:113390.30 C:113421.60 V:5.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 03:15:00 O:113421.80 H:113444.50 L:113398.30 C:113412.20 V:8.55
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 03:18:00 O:113412.20 H:113457.60 L:113390.30 C:113442.70 V:24.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 03:21:00 O:113442.90 H:113510.00 L:113433.20 C:113509.90 V:12.26
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 03:24:00 O:113488.10 H:113509.90 L:113441.00 C:113441.00 V:67.13
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 03:27:00 O:113441.00 H:113473.10 L:113410.40 C:113473.10 V:32.14
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 03:09:00-03:27:00 | O: 113437.00 | H: 113510.00 | L: 113390.30 | C: 113473.10 | V: 159.98 | Candles: 7 | MA3: 113427.10 | MA7: 113298.61 | Trend: BULLISH | ATR(14): 329.86 (0.29%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 10): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 10): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 10): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 10): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 03:30:00 - Open: 113472.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 03:48:00 - Close: 113671.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113687.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113459.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 03:30:00 O:113472.90 H:113507.80 L:113459.50 C:113486.00 V:5.57
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 03:33:00 O:113486.00 H:113576.60 L:113465.60 C:113510.20 V:37.18
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 03:36:00 O:113510.40 H:113581.80 L:113493.00 C:113581.60 V:7.98
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 03:39:00 O:113581.80 H:113582.10 L:113539.00 C:113539.10 V:11.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 03:42:00 O:113539.10 H:113676.50 L:113539.10 C:113660.10 V:43.49
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 03:45:00 O:113660.30 H:113664.10 L:113611.90 C:113652.60 V:13.63
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 03:48:00 O:113652.60 H:113687.40 L:113638.20 C:113671.70 V:11.74
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 03:30:00-03:48:00 | O: 113472.90 | H: 113687.40 | L: 113459.50 | C: 113671.70 | V: 131.06 | Candles: 7 | MA3: 113527.30 | MA7: 113389.16 | Trend: BULLISH | ATR(14): 322.58 (0.28%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 11): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 11): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 11): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 11): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 03:51:00 - Open: 113671.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 04:09:00 - Close: 113436.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113684.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113400.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 03:51:00 O:113671.70 H:113684.30 L:113652.80 C:113681.50 V:8.78
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 03:54:00 O:113681.60 H:113681.60 L:113603.00 C:113604.30 V:8.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 03:57:00 O:113603.50 H:113603.50 L:113554.60 C:113554.80 V:26.66
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 04:00:00 O:113554.80 H:113560.00 L:113421.20 C:113427.90 V:33.46
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 04:03:00 O:113427.90 H:113460.00 L:113400.00 C:113422.10 V:9.98
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 04:06:00 O:113420.20 H:113503.80 L:113408.30 C:113503.60 V:34.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 04:09:00 O:113503.60 H:113503.60 L:113436.00 C:113436.10 V:7.64
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 03:51:00-04:09:00 | O: 113671.70 | H: 113684.30 | L: 113400.00 | C: 113436.10 | V: 128.69 | Candles: 7 | MA3: 113526.97 | MA7: 113425.27 | Trend: BULLISH | ATR(14): 319.84 (0.28%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 12): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 12): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 12): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 12): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 04:12:00 - Open: 113441.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 04:30:00 - Close: 113340.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113484.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113340.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 04:12:00 O:113441.90 H:113457.90 L:113368.10 C:113368.30 V:17.85
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 04:15:00 O:113368.10 H:113427.60 L:113353.10 C:113427.60 V:17.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 04:18:00 O:113427.40 H:113477.80 L:113405.10 C:113445.40 V:13.99
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 04:21:00 O:113445.20 H:113484.20 L:113445.20 C:113484.00 V:7.08
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 04:24:00 O:113484.00 H:113484.20 L:113410.80 C:113462.70 V:8.02
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 04:27:00 O:113462.70 H:113482.70 L:113445.00 C:113482.50 V:10.98
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 04:30:00 O:113482.50 H:113482.60 L:113340.50 C:113340.70 V:24.61
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 04:12:00-04:30:00 | O: 113441.90 | H: 113484.20 | L: 113340.50 | C: 113340.70 | V: 99.95 | Candles: 7 | MA3: 113482.83 | MA7: 113431.49 | Trend: BULLISH | ATR(14): 307.26 (0.27%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 13): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 13): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 13): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 13): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 04:33:00 - Open: 113340.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 04:51:00 - Close: 113352.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113385.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113291.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 04:33:00 O:113340.70 H:113365.90 L:113303.50 C:113303.70 V:24.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 04:36:00 O:113303.50 H:113303.70 L:113301.30 C:113303.20 V:6.91
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 04:39:00 O:113303.40 H:113329.20 L:113303.20 C:113329.00 V:13.53
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 04:42:00 O:113329.20 H:113363.70 L:113329.00 C:113341.50 V:5.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 04:45:00 O:113341.50 H:113364.10 L:113299.70 C:113312.30 V:7.91
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 04:48:00 O:113312.30 H:113348.20 L:113291.30 C:113326.10 V:3.47
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 04:51:00 O:113326.10 H:113385.60 L:113319.20 C:113352.60 V:9.39
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=113482.83 MA7=113431.49 | Current: MA3=113376.47 MA7=113440.34
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 04:33:00-04:51:00 | O: 113340.70 | H: 113385.60 | L: 113291.30 | C: 113352.60 | V: 70.79 | Candles: 7 | MA3: 113376.47 | MA7: 113440.34 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 292.05 (0.26%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 14): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 14): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 14): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 14): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 04:54:00 - Open: 113352.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 05:12:00 - Close: 113448.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113465.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113344.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 04:54:00 O:113352.60 H:113408.80 L:113344.90 C:113405.90 V:7.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 04:57:00 O:113405.90 H:113420.00 L:113380.00 C:113419.90 V:4.38
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 05:00:00 O:113409.50 H:113428.90 L:113358.80 C:113408.70 V:6.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 05:03:00 O:113408.50 H:113424.10 L:113384.40 C:113420.40 V:10.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 05:06:00 O:113420.20 H:113459.90 L:113401.40 C:113459.90 V:11.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 05:09:00 O:113459.70 H:113459.90 L:113424.10 C:113436.20 V:6.58
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 05:12:00 O:113436.20 H:113465.00 L:113436.00 C:113448.00 V:4.88
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 04:54:00-05:12:00 | O: 113352.60 | H: 113465.00 | L: 113344.90 | C: 113448.00 | V: 51.67 | Candles: 7 | MA3: 113380.43 | MA7: 113451.33 | Trend: BEARISH | ATR(14): 279.77 (0.25%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 15): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 15): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 15): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 15): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 05:15:00 - Open: 113447.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 05:33:00 - Close: 113589.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113606.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113424.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 05:15:00 O:113447.80 H:113480.00 L:113432.90 C:113470.60 V:6.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 05:18:00 O:113470.60 H:113477.00 L:113424.00 C:113476.80 V:3.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 05:21:00 O:113477.00 H:113510.10 L:113476.80 C:113508.80 V:3.43
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 05:24:00 O:113508.60 H:113547.10 L:113505.00 C:113544.50 V:16.67
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 05:27:00 O:113544.30 H:113561.00 L:113519.70 C:113546.70 V:15.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 05:30:00 O:113546.70 H:113548.70 L:113509.00 C:113538.50 V:7.66
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 05:33:00 O:113538.50 H:113606.10 L:113538.50 C:113589.80 V:8.06
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 05:15:00-05:33:00 | O: 113447.80 | H: 113606.10 | L: 113424.00 | C: 113589.80 | V: 60.97 | Candles: 7 | MA3: 113463.47 | MA7: 113473.14 | Trend: BEARISH | ATR(14): 272.79 (0.24%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 16): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 16): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 16): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 16): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 05:36:00 - Open: 113590.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 05:54:00 - Close: 113542.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113618.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113434.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 05:36:00 O:113590.00 H:113618.30 L:113528.70 C:113528.70 V:6.02
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 05:39:00 O:113528.70 H:113560.40 L:113480.10 C:113510.80 V:11.74
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 05:42:00 O:113510.80 H:113515.80 L:113479.30 C:113490.10 V:7.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 05:45:00 O:113492.10 H:113499.10 L:113458.80 C:113460.00 V:7.34
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 05:48:00 O:113460.20 H:113488.60 L:113434.30 C:113488.60 V:5.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 05:51:00 O:113500.00 H:113573.10 L:113491.30 C:113550.50 V:15.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 05:54:00 O:113528.00 H:113550.60 L:113500.00 C:113542.00 V:2.61
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=113463.47 MA7=113473.14 | Current: MA3=113526.60 MA7=113482.99
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 05:36:00-05:54:00 | O: 113590.00 | H: 113618.30 | L: 113434.30 | C: 113542.00 | V: 56.01 | Candles: 7 | MA3: 113526.60 | MA7: 113482.99 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 266.45 (0.23%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 17): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 17): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 17): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 17): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 05:57:00 - Open: 113542.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 06:15:00 - Close: 113454.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113609.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113432.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 05:57:00 O:113542.00 H:113586.50 L:113542.00 C:113571.00 V:4.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 06:00:00 O:113571.00 H:113609.20 L:113563.40 C:113608.90 V:8.28
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 06:03:00 O:113586.50 H:113608.90 L:113519.30 C:113519.30 V:3.34
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 06:06:00 O:113519.30 H:113546.70 L:113500.10 C:113539.20 V:3.83
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 06:09:00 O:113539.20 H:113539.90 L:113474.40 C:113488.80 V:6.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 06:12:00 O:113488.80 H:113513.30 L:113465.00 C:113474.60 V:4.23
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 06:15:00 O:113474.60 H:113475.00 L:113432.00 C:113454.60 V:12.87
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 05:57:00-06:15:00 | O: 113542.00 | H: 113609.20 | L: 113432.00 | C: 113454.60 | V: 42.97 | Candles: 7 | MA3: 113528.80 | MA7: 113451.97 | Trend: BULLISH | ATR(14): 260.08 (0.23%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 18): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 18): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 18): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 18): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 06:18:00 - Open: 113454.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 06:36:00 - Close: 113422.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113561.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113419.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 06:18:00 O:113454.60 H:113539.20 L:113432.00 C:113516.60 V:36.02
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 06:21:00 O:113539.10 H:113544.60 L:113516.50 C:113532.10 V:8.43
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 06:24:00 O:113516.60 H:113551.60 L:113516.50 C:113549.10 V:8.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 06:27:00 O:113548.90 H:113549.10 L:113485.00 C:113493.20 V:11.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 06:30:00 O:113493.20 H:113554.90 L:113477.30 C:113538.80 V:4.29
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 06:33:00 O:113538.80 H:113561.40 L:113488.70 C:113492.00 V:1.87
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 06:36:00 O:113492.20 H:113507.70 L:113419.00 C:113422.40 V:5.78
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 06:18:00-06:36:00 | O: 113454.60 | H: 113561.40 | L: 113419.00 | C: 113422.40 | V: 76.51 | Candles: 7 | MA3: 113473.00 | MA7: 113450.01 | Trend: BULLISH | ATR(14): 251.67 (0.22%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 19): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 19): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 19): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 19): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 06:39:00 - Open: 113422.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 06:57:00 - Close: 113514.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113534.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113419.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 06:39:00 O:113422.40 H:113457.60 L:113420.10 C:113432.50 V:4.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 06:42:00 O:113432.50 H:113442.70 L:113419.00 C:113435.00 V:4.76
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 06:45:00 O:113434.80 H:113500.00 L:113428.60 C:113481.90 V:2.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 06:48:00 O:113483.50 H:113498.60 L:113430.10 C:113449.20 V:6.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 06:51:00 O:113449.30 H:113480.00 L:113430.00 C:113457.40 V:4.41
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 06:54:00 O:113479.90 H:113480.00 L:113457.30 C:113471.30 V:5.53
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 06:57:00 O:113471.10 H:113534.30 L:113457.50 C:113514.40 V:47.14
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=113473.00 MA7=113450.01 | Current: MA3=113463.80 MA7=113474.83
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 06:39:00-06:57:00 | O: 113422.40 | H: 113534.30 | L: 113419.00 | C: 113514.40 | V: 74.95 | Candles: 7 | MA3: 113463.80 | MA7: 113474.83 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 241.93 (0.21%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 20): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 20): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 20): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 20): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 07:00:00 - Open: 113514.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 07:18:00 - Close: 113586.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113666.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113500.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 07:00:00 O:113514.40 H:113573.20 L:113500.00 C:113561.80 V:3.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 07:03:00 O:113561.80 H:113643.80 L:113550.60 C:113633.90 V:15.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 07:06:00 O:113633.70 H:113633.90 L:113556.30 C:113580.70 V:24.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 07:09:00 O:113580.70 H:113591.10 L:113557.40 C:113585.30 V:6.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 07:12:00 O:113585.30 H:113633.90 L:113562.70 C:113632.20 V:10.46
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 07:15:00 O:113632.40 H:113666.00 L:113603.20 C:113661.00 V:6.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 07:18:00 O:113638.40 H:113661.10 L:113565.30 C:113586.80 V:9.29
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 07:00:00-07:18:00 | O: 113514.40 | H: 113666.00 | L: 113500.00 | C: 113586.80 | V: 75.26 | Candles: 7 | MA3: 113507.87 | MA7: 113508.29 | Trend: BEARISH | ATR(14): 236.51 (0.21%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 21): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 21): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 21): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 21): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 07:21:00 - Open: 113586.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 07:39:00 - Close: 113614.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113690.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113562.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 07:21:00 O:113586.60 H:113625.10 L:113562.30 C:113593.90 V:14.23
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 07:24:00 O:113593.90 H:113645.30 L:113586.30 C:113645.10 V:4.14
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 07:27:00 O:113645.30 H:113662.40 L:113643.30 C:113662.20 V:7.88
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 07:30:00 O:113662.40 H:113672.90 L:113653.80 C:113672.80 V:10.64
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 07:33:00 O:113672.80 H:113674.50 L:113603.70 C:113612.40 V:21.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 07:36:00 O:113612.40 H:113671.50 L:113600.50 C:113671.40 V:25.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 07:39:00 O:113667.90 H:113690.50 L:113603.70 C:113614.40 V:11.59
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=113507.87 MA7=113508.29 | Current: MA3=113571.87 MA7=113532.06
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 07:21:00-07:39:00 | O: 113586.60 | H: 113690.50 | L: 113562.30 | C: 113614.40 | V: 95.49 | Candles: 7 | MA3: 113571.87 | MA7: 113532.06 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 228.77 (0.20%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 22): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 22): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 22): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 22): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 07:42:00 - Open: 113614.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 08:00:00 - Close: 113680.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113702.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113590.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 07:42:00 O:113614.40 H:113661.80 L:113614.20 C:113661.60 V:5.25
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 07:45:00 O:113661.80 H:113661.80 L:113630.00 C:113638.20 V:3.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 07:48:00 O:113638.20 H:113652.70 L:113590.00 C:113623.00 V:36.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 07:51:00 O:113623.00 H:113644.00 L:113622.90 C:113639.80 V:3.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 07:54:00 O:113639.60 H:113654.90 L:113623.00 C:113633.50 V:16.65
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 07:57:00 O:113633.50 H:113647.00 L:113622.90 C:113645.00 V:8.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 08:00:00 O:113645.00 H:113702.80 L:113644.90 C:113680.50 V:10.53
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 07:42:00-08:00:00 | O: 113614.40 | H: 113702.80 | L: 113590.00 | C: 113680.50 | V: 85.26 | Candles: 7 | MA3: 113627.23 | MA7: 113545.01 | Trend: BULLISH | ATR(14): 220.49 (0.19%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 23): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 23): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 23): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 23): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 08:03:00 - Open: 113680.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 08:21:00 - Close: 113710.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113768.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113665.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 08:03:00 O:113680.50 H:113689.30 L:113680.40 C:113689.30 V:6.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 08:06:00 O:113689.10 H:113700.00 L:113665.00 C:113699.80 V:7.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 08:09:00 O:113700.00 H:113735.80 L:113680.30 C:113734.60 V:47.19
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 08:12:00 O:113734.40 H:113757.10 L:113712.00 C:113712.10 V:7.87
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 08:15:00 O:113734.70 H:113739.00 L:113707.20 C:113738.80 V:6.37
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 08:18:00 O:113739.00 H:113768.70 L:113732.80 C:113734.50 V:17.14
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 08:21:00 O:113734.50 H:113740.60 L:113706.80 C:113710.70 V:6.64
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 08:03:00-08:21:00 | O: 113680.50 | H: 113768.70 | L: 113665.00 | C: 113710.70 | V: 99.52 | Candles: 7 | MA3: 113668.53 | MA7: 113569.11 | Trend: BULLISH | ATR(14): 212.14 (0.19%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 24): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 24): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 24): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 24): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 08:24:00 - Open: 113710.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 08:42:00 - Close: 113560.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113710.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113524.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 08:24:00 O:113710.70 H:113710.80 L:113639.00 C:113639.00 V:20.51
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 08:27:00 O:113639.00 H:113661.80 L:113620.80 C:113626.20 V:10.32
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 08:30:00 O:113626.00 H:113639.20 L:113537.30 C:113573.00 V:13.37
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 08:33:00 O:113573.00 H:113620.00 L:113551.00 C:113576.40 V:13.85
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 08:36:00 O:113576.40 H:113576.60 L:113535.00 C:113535.00 V:10.31
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 08:39:00 O:113535.20 H:113586.30 L:113534.70 C:113564.40 V:8.46
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 08:42:00 O:113564.20 H:113564.50 L:113524.10 C:113560.40 V:17.40
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 08:24:00-08:42:00 | O: 113710.70 | H: 113710.80 | L: 113524.10 | C: 113560.40 | V: 94.22 | Candles: 7 | MA3: 113650.53 | MA7: 113584.23 | Trend: BULLISH | ATR(14): 210.33 (0.19%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 25): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 25): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 25): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 25): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 08:45:00 - Open: 113560.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 09:03:00 - Close: 113649.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113673.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113501.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 08:45:00 O:113560.40 H:113583.20 L:113560.40 C:113560.40 V:9.09
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 08:48:00 O:113560.40 H:113560.60 L:113501.00 C:113548.80 V:21.62
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 08:51:00 O:113548.80 H:113612.00 L:113520.00 C:113607.60 V:8.06
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 08:54:00 O:113607.60 H:113638.80 L:113577.30 C:113615.20 V:5.61
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 08:57:00 O:113615.20 H:113654.90 L:113606.40 C:113648.50 V:21.93
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 09:00:00 O:113648.30 H:113673.40 L:113630.30 C:113640.00 V:7.69
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 09:03:00 O:113640.00 H:113650.00 L:113607.80 C:113649.90 V:9.29
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 08:45:00-09:03:00 | O: 113560.40 | H: 113673.40 | L: 113501.00 | C: 113649.90 | V: 83.29 | Candles: 7 | MA3: 113640.33 | MA7: 113616.73 | Trend: BULLISH | ATR(14): 207.62 (0.18%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 26): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 26): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 26): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 26): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 09:06:00 - Open: 113649.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 09:24:00 - Close: 113639.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113650.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113562.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 09:06:00 O:113649.90 H:113650.00 L:113592.70 C:113592.70 V:2.88
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 09:09:00 O:113592.90 H:113650.00 L:113588.10 C:113648.60 V:8.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 09:12:00 O:113648.40 H:113649.90 L:113600.00 C:113629.30 V:4.96
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 09:15:00 O:113629.50 H:113644.90 L:113570.00 C:113596.50 V:8.07
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 09:18:00 O:113580.10 H:113602.70 L:113562.50 C:113580.40 V:7.21
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 09:21:00 O:113594.50 H:113620.00 L:113563.10 C:113619.90 V:4.19
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 09:24:00 O:113619.90 H:113639.80 L:113570.60 C:113639.80 V:5.24
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: DEATH CROSS | Previous: MA3=113640.33 MA7=113616.73 | Current: MA3=113616.70 MA7=113634.64
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 09:06:00-09:24:00 | O: 113649.90 | H: 113650.00 | L: 113562.50 | C: 113639.80 | V: 41.05 | Candles: 7 | MA3: 113616.70 | MA7: 113634.64 | Trend: BEARISH | 🚨 DEATH_CROSS | ATR(14): 199.04 (0.18%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 27): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 27): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 27): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 27): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 09:27:00 - Open: 113627.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 09:45:00 - Close: 113626.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113644.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113586.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 09:27:00 O:113627.40 H:113639.90 L:113586.20 C:113611.90 V:2.52
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 09:30:00 O:113611.90 H:113644.60 L:113597.30 C:113626.70 V:4.72
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 09:33:00 O:113626.90 H:113626.90 L:113602.30 C:113620.40 V:3.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 09:36:00 O:113620.20 H:113639.10 L:113600.00 C:113600.10 V:8.79
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 09:39:00 O:113600.10 H:113636.60 L:113600.00 C:113622.50 V:3.03
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 09:42:00 O:113622.50 H:113622.70 L:113600.00 C:113616.70 V:2.35
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 09:45:00 O:113600.10 H:113631.50 L:113594.10 C:113626.70 V:4.81
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 09:27:00-09:45:00 | O: 113627.40 | H: 113644.60 | L: 113586.20 | C: 113626.70 | V: 29.44 | Candles: 7 | MA3: 113638.80 | MA7: 113640.34 | Trend: BEARISH | ATR(14): 188.99 (0.17%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 28): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 28): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 28): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 28): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 09:48:00 - Open: 113626.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 10:06:00 - Close: 113656.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113680.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113594.20
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 09:48:00 O:113626.90 H:113644.00 L:113626.00 C:113638.00 V:3.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 09:51:00 O:113638.00 H:113644.90 L:113602.10 C:113602.30 V:4.17
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 09:54:00 O:113602.30 H:113632.40 L:113594.20 C:113632.40 V:3.73
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 09:57:00 O:113632.20 H:113632.40 L:113607.30 C:113612.50 V:2.76
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 10:00:00 O:113612.70 H:113639.30 L:113612.50 C:113639.30 V:3.85
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 10:03:00 O:113639.30 H:113659.80 L:113636.40 C:113657.40 V:4.95
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 10:06:00 O:113657.20 H:113680.00 L:113650.60 C:113656.20 V:5.26
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 09:48:00-10:06:00 | O: 113626.90 | H: 113680.00 | L: 113594.20 | C: 113656.20 | V: 28.42 | Candles: 7 | MA3: 113640.90 | MA7: 113646.31 | Trend: BEARISH | ATR(14): 181.62 (0.16%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 29): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 29): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 29): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 29): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 10:09:00 - Open: 113656.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 10:27:00 - Close: 113713.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113730.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113651.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 10:09:00 O:113656.00 H:113704.10 L:113651.60 C:113700.10 V:7.12
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 10:12:00 O:113700.00 H:113723.50 L:113674.10 C:113701.00 V:9.55
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 10:15:00 O:113716.00 H:113730.00 L:113700.40 C:113719.90 V:23.02
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 10:18:00 O:113720.00 H:113728.70 L:113714.60 C:113714.80 V:5.52
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 10:21:00 O:113714.80 H:113728.60 L:113677.30 C:113700.70 V:6.93
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 10:24:00 O:113700.50 H:113720.00 L:113685.60 C:113720.00 V:5.36
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 10:27:00 O:113719.80 H:113720.00 L:113704.10 C:113713.80 V:2.05
+2025-08-03 12:32:26 | bingx        | DEBUG    | 📊 MA Crossover detected: GOLDEN CROSS | Previous: MA3=113640.90 MA7=113646.31 | Current: MA3=113665.57 MA7=113651.07
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 10:09:00-10:27:00 | O: 113656.00 | H: 113730.00 | L: 113651.60 | C: 113713.80 | V: 59.55 | Candles: 7 | MA3: 113665.57 | MA7: 113651.07 | Trend: BULLISH | 🚨 GOLDEN_CROSS | ATR(14): 174.25 (0.15%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 30): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 30): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 30): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 30): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 10:30:00 - Open: 113713.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 10:48:00 - Close: 113821.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113862.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113663.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 10:30:00 O:113713.80 H:113720.00 L:113663.50 C:113697.30 V:6.76
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 10:33:00 O:113718.90 H:113777.00 L:113694.90 C:113766.20 V:15.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 10:36:00 O:113766.90 H:113779.60 L:113747.70 C:113766.80 V:9.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 10:39:00 O:113766.80 H:113793.10 L:113751.50 C:113770.40 V:10.51
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 10:42:00 O:113770.40 H:113792.90 L:113755.70 C:113755.90 V:4.84
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 10:45:00 O:113755.70 H:113835.00 L:113747.60 C:113834.90 V:40.35
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 10:48:00 O:113834.90 H:113862.70 L:113806.90 C:113821.90 V:13.78
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 10:30:00-10:48:00 | O: 113713.80 | H: 113862.70 | L: 113663.50 | C: 113821.90 | V: 101.39 | Candles: 7 | MA3: 113730.63 | MA7: 113666.96 | Trend: BULLISH | ATR(14): 176.03 (0.15%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 31): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 31): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 31): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 31): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 10:51:00 - Open: 113822.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 11:09:00 - Close: 114090.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  114091.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113788.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 10:51:00 O:113822.10 H:113832.70 L:113800.20 C:113810.00 V:9.94
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 10:54:00 O:113809.80 H:113843.00 L:113788.00 C:113843.00 V:4.45
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 10:57:00 O:113843.00 H:113850.10 L:113824.10 C:113849.80 V:6.42
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 11:00:00 O:113849.60 H:113898.60 L:113848.00 C:113890.90 V:10.43
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 11:03:00 O:113890.90 H:113920.90 L:113868.30 C:113917.60 V:26.71
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 11:06:00 O:113917.60 H:113959.30 L:113900.00 C:113959.10 V:23.46
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 11:09:00 O:113959.30 H:114091.10 L:113949.90 C:114090.90 V:66.25
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 10:51:00-11:09:00 | O: 113822.10 | H: 114091.10 | L: 113788.00 | C: 114090.90 | V: 147.66 | Candles: 7 | MA3: 113875.53 | MA7: 113742.74 | Trend: BULLISH | ATR(14): 185.11 (0.16%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 32): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 32): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 32): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 32): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 11:12:00 - Open: 114090.90
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 11:30:00 - Close: 113943.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  114208.70
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113874.60
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 11:12:00 O:114090.90 H:114208.70 L:114068.30 C:114179.10 V:70.80
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 11:15:00 O:114179.10 H:114195.30 L:114042.30 C:114083.50 V:42.63
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 11:18:00 O:114083.50 H:114125.30 L:114016.80 C:114103.30 V:20.27
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 11:21:00 O:114103.30 H:114128.60 L:114081.50 C:114091.40 V:18.14
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 11:24:00 O:114091.40 H:114097.90 L:114000.00 C:114029.80 V:22.19
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 11:27:00 O:114029.60 H:114035.90 L:113936.30 C:113954.00 V:31.22
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 11:30:00 O:113954.00 H:113966.30 L:113874.60 C:113943.00 V:48.04
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 11:12:00-11:30:00 | O: 114090.90 | H: 114208.70 | L: 113874.60 | C: 113943.00 | V: 253.29 | Candles: 7 | MA3: 113951.93 | MA7: 113784.61 | Trend: BULLISH | ATR(14): 195.75 (0.17%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 33): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 33): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 33): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 33): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 11:33:00 - Open: 113943.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 11:51:00 - Close: 113949.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  114004.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113850.00
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 11:33:00 O:113943.00 H:113960.80 L:113882.50 C:113884.60 V:19.50
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 11:36:00 O:113884.00 H:113931.30 L:113850.00 C:113919.40 V:18.92
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 11:39:00 O:113919.40 H:113922.80 L:113850.00 C:113850.80 V:9.51
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 11:42:00 O:113851.00 H:113931.40 L:113850.00 C:113894.30 V:16.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 11:45:00 O:113894.50 H:114000.30 L:113890.00 C:114000.00 V:15.65
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 11:48:00 O:114000.00 H:114004.00 L:113953.00 C:113973.50 V:15.44
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 11:51:00 O:113973.50 H:113973.70 L:113946.00 C:113949.10 V:8.00
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 11:33:00-11:51:00 | O: 113943.00 | H: 114004.00 | L: 113850.00 | C: 113949.10 | V: 103.12 | Candles: 7 | MA3: 113994.33 | MA7: 113828.80 | Trend: BULLISH | ATR(14): 192.77 (0.17%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 34): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 34): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 34): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 34): 7/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Aggregating 7 candles:
+2025-08-03 12:32:26 | bingx        | DEBUG    |   First: 2025-08-03 11:54:00 - Open: 113949.10
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Last:  2025-08-03 12:12:00 - Close: 113699.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   High:  113957.40
+2025-08-03 12:32:26 | bingx        | DEBUG    |   Low:   113643.30
+2025-08-03 12:32:26 | bingx        | DEBUG    |     1. 11:54:00 O:113949.10 H:113957.40 L:113902.00 C:113909.10 V:8.82
+2025-08-03 12:32:26 | bingx        | DEBUG    |     2. 11:57:00 O:113909.10 H:113924.90 L:113797.80 C:113809.00 V:13.11
+2025-08-03 12:32:26 | bingx        | DEBUG    |     3. 12:00:00 O:113808.80 H:113825.20 L:113766.50 C:113772.40 V:23.41
+2025-08-03 12:32:26 | bingx        | DEBUG    |     4. 12:03:00 O:113772.20 H:113813.20 L:113767.30 C:113799.90 V:14.49
+2025-08-03 12:32:26 | bingx        | DEBUG    |     5. 12:06:00 O:113799.90 H:113810.50 L:113765.00 C:113779.00 V:7.66
+2025-08-03 12:32:26 | bingx        | DEBUG    |     6. 12:09:00 O:113779.00 H:113781.70 L:113643.30 C:113643.30 V:28.69
+2025-08-03 12:32:26 | bingx        | DEBUG    |     7. 12:12:00 O:113643.50 H:113744.50 L:113643.30 C:113699.40 V:16.36
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket complete: 2025-08-03 11:54:00-12:12:00 | O: 113949.10 | H: 113957.40 | L: 113643.30 | C: 113699.40 | V: 112.54 | Candles: 7 | MA3: 113863.83 | MA7: 113839.19 | Trend: BULLISH | ATR(14): 201.43 (0.18%)
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 35): 1/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 2/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 35): 3/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 4/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 5/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Added to bucket ('2025-08-03', 35): 6/7 candles
+2025-08-03 12:32:26 | bingx        | DEBUG    | Bucket progress ('2025-08-03', 35): 6/7 candles
+2025-08-03 12:32:26 | bingx        | INFO     | Historical backfill complete: 480 candles, 68 buckets
+2025-08-03 12:32:26 | bingx        | INFO     | Checking for gaps in data...
+2025-08-03 12:32:26 | bingx        | INFO     | No gap detected
+2025-08-03 12:32:26 | bingx        | INFO     | Connecting to wss://open-api-swap.bingx.com/swap-market
+2025-08-03 12:32:26 | bingx        | INFO     | Health check server started on http://localhost:39819
+2025-08-03 12:32:27 | bingx        | INFO     | Subscribing to BTC-USDT 3m klines
+2025-08-03 12:32:44 | bingx        | INFO     | Shutdown signal received
